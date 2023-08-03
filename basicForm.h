@@ -89,13 +89,15 @@ namespace Pffff {
 			this->leftPanel->Dock = System::Windows::Forms::DockStyle::Left;
 			this->leftPanel->Location = System::Drawing::Point(0, 0);
 			this->leftPanel->Name = L"leftPanel";
-			this->leftPanel->Size = System::Drawing::Size(200, 415);
+			this->leftPanel->Size = System::Drawing::Size(200, 411);
 			this->leftPanel->TabIndex = 0;
 			// 
 			// but_ui5
 			// 
 			this->but_ui5->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->but_ui5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
 			this->but_ui5->Location = System::Drawing::Point(0, 332);
 			this->but_ui5->Name = L"but_ui5";
 			this->but_ui5->Size = System::Drawing::Size(200, 77);
@@ -107,6 +109,8 @@ namespace Pffff {
 			// 
 			this->but_ui4->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->but_ui4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
 			this->but_ui4->Location = System::Drawing::Point(0, 249);
 			this->but_ui4->Name = L"but_ui4";
 			this->but_ui4->Size = System::Drawing::Size(200, 77);
@@ -118,6 +122,8 @@ namespace Pffff {
 			// 
 			this->but_ui3->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->but_ui3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
 			this->but_ui3->Location = System::Drawing::Point(0, 166);
 			this->but_ui3->Name = L"but_ui3";
 			this->but_ui3->Size = System::Drawing::Size(200, 77);
@@ -129,6 +135,8 @@ namespace Pffff {
 			// 
 			this->but_ui2->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			this->but_ui2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
 			this->but_ui2->Location = System::Drawing::Point(0, 83);
 			this->but_ui2->Name = L"but_ui2";
 			this->but_ui2->Size = System::Drawing::Size(200, 77);
@@ -139,34 +147,42 @@ namespace Pffff {
 			// but_ui1
 			// 
 			this->but_ui1->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->but_ui1->Font = (gcnew System::Drawing::Font(L"DFLiHeiBold(P)", 30, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(136)));
 			this->but_ui1->Location = System::Drawing::Point(0, 0);
 			this->but_ui1->Name = L"but_ui1";
 			this->but_ui1->Size = System::Drawing::Size(200, 77);
 			this->but_ui1->TabIndex = 0;
-			this->but_ui1->Text = L"Basics";
+			this->but_ui1->Text = L"SCAN";
 			this->but_ui1->UseVisualStyleBackColor = false;
 			// 
 			// userControl11
 			// 
 			this->userControl11->AccessibleName = L"";
+			this->userControl11->AutoSize = true;
 			this->userControl11->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->userControl11->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->userControl11->Location = System::Drawing::Point(200, 0);
+			this->userControl11->MaximumSize = System::Drawing::Size(650, 415);
+			this->userControl11->MinimumSize = System::Drawing::Size(650, 415);
 			this->userControl11->Name = L"userControl11";
-			this->userControl11->Size = System::Drawing::Size(609, 415);
+			this->userControl11->Size = System::Drawing::Size(650, 415);
 			this->userControl11->TabIndex = 1;
 			// 
 			// basicForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(809, 415);
+			this->ClientSize = System::Drawing::Size(844, 411);
 			this->Controls->Add(this->userControl11);
 			this->Controls->Add(this->leftPanel);
+			this->MaximumSize = System::Drawing::Size(860, 450);
+			this->MinimumSize = System::Drawing::Size(860, 450);
 			this->Name = L"basicForm";
 			this->Text = L"Pffff (Personal filter for file find)";
 			this->leftPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
