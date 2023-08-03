@@ -1,21 +1,22 @@
 #pragma once
 
+using namespace System;
+using namespace System::ComponentModel;
+using namespace System::Collections;
+using namespace System::Windows::Forms;
+using namespace System::Data;
+using namespace System::Drawing;
+
+
 namespace Pffff {
 
-	using namespace System;
-	using namespace System::ComponentModel;
-	using namespace System::Collections;
-	using namespace System::Windows::Forms;
-	using namespace System::Data;
-	using namespace System::Drawing;
-
 	/// <summary>
-	/// Summary for basicForm
+	/// Summary for UserControl1
 	/// </summary>
-	public ref class basicForm : public System::Windows::Forms::Form
+	public ref class UserControl1 : public System::Windows::Forms::UserControl
 	{
 	public:
-		basicForm(void)
+		UserControl1(void)
 		{
 			InitializeComponent();
 			//
@@ -27,7 +28,7 @@ namespace Pffff {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~basicForm()
+		~UserControl1()
 		{
 			if (components)
 			{
@@ -48,17 +49,7 @@ namespace Pffff {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->SuspendLayout();
-			// 
-			// basicForm
-			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(809, 464);
-			this->Name = L"basicForm";
-			this->Text = L"basicForm";
-			this->ResumeLayout(false);
-
 		}
 #pragma endregion
 	};

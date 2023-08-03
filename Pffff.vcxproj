@@ -123,10 +123,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="basicForm.cpp" />
+    <ClCompile Include="UserControl1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basicForm.h">
       <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="UserControl1.h">
+      <FileType>CppControl</FileType>
     </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
