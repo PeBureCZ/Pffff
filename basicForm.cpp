@@ -4,7 +4,7 @@ using namespace System;
 using namespace System::Windows::Forms;
 [STAThreadAttribute]
 
-void main(array<String^>^ argh)
+int main(array<String^>^ argh)
 {
 
 	Application::EnableVisualStyles();

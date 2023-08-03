@@ -46,7 +46,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CLRSupport>true</CLRSupport>
+    <CLRSupport>Pure</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -124,6 +124,10 @@
   <ItemGroup>
     <ClCompile Include="basicForm.cpp" />
     <ClCompile Include="UserControl1.cpp" />
+    <ClCompile Include="UserControl2.cpp" />
+    <ClCompile Include="UserControl3.cpp" />
+    <ClCompile Include="UserControl4.cpp" />
+    <ClCompile Include="UserControl5.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basicForm.h">
@@ -132,6 +136,39 @@
     <ClInclude Include="UserControl1.h">
       <FileType>CppControl</FileType>
     </ClInclude>
+    <ClInclude Include="UserControl2.h">
+      <FileType>CppControl</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="UserControl3.h">
+      <FileType>CppControl</FileType>
+    </ClInclude>
+    <ClInclude Include="UserControl4.h">
+      <FileType>CppControl</FileType>
+    </ClInclude>
+    <ClInclude Include="UserControl5.h">
+      <FileType>CppControl</FileType>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="basicForm.resx">
+      <DependentUpon>basicForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl1.resx">
+      <DependentUpon>UserControl1.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl2.resx">
+      <DependentUpon>UserControl2.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl3.resx">
+      <DependentUpon>UserControl3.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl4.resx">
+      <DependentUpon>UserControl4.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl5.resx">
+      <DependentUpon>UserControl5.h</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
