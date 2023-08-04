@@ -57,8 +57,10 @@ namespace Pffff {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->MaximumSize = System::Drawing::Size(650, 415);
+			this->MinimumSize = System::Drawing::Size(650, 415);
 			this->Name = L"UserControl5";
-			this->Size = System::Drawing::Size(765, 469);
+			this->Size = System::Drawing::Size(650, 415);
 			this->ResumeLayout(false);
 
 		}

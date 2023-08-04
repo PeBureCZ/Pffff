@@ -54,6 +54,7 @@ namespace Pffff {
 
 
 
+
 	protected:
 
 	private:
@@ -147,7 +148,7 @@ namespace Pffff {
 			// but_ui1
 			// 
 			this->but_ui1->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->but_ui1->Font = (gcnew System::Drawing::Font(L"DFLiHeiBold(P)", 30, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->but_ui1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 30, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->but_ui1->Location = System::Drawing::Point(0, 0);
 			this->but_ui1->Name = L"but_ui1";
@@ -161,8 +162,7 @@ namespace Pffff {
 			this->userControl11->AccessibleName = L"";
 			this->userControl11->AutoSize = true;
 			this->userControl11->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->userControl11->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->userControl11->Location = System::Drawing::Point(200, 0);
+			this->userControl11->Location = System::Drawing::Point(194, 0);
 			this->userControl11->MaximumSize = System::Drawing::Size(650, 415);
 			this->userControl11->MinimumSize = System::Drawing::Size(650, 415);
 			this->userControl11->Name = L"userControl11";
