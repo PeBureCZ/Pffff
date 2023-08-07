@@ -1,4 +1,5 @@
 #pragma once
+#include "Loader.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -11,15 +12,18 @@ using namespace System::Drawing;
 namespace Pffff {
 
 	/// <summary>
-	/// Summary for UserControl1
+	/// Summary for ScanControl
 	/// </summary>
-	public ref class UserControl1 : public System::Windows::Forms::UserControl
+	public ref class ScanControl : public System::Windows::Forms::UserControl
 	{
 	public:
-		UserControl1(void)
+		ScanControl(void)
 		{
 			InitializeComponent();
-			//
+
+			ScanBut->Click += gcnew System::EventHandler(this, &ScanControl::ScanBut_Click);
+			
+			// 
 			//TODO: Add the constructor code here
 			//
 		}
@@ -28,22 +32,27 @@ namespace Pffff {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~UserControl1()
+		~ScanControl()
 		{
 			if (components)
 			{
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::Button^ ScanBut;
+	protected:
+
 	private: System::Windows::Forms::TextBox^ console;
-	private: System::Windows::Forms::Button^ button2;
+	private: System::Windows::Forms::Button^ resetBut;
+
 	private: System::Windows::Forms::Label^ findedItemsLabel;
 	private: System::Windows::Forms::Label^ findedItemsCount;
 	private: System::Windows::Forms::Label^ versionText;
 	private: System::Windows::Forms::PictureBox^ imageBox;
-	private: System::Windows::Forms::Button^ butImageBack;
-	private: System::Windows::Forms::Button^ butImageforward;
+	private: System::Windows::Forms::Button^ previousBut;
+	private: System::Windows::Forms::Button^ nextBut;
+
+
 	private: System::Windows::Forms::TextBox^ ImgTextBox;
 
 	protected:
@@ -66,31 +75,31 @@ namespace Pffff {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(UserControl1::typeid));
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ScanControl::typeid));
+			this->ScanBut = (gcnew System::Windows::Forms::Button());
 			this->console = (gcnew System::Windows::Forms::TextBox());
-			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->resetBut = (gcnew System::Windows::Forms::Button());
 			this->findedItemsLabel = (gcnew System::Windows::Forms::Label());
 			this->findedItemsCount = (gcnew System::Windows::Forms::Label());
 			this->versionText = (gcnew System::Windows::Forms::Label());
 			this->imageBox = (gcnew System::Windows::Forms::PictureBox());
-			this->butImageBack = (gcnew System::Windows::Forms::Button());
-			this->butImageforward = (gcnew System::Windows::Forms::Button());
+			this->previousBut = (gcnew System::Windows::Forms::Button());
+			this->nextBut = (gcnew System::Windows::Forms::Button());
 			this->ImgTextBox = (gcnew System::Windows::Forms::TextBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->imageBox))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// button1
+			// ScanBut
 			// 
-			this->button1->BackColor = System::Drawing::Color::Gray;
-			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->ScanBut->BackColor = System::Drawing::Color::Gray;
+			this->ScanBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button1->Location = System::Drawing::Point(24, 38);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(345, 35);
-			this->button1->TabIndex = 0;
-			this->button1->Text = L"Apply filter and scan";
-			this->button1->UseVisualStyleBackColor = false;
+			this->ScanBut->Location = System::Drawing::Point(24, 38);
+			this->ScanBut->Name = L"ScanBut";
+			this->ScanBut->Size = System::Drawing::Size(345, 35);
+			this->ScanBut->TabIndex = 0;
+			this->ScanBut->Text = L"Apply filter and scan";
+			this->ScanBut->UseVisualStyleBackColor = false;
 			// 
 			// console
 			// 
@@ -100,17 +109,17 @@ namespace Pffff {
 			this->console->Size = System::Drawing::Size(345, 108);
 			this->console->TabIndex = 1;
 			// 
-			// button2
+			// resetBut
 			// 
-			this->button2->BackColor = System::Drawing::Color::Gray;
-			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->resetBut->BackColor = System::Drawing::Color::Gray;
+			this->resetBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button2->Location = System::Drawing::Point(24, 89);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(345, 35);
-			this->button2->TabIndex = 2;
-			this->button2->Text = L"Reset all filters , finded files, and paths";
-			this->button2->UseVisualStyleBackColor = false;
+			this->resetBut->Location = System::Drawing::Point(24, 89);
+			this->resetBut->Name = L"resetBut";
+			this->resetBut->Size = System::Drawing::Size(345, 35);
+			this->resetBut->TabIndex = 2;
+			this->resetBut->Text = L"Reset all filters , finded files, and paths";
+			this->resetBut->UseVisualStyleBackColor = false;
 			// 
 			// findedItemsLabel
 			// 
@@ -133,7 +142,7 @@ namespace Pffff {
 			this->findedItemsCount->Size = System::Drawing::Size(18, 20);
 			this->findedItemsCount->TabIndex = 4;
 			this->findedItemsCount->Text = L"0";
-			this->findedItemsCount->Click += gcnew System::EventHandler(this, &UserControl1::findedItemsCount_Click);
+			this->findedItemsCount->Click += gcnew System::EventHandler(this, &ScanControl::findedItemsCount_Click);
 			// 
 			// versionText
 			// 
@@ -160,27 +169,27 @@ namespace Pffff {
 			this->imageBox->TabIndex = 6;
 			this->imageBox->TabStop = false;
 			// 
-			// butImageBack
+			// previousBut
 			// 
-			this->butImageBack->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->previousBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->butImageBack->Location = System::Drawing::Point(408, 228);
-			this->butImageBack->Name = L"butImageBack";
-			this->butImageBack->Size = System::Drawing::Size(75, 23);
-			this->butImageBack->TabIndex = 7;
-			this->butImageBack->Text = L"previous";
-			this->butImageBack->UseVisualStyleBackColor = true;
+			this->previousBut->Location = System::Drawing::Point(408, 228);
+			this->previousBut->Name = L"previousBut";
+			this->previousBut->Size = System::Drawing::Size(75, 23);
+			this->previousBut->TabIndex = 7;
+			this->previousBut->Text = L"previous";
+			this->previousBut->UseVisualStyleBackColor = true;
 			// 
-			// butImageforward
+			// nextBut
 			// 
-			this->butImageforward->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->nextBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->butImageforward->Location = System::Drawing::Point(489, 228);
-			this->butImageforward->Name = L"butImageforward";
-			this->butImageforward->Size = System::Drawing::Size(75, 23);
-			this->butImageforward->TabIndex = 8;
-			this->butImageforward->Text = L"next";
-			this->butImageforward->UseVisualStyleBackColor = true;
+			this->nextBut->Location = System::Drawing::Point(489, 228);
+			this->nextBut->Name = L"nextBut";
+			this->nextBut->Size = System::Drawing::Size(75, 23);
+			this->nextBut->TabIndex = 8;
+			this->nextBut->Text = L"next";
+			this->nextBut->UseVisualStyleBackColor = true;
 			// 
 			// ImgTextBox
 			// 
@@ -191,7 +200,7 @@ namespace Pffff {
 			this->ImgTextBox->TabIndex = 9;
 			this->ImgTextBox->Text = L"0";
 			// 
-			// UserControl1
+			// ScanControl1
 			// 
 			this->AccessibleName = L"";
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -199,27 +208,42 @@ namespace Pffff {
 			this->AutoSize = true;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->Controls->Add(this->ImgTextBox);
-			this->Controls->Add(this->butImageforward);
-			this->Controls->Add(this->butImageBack);
+			this->Controls->Add(this->nextBut);
+			this->Controls->Add(this->previousBut);
 			this->Controls->Add(this->imageBox);
 			this->Controls->Add(this->versionText);
 			this->Controls->Add(this->findedItemsCount);
 			this->Controls->Add(this->findedItemsLabel);
-			this->Controls->Add(this->button2);
+			this->Controls->Add(this->resetBut);
 			this->Controls->Add(this->console);
-			this->Controls->Add(this->button1);
+			this->Controls->Add(this->ScanBut);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
-			this->Name = L"UserControl1";
+			this->Name = L"ScanControl";
 			this->Size = System::Drawing::Size(650, 415);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->imageBox))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
+		void initializeLoader()
+		{
+			this->findedItemsCount->Text = "1";
+		}
+
 #pragma endregion
 	
-	private: System::Void findedItemsCount_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void findedItemsCount_Click(System::Object^ sender, System::EventArgs^ e) 
+	{
+
 	}
+
+	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		//this->findedItemsCount->Text = "1";
+		initializeLoader();
+	}
+
+
 };
 }

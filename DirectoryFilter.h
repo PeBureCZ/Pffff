@@ -13,10 +13,10 @@ namespace Pffff {
 	/// <summary>
 	/// Summary for UserControl2
 	/// </summary>
-	public ref class UserControl2 : public System::Windows::Forms::UserControl
+	public ref class DirectoryFilter : public System::Windows::Forms::UserControl
 	{
 	public:
-		UserControl2(void)
+		DirectoryFilter(void)
 		{
 			InitializeComponent();
 			//
@@ -28,7 +28,7 @@ namespace Pffff {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~UserControl2()
+		~DirectoryFilter()
 		{
 			if (components)
 			{
@@ -59,7 +59,7 @@ namespace Pffff {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(UserControl2::typeid));
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(DirectoryFilter::typeid));
 			this->uc2_dirText = (gcnew System::Windows::Forms::TextBox());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());

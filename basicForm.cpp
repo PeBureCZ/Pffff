@@ -1,4 +1,5 @@
 #include "basicForm.h"
+#include "Loader.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -6,10 +7,11 @@ using namespace System::Windows::Forms;
 
 int main(array<String^>^ argh)
 {
-
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	Pffff::basicForm form;
 	Application::Run(% form);
+	ProgramSettings Settings;
+	Loader LoaderClass(Settings); //Need seting object reference
 }
 

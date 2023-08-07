@@ -18,19 +18,25 @@
     <ClCompile Include="basicForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserControl1.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UserControl2.cpp">
+    <ClCompile Include="DirectoryFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserControl3.cpp">
+    <ClCompile Include="MetadataFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserControl4.cpp">
+    <ClCompile Include="FileSpecificationFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserControl5.cpp">
+    <ClCompile Include="Advanced.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScanControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,19 +44,25 @@
     <ClInclude Include="basicForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UserControl1.h">
+    <ClInclude Include="ScanControl.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="UserControl2.h">
+    <ClInclude Include="DirectoryFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UserControl3.h">
+    <ClInclude Include="MetadataFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UserControl4.h">
+    <ClInclude Include="FileSpecificationFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UserControl5.h">
+    <ClInclude Include="Advanced.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

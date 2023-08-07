@@ -1,10 +1,10 @@
 #pragma once
 
-#include "UserControl1.h"
-#include "UserControl2.h"
-#include "UserControl3.h"
-#include "UserControl4.h"
-#include "UserControl5.h"
+#include "ScanControl.h"
+#include "DirectoryFilter.h"
+#include "MetadataFilter.h"
+#include "FileSpecificationFilter.h"
+#include "Advanced.h"
 
 namespace Pffff {
 
@@ -27,6 +27,7 @@ namespace Pffff {
 			//
 			//TODO: Add the constructor code here
 			//
+			but_ui2->Click += gcnew System::EventHandler(this, &basicForm::but_ui2_Click);
 		}
 
 	protected:
@@ -46,7 +47,9 @@ namespace Pffff {
 	private: System::Windows::Forms::Button^ but_ui4;
 	private: System::Windows::Forms::Button^ but_ui3;
 	private: System::Windows::Forms::Button^ but_ui2;
-	private: Pffff::UserControl1^ userControl11;
+
+	private: System::DirectoryServices::DirectoryEntry^ directoryEntry1;
+
 
 
 
@@ -76,7 +79,7 @@ namespace Pffff {
 			this->but_ui3 = (gcnew System::Windows::Forms::Button());
 			this->but_ui2 = (gcnew System::Windows::Forms::Button());
 			this->but_ui1 = (gcnew System::Windows::Forms::Button());
-			this->userControl11 = (gcnew Pffff::UserControl1());
+			this->directoryEntry1 = (gcnew System::DirectoryServices::DirectoryEntry());
 			this->leftPanel->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -157,24 +160,11 @@ namespace Pffff {
 			this->but_ui1->Text = L"SCAN";
 			this->but_ui1->UseVisualStyleBackColor = false;
 			// 
-			// userControl11
-			// 
-			this->userControl11->AccessibleName = L"";
-			this->userControl11->AutoSize = true;
-			this->userControl11->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->userControl11->Location = System::Drawing::Point(194, 0);
-			this->userControl11->MaximumSize = System::Drawing::Size(650, 415);
-			this->userControl11->MinimumSize = System::Drawing::Size(650, 415);
-			this->userControl11->Name = L"userControl11";
-			this->userControl11->Size = System::Drawing::Size(650, 415);
-			this->userControl11->TabIndex = 1;
-			// 
 			// basicForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(844, 411);
-			this->Controls->Add(this->userControl11);
 			this->Controls->Add(this->leftPanel);
 			this->MaximumSize = System::Drawing::Size(860, 450);
 			this->MinimumSize = System::Drawing::Size(860, 450);
@@ -182,9 +172,13 @@ namespace Pffff {
 			this->Text = L"Pffff (Personal filter for file find)";
 			this->leftPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
-			this->PerformLayout();
 
 		}
 #pragma endregion
+
+		private: System::Void but_ui2_Click(System::Object^ sender, System::EventArgs^ e)
+		{
+		}
+
 	};
 }

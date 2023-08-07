@@ -13,10 +13,10 @@ namespace Pffff {
 	/// <summary>
 	/// Summary for UserControl5
 	/// </summary>
-	public ref class UserControl5 : public System::Windows::Forms::UserControl
+	public ref class Advanced : public System::Windows::Forms::UserControl
 	{
 	public:
-		UserControl5(void)
+		Advanced(void)
 		{
 			InitializeComponent();
 			//
@@ -28,7 +28,7 @@ namespace Pffff {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~UserControl5()
+		~Advanced()
 		{
 			if (components)
 			{
@@ -60,7 +60,7 @@ namespace Pffff {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(UserControl5::typeid));
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(Advanced::typeid));
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());

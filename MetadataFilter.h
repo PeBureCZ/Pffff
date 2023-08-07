@@ -13,10 +13,10 @@ namespace Pffff {
 	/// <summary>
 	/// Summary for UserControl3
 	/// </summary>
-	public ref class UserControl3 : public System::Windows::Forms::UserControl
+	public ref class MetadataFilter : public System::Windows::Forms::UserControl
 	{
 	public:
-		UserControl3(void)
+		MetadataFilter(void)
 		{
 			InitializeComponent();
 			//
@@ -28,7 +28,7 @@ namespace Pffff {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~UserControl3()
+		~MetadataFilter()
 		{
 			if (components)
 			{
@@ -74,7 +74,7 @@ namespace Pffff {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(UserControl3::typeid));
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MetadataFilter::typeid));
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());

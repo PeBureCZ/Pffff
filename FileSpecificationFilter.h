@@ -13,10 +13,10 @@ namespace Pffff {
 	/// <summary>
 	/// Summary for UserControl4
 	/// </summary>
-	public ref class UserControl4 : public System::Windows::Forms::UserControl
+	public ref class FileSpecificationFilter : public System::Windows::Forms::UserControl
 	{
 	public:
-		UserControl4(void)
+		FileSpecificationFilter(void)
 		{
 			InitializeComponent();
 			//
@@ -28,7 +28,7 @@ namespace Pffff {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~UserControl4()
+		~FileSpecificationFilter()
 		{
 			if (components)
 			{
@@ -65,7 +65,7 @@ namespace Pffff {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(UserControl4::typeid));
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(FileSpecificationFilter::typeid));
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());

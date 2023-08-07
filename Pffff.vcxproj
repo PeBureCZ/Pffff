@@ -110,6 +110,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <CompileAsManaged>Pure</CompileAsManaged>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -120,36 +121,41 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="basicForm.cpp" />
-    <ClCompile Include="UserControl1.cpp" />
-    <ClCompile Include="UserControl2.cpp" />
-    <ClCompile Include="UserControl3.cpp" />
-    <ClCompile Include="UserControl4.cpp" />
-    <ClCompile Include="UserControl5.cpp" />
+    <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="ProgramSettings.cpp" />
+    <ClCompile Include="ScanControl.cpp" />
+    <ClCompile Include="DirectoryFilter.cpp" />
+    <ClCompile Include="MetadataFilter.cpp" />
+    <ClCompile Include="FileSpecificationFilter.cpp" />
+    <ClCompile Include="Advanced.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basicForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="UserControl1.h">
+    <ClInclude Include="Loader.h" />
+    <ClInclude Include="ProgramSettings.h" />
+    <ClInclude Include="ScanControl.h">
       <FileType>CppControl</FileType>
     </ClInclude>
-    <ClInclude Include="UserControl2.h">
+    <ClInclude Include="DirectoryFilter.h">
       <FileType>CppControl</FileType>
       <DeploymentContent>true</DeploymentContent>
     </ClInclude>
-    <ClInclude Include="UserControl3.h">
+    <ClInclude Include="MetadataFilter.h">
       <FileType>CppControl</FileType>
     </ClInclude>
-    <ClInclude Include="UserControl4.h">
+    <ClInclude Include="FileSpecificationFilter.h">
       <FileType>CppControl</FileType>
     </ClInclude>
-    <ClInclude Include="UserControl5.h">
+    <ClInclude Include="Advanced.h">
       <FileType>CppControl</FileType>
     </ClInclude>
   </ItemGroup>
@@ -157,20 +163,20 @@
     <EmbeddedResource Include="basicForm.resx">
       <DependentUpon>basicForm.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl1.resx">
-      <DependentUpon>UserControl1.h</DependentUpon>
+    <EmbeddedResource Include="ScanControl.resx">
+      <DependentUpon>ScanControl.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl2.resx">
-      <DependentUpon>UserControl2.h</DependentUpon>
+    <EmbeddedResource Include="DirectoryFilter.resx">
+      <DependentUpon>DirectoryFilter.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl3.resx">
-      <DependentUpon>UserControl3.h</DependentUpon>
+    <EmbeddedResource Include="MetadataFilter.resx">
+      <DependentUpon>MetadataFilter.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl4.resx">
-      <DependentUpon>UserControl4.h</DependentUpon>
+    <EmbeddedResource Include="FileSpecificationFilter.resx">
+      <DependentUpon>FileSpecificationFilter.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControl5.resx">
-      <DependentUpon>UserControl5.h</DependentUpon>
+    <EmbeddedResource Include="Advanced.resx">
+      <DependentUpon>Advanced.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
