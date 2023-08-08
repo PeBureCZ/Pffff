@@ -5,6 +5,7 @@
 #include "MetadataFilter.h"
 #include "FileSpecificationFilter.h"
 #include "Advanced.h"
+#include "ProgramSettings.h"
 
 namespace Pffff {
 
@@ -32,8 +33,6 @@ namespace Pffff {
 			but_metaFilter->Click += gcnew System::EventHandler(this, &basicForm::but_metaFilter_Click);
 			but_specFilter->Click += gcnew System::EventHandler(this, &basicForm::but_specFilter_Click);
 			but_advancedFilter->Click += gcnew System::EventHandler(this, &basicForm::but_advancedFilter_Click);
-
-
 		}			   
 		
 		//this->but_advancedFilter = (gcnew System::Windows::Forms::Button());
@@ -293,6 +292,13 @@ namespace Pffff {
 			this->fileSpecificationFilter1->Visible = false;
 			this->advanced1->Visible = true;
 		}
+
+		Pffff::ScanControl^ GetScanControlInstancex()
+		{
+			return this->scanControl; 
+		}
+		private: Pffff::ScanControl^ scanControl;
+
 
 
 

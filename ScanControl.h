@@ -1,5 +1,5 @@
 #pragma once
-#include "Loader.h"
+
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -9,23 +9,37 @@ using namespace System::Data;
 using namespace System::Drawing;
 
 
-namespace Pffff {
+//CUSTOM START
+using namespace System::IO;
+using namespace System::Collections::Generic;
+
+//CUSTOM END
+
+namespace Pffff 
+{
 
 	/// <summary>
 	/// Summary for ScanControl
 	/// </summary>
+
+
+
+
 	public ref class ScanControl : public System::Windows::Forms::UserControl
 	{
+
 	public:
 		ScanControl(void)
 		{
 			InitializeComponent();
 
 			ScanBut->Click += gcnew System::EventHandler(this, &ScanControl::ScanBut_Click);
-			
+			List<String^>^ directories = gcnew List<String^>();
+
 			// 
 			//TODO: Add the constructor code here
 			//
+
 		}
 
 	protected:
@@ -34,6 +48,7 @@ namespace Pffff {
 		/// </summary>
 		~ScanControl()
 		{
+
 			if (components)
 			{
 				delete components;
@@ -52,21 +67,16 @@ namespace Pffff {
 	private: System::Windows::Forms::Button^ previousBut;
 	private: System::Windows::Forms::Button^ nextBut;
 
-
 	private: System::Windows::Forms::TextBox^ ImgTextBox;
 
-	protected:
-
-
-
-
-	protected:
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
+
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -226,29 +236,67 @@ namespace Pffff {
 			this->PerformLayout();
 
 		}
-		void initializeLoader()
-		{
-			this->findedItemsCount->Text = "1";
-		}
 
 #pragma endregion
-	
-	private: System::Void findedItemsCount_Click(System::Object^ sender, System::EventArgs^ e) 
+		
+
+	private: System::Void findedItemsCount_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 
 	}
+	
+	array<String^>^ filesOld;
+	array<String^>^ filesNew;
+	
+	void FindNewFilesInDirectory(String^ path, size_t lastIndexPath)
+	{
+		try
+		{
+			filesNew = Directory::GetFiles(path);
+			array<String^>^ files = Directory::GetFiles(path);
+			array<String^>^ imageFiles = gcnew array<String^>(files->Length);
+			for each (String ^ file in filesNew)
+			{
+				if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) or Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
+				{
+					/*imageFiles[imageCount++] = file;*/
+				}
+				else
+				{
+					// Jiný formát souboru
+				}
+			}
 
+			// Provádìní operací s polem imageFiles
+		}
+		catch (IOException^ e)
+		{
+			// Chyba ètení souboru nebo složky
+		}
+	}
 	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		//this->findedItemsCount->Text = "1";
-		initializeLoader();
+		array<String^>^ testString = { "a" };
+
+		this->findedItemsCount->Text = testString[0];
+
 	}
 
-	private: int _counter = 0;
-	public: int GetCount()
+	
+	public: System::Void test(System::Object^ sender, System::EventArgs^ e)
 	{
-		return _counter;
+		this->findedItemsCount->Text = "1";
+
 	}
+	void test2()
+	{
+		this->findedItemsCount->Text = "1";
+
+	}
+
 
 };
 }
+
+
+

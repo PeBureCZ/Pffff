@@ -1,20 +1,41 @@
 #pragma once
-class ProgramSettings
-{
-public:
+using namespace System;
+using namespace System::ComponentModel;
+using namespace System::Collections;
+using namespace System::Windows::Forms;
+using namespace System::Data;
+using namespace System::Drawing;
 
-    bool checkExif;
+public ref class ProgramSettings
+{
+//public:
+//
+
+
+public: 
     size_t maxByteExifScan;
     size_t maxByteFileScan;
-
-    ProgramSettings() : checkExif(true), maxByteExifScan(120), maxByteFileScan(10000000)
+    bool checkExif;
+    String^ testString = L"TEST";
+    void testFunction()
     {
-        //constructor...
+
+    }
+    String^ testFunction2()
+    {
+        return L"TEST";
     }
 
-    //size_t nothingYet();
 
-private:
+//
+    //ProgramSettings() : checkExif(true), maxByteExifScan(120), maxByteFileScan(10000000)
+    //{
+    //    //constructor...
+    //}
+//
+//    //size_t nothingYet();
+//
+//private:
 };
 
 

@@ -1,5 +1,9 @@
 #include "basicForm.h"
-#include "Loader.h"
+//#include "Loader.h"
+#include "ProgramSettings.h"
+#include "ScanControl.h"
+
+
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -11,7 +15,15 @@ int main(array<String^>^ argh)
 	Application::SetCompatibleTextRenderingDefault(false);
 	Pffff::basicForm form;
 	Application::Run(% form);
-	ProgramSettings Settings;
-	Loader LoaderClass(Settings); //Need seting object reference
+	//ProgramSettings^ Settings;
+	//Settings->testFunction2();
+	/*Pffff::ScanControl^ ScanCotnrol = form.GetS*/
+
+
+
+	
+	
+	//Loader LoaderClass(Settings); //Need seting object reference
+
 }
 
