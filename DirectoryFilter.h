@@ -155,7 +155,7 @@ namespace Pffff {
 			this->button1->Text = L"Add";
 			this->button1->UseVisualStyleBackColor = true;
 			// 
-			// UserControl2
+			// DirectoryFilter
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -171,7 +171,7 @@ namespace Pffff {
 			this->Controls->Add(this->uc2_dirText);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
-			this->Name = L"UserControl2";
+			this->Name = L"DirectoryFilter";
 			this->Size = System::Drawing::Size(650, 415);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);

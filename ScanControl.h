@@ -200,7 +200,7 @@ namespace Pffff {
 			this->ImgTextBox->TabIndex = 9;
 			this->ImgTextBox->Text = L"0";
 			// 
-			// ScanControl1
+			// ScanControl
 			// 
 			this->AccessibleName = L"";
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -244,6 +244,11 @@ namespace Pffff {
 		initializeLoader();
 	}
 
+	private: int _counter = 0;
+	public: int GetCount()
+	{
+		return _counter;
+	}
 
 };
 }
