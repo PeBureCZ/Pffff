@@ -9,7 +9,6 @@
 //Deff Classes end
 
 //Custom Classes start
-//#include "Loader.h"
 #include "ProgramSettings.h"
 //Custom Classes end
 
@@ -28,9 +27,9 @@ namespace Pffff {
 	public ref class basicForm : public System::Windows::Forms::Form
 	{
 	public:
-		basicForm(ProgramSettings^ setting)
+		basicForm(ProgramSettings^ setting, ProgramFunctions^ functions)
 		{
-			InitializeComponent(setting);
+			InitializeComponent(setting, functions);
 			//
 			//TODO: Add the constructor code here
 			//
@@ -84,7 +83,7 @@ namespace Pffff {
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		void InitializeComponent(ProgramSettings^ settingObject)
+		void InitializeComponent(ProgramSettings^ settingObject, ProgramFunctions^ functionObject)
 		{
 			this->leftPanel = (gcnew System::Windows::Forms::Panel());
 			this->but_advancedFilter = (gcnew System::Windows::Forms::Button());
@@ -92,11 +91,15 @@ namespace Pffff {
 			this->but_metaFilter = (gcnew System::Windows::Forms::Button());
 			this->but_direcFilter = (gcnew System::Windows::Forms::Button());
 			this->but_scan = (gcnew System::Windows::Forms::Button());
-			this->scanControl1 = (gcnew Pffff::ScanControl(settingObject));
-			this->advanced1 = (gcnew Pffff::Advanced());
-			this->fileSpecificationFilter1 = (gcnew Pffff::FileSpecificationFilter());
-			this->metadataFilter1 = (gcnew Pffff::MetadataFilter());
-			this->directoryFilter1 = (gcnew Pffff::DirectoryFilter());
+			//UserControls INTERFACES start
+			this->scanControl1 = (gcnew Pffff::ScanControl(settingObject, functionObject));
+			this->directoryFilter1 = (gcnew Pffff::DirectoryFilter(settingObject, functionObject));
+			this->metadataFilter1 = (gcnew Pffff::MetadataFilter(settingObject, functionObject));
+			this->fileSpecificationFilter1 = (gcnew Pffff::FileSpecificationFilter(settingObject, functionObject));
+			this->advanced1 = (gcnew Pffff::Advanced(settingObject, functionObject));
+			//UserControls INTERFACES end
+
+
 			this->leftPanel->SuspendLayout();
 			this->SuspendLayout();
 			// 

@@ -1,23 +1,25 @@
-#include "Loader.h"
+#include "ProgramFunctions.h"
+//CLR:Pure
+
 //
 
-//Loader::Loader(ProgramSettings& setting) :settingRefObj(setting)
+//ProgramFunctions::ProgramFunctions(ProgramSettings& setting) :settingRefObj(setting)
 //{
 //    settingRefObj = setting;
 //}
 //
-//void Loader::testFunction()
+//void ProgramFunctions::testFunction()
 //{
 //
 //}
 //
-//void Loader::runScan(std::string firstPath)
+//void ProgramFunctions::runScan(std::string firstPath)
 //{
 ////    recursiveFiles.push_back(firstPath);
 ////    size_t lastIndex = recursiveFiles.size() - 1;
 ////    do
 ////    {
-////        findNewFilesInDirectory(recursiveFiles[lastIndex], lastIndex);
+////    findNewFilesInDirectory(recursiveFiles[lastIndex], lastIndex);
 ////    } while (!recursiveFiles.empty());
 ////
 ////    if (filesForScan.size() > 0)
@@ -43,7 +45,7 @@
 ////    testFunction();
 //}
 ////
-//void Loader::findNewFilesInDirectory(std::string path, size_t lastIndexPath)
+//void ProgramFunctions::findNewFilesInDirectory(std::string path, size_t lastIndexPath)
 //{
 ////    if (std::filesystem::exists(path) and std::filesystem::is_directory(path))
 ////    {
@@ -90,7 +92,7 @@
 //}
 ////
 ////
-//bool Loader::findDateFormat(std::string path)
+//bool ProgramFunctions::findDateFormat(std::string path)
 //{
 ////    std::ifstream file(path, std::ios::binary);
 ////
@@ -118,7 +120,7 @@
 //    return false;
 //}
 //
-//bool Loader::scanJpgNoExif(const std::vector<char>& fileOpened, size_t maxScanSize)
+//bool ProgramFunctions::scanJpgNoExif(const std::vector<char>& fileOpened, size_t maxScanSize)
 //{
 ////
 ////    for (size_t i = 0; i < maxScanSize; i++)
@@ -128,7 +130,7 @@
 //    return false;
 //}
 ////
-//bool Loader::scanJpgExif(const std::vector<char>& fileOpened, size_t maxScanSize)
+//bool ProgramFunctions::scanJpgExif(const std::vector<char>& fileOpened, size_t maxScanSize)
 //{
 ////    bool exifChecked = false;
 ////    for (size_t i = 0; i < maxScanSize; i++)
@@ -145,7 +147,7 @@
 //    return false;
 //}
 ////
-//bool Loader::scanDateFormatOfJpg(const std::vector<char>& fileOpened, size_t index)
+//bool ProgramFunctions::scanDateFormatOfJpg(const std::vector<char>& fileOpened, size_t index)
 //{
 ////    if (fileOpened[index] == ':' and fileOpened[index + 6] == ' ') //test first colon + space 
 ////    {

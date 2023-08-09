@@ -1,7 +1,4 @@
 #include "ProgramSettings.h"
 
+//CLR:Pure
 
-//size_t ProgramSettings::nothingYet()
-//{
-//	return 0;
-//}

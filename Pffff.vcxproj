@@ -128,7 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="basicForm.cpp" />
-    <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="ProgramFunctions.cpp" />
     <ClCompile Include="ProgramSettings.cpp" />
     <ClCompile Include="ScanControl.cpp" />
     <ClCompile Include="DirectoryFilter.cpp" />
@@ -140,7 +140,7 @@
     <ClInclude Include="basicForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="Loader.h" />
+    <ClInclude Include="ProgramFunctions.h" />
     <ClInclude Include="ProgramSettings.h" />
     <ClInclude Include="ScanControl.h">
       <FileType>CppControl</FileType>

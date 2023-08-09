@@ -1,4 +1,5 @@
 #pragma once
+#include "ProgramSettings.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -16,7 +17,7 @@ namespace Pffff {
 	public ref class MetadataFilter : public System::Windows::Forms::UserControl
 	{
 	public:
-		MetadataFilter(void)
+		MetadataFilter(ProgramSettings^ settingObj, ProgramFunctions^ functionObj)
 		{
 			InitializeComponent();
 			//

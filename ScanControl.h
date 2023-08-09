@@ -10,11 +10,7 @@ using namespace System::Data;
 using namespace System::Drawing;
 
 
-//CUSTOM START
-using namespace System::IO;
-using namespace System::Collections::Generic;
 
-//CUSTOM END
 
 namespace Pffff 
 {
@@ -30,18 +26,14 @@ namespace Pffff
 	{
 
 	public:
-		ScanControl(ProgramSettings^ settingObj)
+		ScanControl(ProgramSettings^ settingObj, ProgramFunctions^ functionObj)
 		//ScanControl()
 		{
 			InitializeComponent();
 
 			ScanBut->Click += gcnew System::EventHandler(this, &ScanControl::ScanBut_Click);
-			List<String^>^ directories = gcnew List<String^>();
-
-			// 
-			//TODO: Add the constructor code here
-			//
-			initializeSettingClass(settingObj);
+		
+			initializeSettingClass(settingObj, functionObj);
 		}
 
 	protected:
@@ -154,7 +146,6 @@ namespace Pffff
 			this->findedItemsCount->Size = System::Drawing::Size(18, 20);
 			this->findedItemsCount->TabIndex = 4;
 			this->findedItemsCount->Text = L"0";
-			this->findedItemsCount->Click += gcnew System::EventHandler(this, &ScanControl::findedItemsCount_Click);
 			// 
 			// versionText
 			// 
@@ -165,7 +156,7 @@ namespace Pffff
 			this->versionText->Name = L"versionText";
 			this->versionText->Size = System::Drawing::Size(84, 12);
 			this->versionText->TabIndex = 5;
-			this->versionText->Text = L"version 0.0.230803";
+			this->versionText->Text = L"version 0.0.230809a";
 			this->versionText->TextAlign = System::Drawing::ContentAlignment::BottomRight;
 			// 
 			// imageBox
@@ -241,68 +232,27 @@ namespace Pffff
 
 #pragma endregion
 		
-
-	private: System::Void findedItemsCount_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-
-	}
-	
-	array<String^>^ filesOld;
-	array<String^>^ filesNew;
-	
-	void FindNewFilesInDirectory(String^ path, size_t lastIndexPath)
-	{
-		try
-		{
-			filesNew = Directory::GetFiles(path);
-			array<String^>^ files = Directory::GetFiles(path);
-			array<String^>^ imageFiles = gcnew array<String^>(files->Length);
-			for each (String ^ file in filesNew)
-			{
-				if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) or Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
-				{
-					/*imageFiles[imageCount++] = file;*/
-				}
-				else
-				{
-					// Jiný formát souboru
-				}
-			}
-
-			// Provádìní operací s polem imageFiles
-		}
-		catch (IOException^ e)
-		{
-			// Chyba ètení souboru nebo složky
-		}
-	}
+		
 	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		//array<String^>^ testString = { "a" };
 		//this->findedItemsCount->Text = testString[0];
 		testing();
-
-
 	}
 
-	
-	public: System::Void test(System::Object^ sender, System::EventArgs^ e)
-	{
-		this->findedItemsCount->Text = "1";
-	}
-	void test2(String^ str)
-	{
-		this->findedItemsCount->Text = str;
 
-	}
 	ProgramSettings^ Setting;
-	void initializeSettingClass(ProgramSettings^ setting)
+	ProgramFunctions^ Functions;
+	void initializeSettingClass(ProgramSettings^ setting, ProgramFunctions^ functions)
 	{
 		Setting = setting;
+		Functions = functions;
 	}
 	void testing()
 	{
-		this->findedItemsCount->Text = Setting->testFunction2();
+		//this->findedItemsCount->Text = Setting->testFunction2();
+		this->findedItemsCount->Text = Functions->functionTesting();
+	
 	}
 	
 
