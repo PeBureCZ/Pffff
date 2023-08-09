@@ -1,4 +1,5 @@
 #pragma once
+#include "ProgramSettings.h"
 
 
 using namespace System;
@@ -29,7 +30,8 @@ namespace Pffff
 	{
 
 	public:
-		ScanControl(void)
+		ScanControl(ProgramSettings^ settingObj)
+		//ScanControl()
 		{
 			InitializeComponent();
 
@@ -39,7 +41,7 @@ namespace Pffff
 			// 
 			//TODO: Add the constructor code here
 			//
-
+			initializeSettingClass(settingObj);
 		}
 
 	protected:
@@ -276,9 +278,10 @@ namespace Pffff
 	}
 	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		array<String^>^ testString = { "a" };
+		//array<String^>^ testString = { "a" };
+		//this->findedItemsCount->Text = testString[0];
+		testing();
 
-		this->findedItemsCount->Text = testString[0];
 
 	}
 
@@ -286,14 +289,22 @@ namespace Pffff
 	public: System::Void test(System::Object^ sender, System::EventArgs^ e)
 	{
 		this->findedItemsCount->Text = "1";
-
 	}
-	void test2()
+	void test2(String^ str)
 	{
-		this->findedItemsCount->Text = "1";
+		this->findedItemsCount->Text = str;
 
 	}
-
+	ProgramSettings^ Setting;
+	void initializeSettingClass(ProgramSettings^ setting)
+	{
+		Setting = setting;
+	}
+	void testing()
+	{
+		this->findedItemsCount->Text = Setting->testFunction2();
+	}
+	
 
 };
 }

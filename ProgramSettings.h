@@ -16,14 +16,14 @@ public:
     size_t maxByteExifScan;
     size_t maxByteFileScan;
     bool checkExif;
-    String^ testString = L"TEST";
+    String^ testString = L"subClass communication";
     void testFunction()
     {
 
     }
     String^ testFunction2()
     {
-        return L"TEST";
+        return testString;
     }
 
 

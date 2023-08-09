@@ -1,11 +1,17 @@
 #pragma once
 
-#include "ScanControl.h"
+//Deff Classes start
 #include "DirectoryFilter.h"
 #include "MetadataFilter.h"
 #include "FileSpecificationFilter.h"
 #include "Advanced.h"
+#include "ScanControl.h"
+//Deff Classes end
+
+//Custom Classes start
+//#include "Loader.h"
 #include "ProgramSettings.h"
+//Custom Classes end
 
 namespace Pffff {
 
@@ -22,9 +28,9 @@ namespace Pffff {
 	public ref class basicForm : public System::Windows::Forms::Form
 	{
 	public:
-		basicForm(void)
+		basicForm(ProgramSettings^ setting)
 		{
-			InitializeComponent();
+			InitializeComponent(setting);
 			//
 			//TODO: Add the constructor code here
 			//
@@ -33,13 +39,11 @@ namespace Pffff {
 			but_metaFilter->Click += gcnew System::EventHandler(this, &basicForm::but_metaFilter_Click);
 			but_specFilter->Click += gcnew System::EventHandler(this, &basicForm::but_specFilter_Click);
 			but_advancedFilter->Click += gcnew System::EventHandler(this, &basicForm::but_advancedFilter_Click);
-		}			   
 		
-		//this->but_advancedFilter = (gcnew System::Windows::Forms::Button());
-			   //this->but_specFilter = (gcnew System::Windows::Forms::Button());
-			   //this->but_metaFilter = (gcnew System::Windows::Forms::Button());
-			   //this->but_direcFilter = (gcnew System::Windows::Forms::Button());
-			   //this->but_scan = (gcnew System::Windows::Forms::Button());
+			//TEST ONLY
+			//initializeSubClasses(setting);
+		}			   
+
 
 	protected:
 		/// <summary>
@@ -80,7 +84,7 @@ namespace Pffff {
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		void InitializeComponent(void)
+		void InitializeComponent(ProgramSettings^ settingObject)
 		{
 			this->leftPanel = (gcnew System::Windows::Forms::Panel());
 			this->but_advancedFilter = (gcnew System::Windows::Forms::Button());
@@ -88,7 +92,7 @@ namespace Pffff {
 			this->but_metaFilter = (gcnew System::Windows::Forms::Button());
 			this->but_direcFilter = (gcnew System::Windows::Forms::Button());
 			this->but_scan = (gcnew System::Windows::Forms::Button());
-			this->scanControl1 = (gcnew Pffff::ScanControl());
+			this->scanControl1 = (gcnew Pffff::ScanControl(settingObject));
 			this->advanced1 = (gcnew Pffff::Advanced());
 			this->fileSpecificationFilter1 = (gcnew Pffff::FileSpecificationFilter());
 			this->metadataFilter1 = (gcnew Pffff::MetadataFilter());
@@ -291,14 +295,21 @@ namespace Pffff {
 			this->metadataFilter1->Visible = false;
 			this->fileSpecificationFilter1->Visible = false;
 			this->advanced1->Visible = true;
+
+
+			
 		}
 
-		Pffff::ScanControl^ GetScanControlInstancex()
-		{
-			return this->scanControl; 
-		}
-		private: Pffff::ScanControl^ scanControl;
+		//void initializeSubClasses(ProgramSettings^ setting)
+		//{
+		//	//SET CLASS SETTING AND LOADER HERE
+		//	//this->scanControl->test
 
+		//	this->scanControl1->test2(setting->testFunction2());
+
+		//	
+		//}
+		
 
 
 
