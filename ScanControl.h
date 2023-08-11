@@ -27,10 +27,8 @@ namespace Pffff
 		//ScanControl()
 		{
 			InitializeComponent();
-
 			ScanBut->Click += gcnew System::EventHandler(this, &ScanControl::ScanBut_Click);
-		
-			initializeSettingClass(settingObj, functionObj);
+			initializeMain(settingObj, functionObj);
 		}
 
 	protected:
@@ -256,9 +254,9 @@ namespace Pffff
 		//this->findedItemsCount->Text = testString[0];
 	}
 
-		ProgramSettings^ Setting;
+	ProgramSettings^ Setting;
 	ProgramFunctions^ Functions;
-	void initializeSettingClass(ProgramSettings^ setting, ProgramFunctions^ functions)
+	void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
 	{
 		Setting = setting;
 		Functions = functions;

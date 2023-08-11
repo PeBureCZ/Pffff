@@ -1,4 +1,6 @@
 #pragma once
+#include "ProgramFunctions.h"
+
 using namespace System;
 using namespace System::ComponentModel;
 using namespace System::Collections;
@@ -38,10 +40,7 @@ public:
 
 
 
-	void setFirstDirectoryPath(String^ path)
-	{
-		directories->Add(path);
-	}
+	
 
 	void findNewFilesInDirectory(String^ path, size_t lastIndexPath)
 	{
@@ -112,6 +111,16 @@ public:
 			}
 		}
 		return false;
+	}
+
+	void addDirectoryPath(String^ path)
+	{
+		directories->Add(path);
+	}
+
+	void removeDirectory(int index)
+	{
+		directories->RemoveAt(index);
 	}
 };
 

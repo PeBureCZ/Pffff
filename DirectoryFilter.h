@@ -20,9 +20,8 @@ namespace Pffff {
 		DirectoryFilter(ProgramSettings^ settingObj, ProgramFunctions^ functionObj)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			Add_but->Click += gcnew System::EventHandler(this, &Pffff::DirectoryFilter::AddButtClick);
+			initializeMain (settingObj, functionObj);
 		}
 
 	protected:
@@ -38,8 +37,9 @@ namespace Pffff {
 		}
 
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::TextBox^ DirectoryTextBox;
 
-	private: System::Windows::Forms::TextBox^ textBox1;
+
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ label3;
@@ -66,7 +66,7 @@ namespace Pffff {
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(DirectoryFilter::typeid));
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->DirectoryTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
@@ -81,27 +81,27 @@ namespace Pffff {
 			// 
 			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
 			this->pictureBox1->InitialImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.InitialImage")));
-			this->pictureBox1->Location = System::Drawing::Point(20, 18);
+			this->pictureBox1->Location = System::Drawing::Point(31, 28);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(49, 83);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->pictureBox1->TabIndex = 1;
 			this->pictureBox1->TabStop = false;
 			// 
-			// textBox1
+			// DirectoryTextBox
 			// 
-			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->DirectoryTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBox1->Location = System::Drawing::Point(377, 81);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(257, 20);
-			this->textBox1->TabIndex = 3;
-			this->textBox1->Text = L"Add directory here...";
+			this->DirectoryTextBox->Location = System::Drawing::Point(151, 66);
+			this->DirectoryTextBox->Name = L"DirectoryTextBox";
+			this->DirectoryTextBox->Size = System::Drawing::Size(257, 20);
+			this->DirectoryTextBox->TabIndex = 3;
+			this->DirectoryTextBox->Text = L"Add directory here...";
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(378, 104);
+			this->label1->Location = System::Drawing::Point(447, 28);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(104, 13);
 			this->label1->TabIndex = 4;
@@ -112,7 +112,7 @@ namespace Pffff {
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label2->Location = System::Drawing::Point(378, 127);
+			this->label2->Location = System::Drawing::Point(447, 53);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(122, 13);
 			this->label2->TabIndex = 5;
@@ -121,7 +121,7 @@ namespace Pffff {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(378, 150);
+			this->label3->Location = System::Drawing::Point(494, 79);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(16, 13);
 			this->label3->TabIndex = 6;
@@ -132,7 +132,7 @@ namespace Pffff {
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label4->Location = System::Drawing::Point(378, 177);
+			this->label4->Location = System::Drawing::Point(447, 101);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(122, 13);
 			this->label4->TabIndex = 7;
@@ -143,7 +143,7 @@ namespace Pffff {
 			this->Add_but->AutoSize = true;
 			this->Add_but->BackColor = System::Drawing::Color::White;
 			this->Add_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Add_but.Image")));
-			this->Add_but->Location = System::Drawing::Point(377, 18);
+			this->Add_but->Location = System::Drawing::Point(86, 18);
 			this->Add_but->Name = L"Add_but";
 			this->Add_but->Size = System::Drawing::Size(59, 57);
 			this->Add_but->TabIndex = 8;
@@ -152,17 +152,22 @@ namespace Pffff {
 			// 
 			// DirectoryListBox
 			// 
+			this->DirectoryListBox->Font = (gcnew System::Drawing::Font(L"Sitka Banner", 7.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
 			this->DirectoryListBox->FormattingEnabled = true;
-			this->DirectoryListBox->Location = System::Drawing::Point(76, 18);
+			this->DirectoryListBox->ItemHeight = 14;
+			this->DirectoryListBox->Location = System::Drawing::Point(20, 142);
+			this->DirectoryListBox->MultiColumn = true;
 			this->DirectoryListBox->Name = L"DirectoryListBox";
-			this->DirectoryListBox->Size = System::Drawing::Size(296, 381);
+			this->DirectoryListBox->Size = System::Drawing::Size(612, 256);
 			this->DirectoryListBox->TabIndex = 9;
+			this->DirectoryListBox->SelectedIndexChanged += gcnew System::EventHandler(this, &DirectoryFilter::DirectoryListBox_SelectedIndexChanged);
 			// 
 			// Remove_but
 			// 
 			this->Remove_but->BackColor = System::Drawing::Color::White;
 			this->Remove_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Remove_but.Image")));
-			this->Remove_but->Location = System::Drawing::Point(441, 18);
+			this->Remove_but->Location = System::Drawing::Point(86, 79);
 			this->Remove_but->Name = L"Remove_but";
 			this->Remove_but->Size = System::Drawing::Size(59, 57);
 			this->Remove_but->TabIndex = 10;
@@ -182,7 +187,7 @@ namespace Pffff {
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->DirectoryTextBox);
 			this->Controls->Add(this->pictureBox1);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
@@ -194,5 +199,29 @@ namespace Pffff {
 
 		}
 #pragma endregion
-	};
+		ProgramSettings^ Setting;
+		ProgramFunctions^ Functions;
+		void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
+		{
+			Setting = setting;
+			Functions = functions;
+		}
+		
+		private: System::Void AddButtClick(System::Object^ sender, System::EventArgs^ e)
+		{
+			if (Directory::Exists(this->DirectoryTextBox->Text))
+			{
+				this->DirectoryListBox->Items->Add(this->DirectoryTextBox->Text);
+				Functions->addDirectoryPath(this->DirectoryTextBox->Text);
+				this->DirectoryTextBox->Text = L"Add directory here...";
+			}
+			else
+			{
+				this->DirectoryTextBox->Text = L"Incorrectly entered or nonexistent directory...";
+			}
+
+		}
+	private: System::Void DirectoryListBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+	}
+};
 }

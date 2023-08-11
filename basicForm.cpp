@@ -10,9 +10,6 @@ int main(array<String^>^ argh)
 	Application::SetCompatibleTextRenderingDefault(false);
 	ProgramSettings^ Settings = gcnew ProgramSettings();
 	ProgramFunctions^ Functions = gcnew ProgramFunctions();
-	Functions->setFirstDirectoryPath(L"C:/Users/o/Downloads/smazat_C++"); //ONLY FOR TESTING
-
-
 	Pffff::basicForm^ form = gcnew Pffff::basicForm(Settings, Functions);
 	Application::Run(form);
 }
