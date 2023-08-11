@@ -26,6 +26,7 @@ namespace Pffff {
 	/// </summary>
 	public ref class basicForm : public System::Windows::Forms::Form
 	{
+
 	public:
 		basicForm(ProgramSettings^ setting, ProgramFunctions^ functions)
 		{
@@ -39,7 +40,6 @@ namespace Pffff {
 			but_specFilter->Click += gcnew System::EventHandler(this, &basicForm::but_specFilter_Click);
 			but_advancedFilter->Click += gcnew System::EventHandler(this, &basicForm::but_advancedFilter_Click);
 		
-			//TEST ONLY
 			//initializeSubClasses(setting);
 		}			   
 

@@ -80,6 +80,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <CompileAsManaged>Pure</CompileAsManaged>
     </ClCompile>
     <Link>
       <AdditionalDependencies />

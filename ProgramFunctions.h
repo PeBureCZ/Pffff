@@ -13,7 +13,13 @@ using namespace System::Collections::Generic;
 
 public ref class ProgramFunctions
 {
+
+private:
+	List<String^>^ directories = gcnew List<String^>();
+	List<String^>^ filesFinded = gcnew List<String^>();
+
 public:
+	
 
 	String^ functionTesting()
 	{
@@ -29,8 +35,7 @@ public:
 	array<String^>^ filesOld;
 
 
-	List<String^>^ directories = gcnew List<String^>();
-	List<String^>^ filesFinded = gcnew List<String^>();
+
 
 	void setFirstDirectoryPath(String^ path)
 	{

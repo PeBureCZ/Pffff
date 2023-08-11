@@ -36,7 +36,7 @@ namespace Pffff {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::TextBox^ uc2_dirText;
+
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 
 	private: System::Windows::Forms::TextBox^ textBox1;
@@ -44,7 +44,11 @@ namespace Pffff {
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ label4;
-	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::Button^ Add_but;
+	private: System::Windows::Forms::ListBox^ DirectoryListBox;
+	private: System::Windows::Forms::Button^ Remove_but;
+
+
 	protected:
 
 	private:
@@ -61,28 +65,17 @@ namespace Pffff {
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(DirectoryFilter::typeid));
-			this->uc2_dirText = (gcnew System::Windows::Forms::TextBox());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->Add_but = (gcnew System::Windows::Forms::Button());
+			this->DirectoryListBox = (gcnew System::Windows::Forms::ListBox());
+			this->Remove_but = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
-			// 
-			// uc2_dirText
-			// 
-			this->uc2_dirText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(238)));
-			this->uc2_dirText->Location = System::Drawing::Point(75, 18);
-			this->uc2_dirText->Multiline = true;
-			this->uc2_dirText->Name = L"uc2_dirText";
-			this->uc2_dirText->ReadOnly = true;
-			this->uc2_dirText->Size = System::Drawing::Size(296, 377);
-			this->uc2_dirText->TabIndex = 0;
-			this->uc2_dirText->Text = L"You haven\'t inserted any directory...";
 			// 
 			// pictureBox1
 			// 
@@ -99,7 +92,7 @@ namespace Pffff {
 			// 
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBox1->Location = System::Drawing::Point(377, 70);
+			this->textBox1->Location = System::Drawing::Point(377, 81);
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(257, 20);
 			this->textBox1->TabIndex = 3;
@@ -145,16 +138,36 @@ namespace Pffff {
 			this->label4->TabIndex = 7;
 			this->label4->Text = L"C:/UserX/directoryX";
 			// 
-			// button1
+			// Add_but
 			// 
-			this->button1->AutoSize = true;
-			this->button1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button1.Image")));
-			this->button1->Location = System::Drawing::Point(377, 18);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(46, 46);
-			this->button1->TabIndex = 8;
-			this->button1->Text = L"Add";
-			this->button1->UseVisualStyleBackColor = true;
+			this->Add_but->AutoSize = true;
+			this->Add_but->BackColor = System::Drawing::Color::White;
+			this->Add_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Add_but.Image")));
+			this->Add_but->Location = System::Drawing::Point(377, 18);
+			this->Add_but->Name = L"Add_but";
+			this->Add_but->Size = System::Drawing::Size(59, 57);
+			this->Add_but->TabIndex = 8;
+			this->Add_but->Text = L"Add";
+			this->Add_but->UseVisualStyleBackColor = false;
+			// 
+			// DirectoryListBox
+			// 
+			this->DirectoryListBox->FormattingEnabled = true;
+			this->DirectoryListBox->Location = System::Drawing::Point(76, 18);
+			this->DirectoryListBox->Name = L"DirectoryListBox";
+			this->DirectoryListBox->Size = System::Drawing::Size(296, 381);
+			this->DirectoryListBox->TabIndex = 9;
+			// 
+			// Remove_but
+			// 
+			this->Remove_but->BackColor = System::Drawing::Color::White;
+			this->Remove_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Remove_but.Image")));
+			this->Remove_but->Location = System::Drawing::Point(441, 18);
+			this->Remove_but->Name = L"Remove_but";
+			this->Remove_but->Size = System::Drawing::Size(59, 57);
+			this->Remove_but->TabIndex = 10;
+			this->Remove_but->Text = L"Remove";
+			this->Remove_but->UseVisualStyleBackColor = false;
 			// 
 			// DirectoryFilter
 			// 
@@ -162,14 +175,15 @@ namespace Pffff {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			this->Controls->Add(this->button1);
+			this->Controls->Add(this->Remove_but);
+			this->Controls->Add(this->DirectoryListBox);
+			this->Controls->Add(this->Add_but);
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->pictureBox1);
-			this->Controls->Add(this->uc2_dirText);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
 			this->Name = L"DirectoryFilter";

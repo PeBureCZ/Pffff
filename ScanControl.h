@@ -19,9 +19,6 @@ namespace Pffff
 	/// Summary for ScanControl
 	/// </summary>
 
-
-
-
 	public ref class ScanControl : public System::Windows::Forms::UserControl
 	{
 
@@ -62,6 +59,9 @@ namespace Pffff
 	private: System::Windows::Forms::Button^ nextBut;
 
 	private: System::Windows::Forms::TextBox^ ImgTextBox;
+	private: System::Windows::Forms::ListBox^ FindBox;
+
+
 
 
 	private:
@@ -90,6 +90,7 @@ namespace Pffff
 			this->previousBut = (gcnew System::Windows::Forms::Button());
 			this->nextBut = (gcnew System::Windows::Forms::Button());
 			this->ImgTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->FindBox = (gcnew System::Windows::Forms::ListBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->imageBox))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -107,11 +108,16 @@ namespace Pffff
 			// 
 			// console
 			// 
-			this->console->Location = System::Drawing::Point(3, 298);
+			this->console->BackColor = System::Drawing::SystemColors::ButtonFace;
+			this->console->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->console->Location = System::Drawing::Point(24, 311);
 			this->console->Multiline = true;
 			this->console->Name = L"console";
-			this->console->Size = System::Drawing::Size(345, 108);
+			this->console->ReadOnly = true;
+			this->console->Size = System::Drawing::Size(604, 95);
 			this->console->TabIndex = 1;
+			this->console->Text = L"Welcome to the Pfff (Personal filter for file find) console...\r\n";
 			// 
 			// resetBut
 			// 
@@ -152,9 +158,9 @@ namespace Pffff
 			this->versionText->AutoSize = true;
 			this->versionText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->versionText->Location = System::Drawing::Point(544, 394);
+			this->versionText->Location = System::Drawing::Point(539, 12);
 			this->versionText->Name = L"versionText";
-			this->versionText->Size = System::Drawing::Size(84, 12);
+			this->versionText->Size = System::Drawing::Size(89, 12);
 			this->versionText->TabIndex = 5;
 			this->versionText->Text = L"version 0.0.230809a";
 			this->versionText->TextAlign = System::Drawing::ContentAlignment::BottomRight;
@@ -203,6 +209,16 @@ namespace Pffff
 			this->ImgTextBox->TabIndex = 9;
 			this->ImgTextBox->Text = L"0";
 			// 
+			// FindBox
+			// 
+			this->FindBox->BackColor = System::Drawing::SystemColors::MenuHighlight;
+			this->FindBox->FormattingEnabled = true;
+			this->FindBox->Location = System::Drawing::Point(24, 154);
+			this->FindBox->Name = L"FindBox";
+			this->FindBox->ScrollAlwaysVisible = true;
+			this->FindBox->Size = System::Drawing::Size(345, 147);
+			this->FindBox->TabIndex = 10;
+			// 
 			// ScanControl
 			// 
 			this->AccessibleName = L"";
@@ -210,6 +226,7 @@ namespace Pffff
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->Controls->Add(this->FindBox);
 			this->Controls->Add(this->ImgTextBox);
 			this->Controls->Add(this->nextBut);
 			this->Controls->Add(this->previousBut);
@@ -237,22 +254,19 @@ namespace Pffff
 	{
 		//array<String^>^ testString = { "a" };
 		//this->findedItemsCount->Text = testString[0];
-		testing();
 	}
 
-
-	ProgramSettings^ Setting;
+		ProgramSettings^ Setting;
 	ProgramFunctions^ Functions;
 	void initializeSettingClass(ProgramSettings^ setting, ProgramFunctions^ functions)
 	{
 		Setting = setting;
 		Functions = functions;
 	}
-	void testing()
+	void addToConsole()
 	{
 		//this->findedItemsCount->Text = Setting->testFunction2();
 		this->findedItemsCount->Text = Functions->functionTesting();
-	
 	}
 	
 

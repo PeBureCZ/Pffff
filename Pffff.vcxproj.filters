@@ -30,13 +30,13 @@
     <ClCompile Include="Advanced.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Loader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ProgramSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ScanControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,10 +59,10 @@
     <ClInclude Include="Advanced.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Loader.h">
+    <ClInclude Include="ProgramSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProgramSettings.h">
+    <ClInclude Include="ProgramFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
