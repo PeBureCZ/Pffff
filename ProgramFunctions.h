@@ -69,35 +69,44 @@ public:
 		}
 	}
 
-	bool ScanDateFormatOfJpg(List<Char>^ fileOpened, size_t index)
+	bool scanDateFormatOfJpg (array<Char>^ fileOpened, size_t index)
 	{
 		if (fileOpened[index] == ':' && fileOpened[index + 6] == ' ') // test first colon + space
 		{
 			// test colon char
 			if (fileOpened[index + 3] == ':' && fileOpened[index + 9] == ':' && fileOpened[index + 12] == ':')
 			{
-				List<Char>^ testNumChar = gcnew List<Char>();
-				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index - 4], fileOpened[index - 3], fileOpened[index - 2], fileOpened[index - 1] });
+				array<Char>^ testNumChar = gcnew array<Char>(15);
+				testNumChar[0] = fileOpened[index - 4];
+				testNumChar[1] = fileOpened[index - 3];
+				testNumChar[2] = fileOpened[index - 2];
+				testNumChar[3] = fileOpened[index - 1];
 				// start index
-				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index + 1], fileOpened[index + 2] });
+				testNumChar[4] = fileOpened[index + 1];
+				testNumChar[5] = fileOpened[index + 2];
 				// colon
-				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index + 4], fileOpened[index + 5] });
+				testNumChar[6] = fileOpened[index + 4];
+				testNumChar[7] = fileOpened[index + 5];
 				// space char
-				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index + 7], fileOpened[index + 8] });
+				testNumChar[8] = fileOpened[index + 7];
+				testNumChar[9] = fileOpened[index + 8];
 				// colon
-				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index + 10], fileOpened[index + 11] });
+				testNumChar[10] = fileOpened[index + 10];
+				testNumChar[11] = fileOpened[index + 11];
 				// colon
-				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index + 13], fileOpened[index + 14] });
+				testNumChar[12] = fileOpened[index + 13];
+				testNumChar[13] = fileOpened[index + 14];
+				testNumChar[14] = '\0'; // Null-terminate the string
 
 				// test numbers format
-				for each (Char c in testNumChar)
+				for (size_t l = 0; l < testNumChar->Length; l++)
 				{
-					if (!Char::IsDigit(c))
+					if (!Char::IsDigit(testNumChar[l]))
 					{
 						return false;
 					}
 				}
-				String^ returnDate = gcnew String(testNumChar->ToArray());
+				String^ returnDate = gcnew String(testNumChar);
 				datesFinded->Add(returnDate);
 				return true;
 			}
