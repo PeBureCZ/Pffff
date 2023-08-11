@@ -17,6 +17,7 @@ public ref class ProgramFunctions
 private:
 	List<String^>^ directories = gcnew List<String^>();
 	List<String^>^ filesFinded = gcnew List<String^>();
+	List<String^>^ datesFinded = gcnew List<String^>();
 
 public:
 	
@@ -68,40 +69,41 @@ public:
 		}
 	}
 
+	bool ScanDateFormatOfJpg(List<Char>^ fileOpened, size_t index)
+	{
+		if (fileOpened[index] == ':' && fileOpened[index + 6] == ' ') // test first colon + space
+		{
+			// test colon char
+			if (fileOpened[index + 3] == ':' && fileOpened[index + 9] == ':' && fileOpened[index + 12] == ':')
+			{
+				List<Char>^ testNumChar = gcnew List<Char>();
+				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index - 4], fileOpened[index - 3], fileOpened[index - 2], fileOpened[index - 1] });
+				// start index
+				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index + 1], fileOpened[index + 2] });
+				// colon
+				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index + 4], fileOpened[index + 5] });
+				// space char
+				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index + 7], fileOpened[index + 8] });
+				// colon
+				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index + 10], fileOpened[index + 11] });
+				// colon
+				testNumChar->AddRange(gcnew array<Char>{ fileOpened[index + 13], fileOpened[index + 14] });
 
-	//ProgramFunctions() //constructor
-	//{
-	//	
-	//	TODO: Add the constructor code here
-	//	
-	//}
-
-	////CLASS VARIABLES
-	//ProgramSettings& settingRefObj;
-
-	////CLASS VARIABLES END
-
-	////CLASS VECTORS
-	//std::vector<std::string> recursiveFiles;
-	//std::vector<std::string> filesForScan; //indexed
-	//std::vector<std::string> datesFinded; //indexed
-
-
-
-
-	//CLASS VECTORS END
-
-public:
-	//ProgramFunctions(ProgramSettings& setting);
-
-	//void findNewFilesInDirectory(std::string path, size_t lastIndexPath); //find all files in file directory (not recursive!)
-	//bool scanJpgNoExif(const std::vector<char>& fileOpened, size_t maxScanSize);
-	//bool scanJpgExif(const std::vector<char>& fileOpened, size_t maxScanSize);
-	//bool findDateFormat(std::string path);
-	//void testFunction(); //only for test and debug
-	//void runScan(std::string firstPath);
-	//bool scanDateFormatOfJpg(const std::vector<char>& fileOpened, size_t index);
-
+				// test numbers format
+				for each (Char c in testNumChar)
+				{
+					if (!Char::IsDigit(c))
+					{
+						return false;
+					}
+				}
+				String^ returnDate = gcnew String(testNumChar->ToArray());
+				datesFinded->Add(returnDate);
+				return true;
+			}
+		}
+		return false;
+	}
 };
 
 

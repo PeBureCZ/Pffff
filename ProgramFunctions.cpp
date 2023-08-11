@@ -149,47 +149,47 @@
 ////
 //bool ProgramFunctions::scanDateFormatOfJpg(const std::vector<char>& fileOpened, size_t index)
 //{
-////    if (fileOpened[index] == ':' and fileOpened[index + 6] == ' ') //test first colon + space 
-////    {
-////        //test colon char
-////        if (fileOpened[index + 3] == ':' and fileOpened[index + 9] == ':' and fileOpened[index + 12] == ':')
-////        {
-////
-////            std::vector<char> testNumChar;
-////            testNumChar.push_back(fileOpened[index - 4]);
-////            testNumChar.push_back(fileOpened[index - 3]);
-////            testNumChar.push_back(fileOpened[index - 2]);
-////            testNumChar.push_back(fileOpened[index - 1]);
-////            //start index
-////            testNumChar.push_back(fileOpened[index + 1]);
-////            testNumChar.push_back(fileOpened[index + 2]);
-////            //colon
-////            testNumChar.push_back(fileOpened[index + 4]);
-////            testNumChar.push_back(fileOpened[index + 5]);
-////            //space char
-////            testNumChar.push_back(fileOpened[index + 7]);
-////            testNumChar.push_back(fileOpened[index + 8]);
-////            //colon
-////            testNumChar.push_back(fileOpened[index + 10]);
-////            testNumChar.push_back(fileOpened[index + 11]);
-////            //colon
-////            testNumChar.push_back(fileOpened[index + 13]);
-////            testNumChar.push_back(fileOpened[index + 14]);
-////
-////            //test numbers format
-////            for (size_t l = 0; l < testNumChar.size(); l++)
-////            {
-////                if (static_cast<int>(testNumChar[l]) > 57 or static_cast<int>(testNumChar[l]) < 48)
-////                {
-////                    return false;
-////                }
-////            }
-////            std::string returnDate(testNumChar.data(), testNumChar.size());
-////            datesFinded.push_back(returnDate);
-////            return true;
-////        }
-////
-////    }
+//    if (fileOpened[index] == ':' and fileOpened[index + 6] == ' ') //test first colon + space 
+//    {
+//        //test colon char
+//        if (fileOpened[index + 3] == ':' and fileOpened[index + 9] == ':' and fileOpened[index + 12] == ':')
+//        {
+//
+//            std::vector<char> testNumChar;
+//            testNumChar.push_back(fileOpened[index - 4]);
+//            testNumChar.push_back(fileOpened[index - 3]);
+//            testNumChar.push_back(fileOpened[index - 2]);
+//            testNumChar.push_back(fileOpened[index - 1]);
+//            //start index
+//            testNumChar.push_back(fileOpened[index + 1]);
+//            testNumChar.push_back(fileOpened[index + 2]);
+//            //colon
+//            testNumChar.push_back(fileOpened[index + 4]);
+//            testNumChar.push_back(fileOpened[index + 5]);
+//            //space char
+//            testNumChar.push_back(fileOpened[index + 7]);
+//            testNumChar.push_back(fileOpened[index + 8]);
+//            //colon
+//            testNumChar.push_back(fileOpened[index + 10]);
+//            testNumChar.push_back(fileOpened[index + 11]);
+//            //colon
+//            testNumChar.push_back(fileOpened[index + 13]);
+//            testNumChar.push_back(fileOpened[index + 14]);
+//
+//            //test numbers format
+//            for (size_t l = 0; l < testNumChar.size(); l++)
+//            {
+//                if (static_cast<int>(testNumChar[l]) > 57 or static_cast<int>(testNumChar[l]) < 48)
+//                {
+//                    return false;
+//                }
+//            }
+//            std::string returnDate(testNumChar.data(), testNumChar.size());
+//            datesFinded.push_back(returnDate);
+//            return true;
+//        }
+//
+//    }
 //    return false;
 //}
 
