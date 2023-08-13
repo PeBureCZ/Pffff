@@ -10,7 +10,6 @@ using namespace System::Drawing;
 
 
 namespace Pffff {
-
 	/// <summary>
 	/// Summary for UserControl2
 	/// </summary>
