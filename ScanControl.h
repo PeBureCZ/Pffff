@@ -115,7 +115,7 @@ namespace Pffff
 			this->console->ReadOnly = true;
 			this->console->Size = System::Drawing::Size(604, 95);
 			this->console->TabIndex = 1;
-			this->console->Text = L"Welcome to the Pfff (Personal filter for file find) console...\r\n";
+			this->console->Text = L"Welcome to the Pfff (Personal filter for file find) console...";
 			// 
 			// resetBut
 			// 
@@ -250,8 +250,21 @@ namespace Pffff
 		
 	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		//array<String^>^ testString = { "a" };
-		//this->findedItemsCount->Text = testString[0];
+		Functions->addToConsole("test0");
+		Functions->addToConsole("test1");
+		Functions->addToConsole("test2");
+		Functions->addToConsole("test3");
+		List <String^>^ consoleOutput = Functions->getConsoleOutput();
+		printToConsole(consoleOutput);
+
+
+		//if (Functions->FindDateFormat("C:/Users/o/Downloads/smazat_C++/narozeniny.JPG"))
+		//{
+		//	this->findedItemsCount->Text = "true";
+		//}
+		//else this->findedItemsCount->Text = "false";
+
+		//addToConsole();
 	}
 
 	ProgramSettings^ Setting;
@@ -261,12 +274,18 @@ namespace Pffff
 		Setting = setting;
 		Functions = functions;
 	}
-	void addToConsole()
+
+	void printToConsole(List <String^>^ consoleText)
 	{
-		//this->findedItemsCount->Text = Setting->testFunction2();
-		this->findedItemsCount->Text = Functions->functionTesting();
+		String^ consoleFullText;
+		for each (String ^ line in consoleText)
+		{
+			consoleFullText += line + "\r\n";
+		
+		}
+		this->console->Text = consoleFullText;
+
 	}
-	
 
 };
 }

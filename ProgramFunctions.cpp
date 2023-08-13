@@ -94,29 +94,29 @@
 ////
 //bool ProgramFunctions::findDateFormat(std::string path)
 //{
-////    std::ifstream file(path, std::ios::binary);
-////
-////    if (!file)
-////    {
-////        return false;
-////    }
-////    else
-////    {
-////        size_t scanSize = 0;
-////        std::vector<char> bytesVec((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-////        if (settingRefObj.maxByteFileScan < bytesVec.size() ? scanSize = settingRefObj.maxByteFileScan : scanSize = bytesVec.size()); //set smaler size of scan (file size or max byte scan from setting)
-////        if (settingRefObj.maxByteFileScan < 18 and bytesVec.size() < 18) return false;
-////
-////        if (settingRefObj.checkExif) //CONDITION - ONLY EXIF FILES
-////        {
-////            return scanJpgExif(bytesVec, scanSize); //true from scanJpgNoExif=> add new index to vector "datesFinded" in function
-////        }
-////        else// 18 = minimal date format size
-////        {
-////            return scanJpgNoExif(bytesVec, scanSize); //true from scanJpgNoExif=> add new index to vector "datesFinded" in function
-////        }
-////    }
-////    //PUSH NO DATE (NULL?) INTO INDEX OF PATH!
+//    std::ifstream file(path, std::ios::binary);
+//
+//    if (!file)
+//    {
+//        return false;
+//    }
+//    else
+//    {
+//        size_t scanSize = 0;
+//        std::vector<char> bytesVec((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+//        if (settingRefObj.maxByteFileScan < bytesVec.size() ? scanSize = settingRefObj.maxByteFileScan : scanSize = bytesVec.size()); //set smaler size of scan (file size or max byte scan from setting)
+//        if (settingRefObj.maxByteFileScan < 18 and bytesVec.size() < 18) return false;
+//
+//        if (settingRefObj.checkExif) //CONDITION - ONLY EXIF FILES
+//        {
+//            return scanJpgExif(bytesVec, scanSize); //true from scanJpgNoExif=> add new index to vector "datesFinded" in function
+//        }
+//        else// 18 = minimal date format size
+//        {
+//            return scanJpgNoExif(bytesVec, scanSize); //true from scanJpgNoExif=> add new index to vector "datesFinded" in function
+//        }
+//    }
+//    //PUSH NO DATE (NULL?) INTO INDEX OF PATH!
 //    return false;
 //}
 //

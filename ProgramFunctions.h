@@ -20,9 +20,11 @@ private:
 	List<String^>^ directories = gcnew List<String^>();
 	List<String^>^ filesFinded = gcnew List<String^>();
 	List<String^>^ datesFinded = gcnew List<String^>();
+	List<String^>^ consoleText = gcnew List<String^>();
+	List<String^>^ directoryInFilter = gcnew List<String^>();
 
 public:
-	
+
 
 	String^ functionTesting()
 	{
@@ -31,22 +33,41 @@ public:
 		//directories2->AddRange(initialItems);
 		//directories2->Add(L"8");
 		//return directories2[3];
-		findNewFilesInDirectory(directories[0], 0);
+		//findNewFilesInDirectory(directories[0], 0);
 		return "directory: " + directories->Count.ToString() + "files: " + filesFinded->Count.ToString();
 	}
 
-	array<String^>^ filesOld;
-
-
-
-
-	
-
-	void findNewFilesInDirectory(String^ path, size_t lastIndexPath)
+	void addToConsole(String^ text)
 	{
+		consoleText->Add(text);
+	}
+
+	List<String^>^ getConsoleOutput()
+	{
+		return consoleText;
+	}
+
+
+	void runScan()
+	{
+		directories->AddRange(directoryInFilter);
+		int lastIndex = directories->Count - 1;;
+		do
+		{
+			findNewFilesInDirectory(directories[lastIndex], lastIndex);
+			lastIndex = directories->Count - 1;
+		} while (!directories->Count == 0);
+	}
+
+	void findNewFilesInDirectory(String^ path, int lastIndexPath)
+	{
+		if (lastIndexPath <= -1)
+		{
+			return; //NEED REWORK - ERROR: NO DIRECTORY ADDED IN DIRECTORY FILTER!
+		}
 		try
 		{
-			for each (String^ file in Directory::GetFileSystemEntries(path))
+			for each (String ^ file in Directory::GetFileSystemEntries(path))
 			{
 				if (Directory::Exists(file))
 				{
@@ -61,14 +82,68 @@ public:
 				// next file formats?
 				//}
 			}
+			directories->RemoveAt(lastIndexPath);
 		}
 		catch (IOException^ e)
 		{
-		//errors - nothing impl.
+			//errors - nothing impl.
 		}
 	}
 
-	bool scanDateFormatOfJpg (array<Char>^ fileOpened, size_t index)
+
+
+	void addDirectoryPath(String^ path)
+	{
+		directoryInFilter->Add(path);
+	}
+
+	void removeDirectory(int index)
+	{
+		directoryInFilter->RemoveAt(index);
+	}
+
+	bool FindDateFormat(String^ path)
+	{
+		try
+		{
+			array<Byte>^ byteArray = File::ReadAllBytes(path);
+			List<Byte>^ bytesVec = gcnew List<Byte>(byteArray);
+
+			size_t scanSize = 0;
+			if (450000 < bytesVec->Count) //NEED REWORK (maxByteScan -> setting)
+			{
+				scanSize = 450000;
+			}
+			else
+			{
+				scanSize = bytesVec->Count;
+			}
+
+			if (450000 < 18 && bytesVec->Count < 18) //NEED REWORK (maxByteScan -> setting)
+			{
+				return false;
+			}
+
+			if (false) //NEED REWORK - CHECK EXIF ->setting
+			{
+				/*return ScanJpgExif(bytesVec, scanSize);*/
+				return false;
+			}
+			else
+			{
+				return scanJpgNoExif(bytesVec, scanSize);
+				return false;
+			}
+		}
+		catch (Exception^ ex)
+		{
+			// Zpracování výjimky
+			return false;
+		}
+	}
+
+
+	bool scanDateFormatOfJpg(List<Byte>^ fileOpened, int index)
 	{
 		if (fileOpened[index] == ':' && fileOpened[index + 6] == ' ') // test first colon + space
 		{
@@ -113,15 +188,18 @@ public:
 		return false;
 	}
 
-	void addDirectoryPath(String^ path)
+	bool scanJpgNoExif(List<Byte>^ fileOpened, size_t maxScanSize)
 	{
-		directories->Add(path);
+		for (size_t i = 0; i < maxScanSize; i++)
+		{
+			if (scanDateFormatOfJpg(fileOpened, i))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
-
-	void removeDirectory(int index)
-	{
-		directories->RemoveAt(index);
-	}
+	
 };
 
 
