@@ -260,6 +260,7 @@ namespace Pffff {
 			this->metadataFilter1->Visible = false;
 			this->fileSpecificationFilter1->Visible = false;
 			this->advanced1->Visible = false;
+			scanControl1->printConsole();
 		}
 
 		private: System::Void but_direcFilter_Click(System::Object^ sender, System::EventArgs^ e)
@@ -292,10 +293,7 @@ namespace Pffff {
 			this->directoryFilter1->Visible = false;
 			this->metadataFilter1->Visible = false;
 			this->fileSpecificationFilter1->Visible = false;
-			this->advanced1->Visible = true;
-
-
-			
+			this->advanced1->Visible = true;			
 		}
 	};
 }

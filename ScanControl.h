@@ -70,13 +70,6 @@ namespace Pffff
 	private: System::Windows::Forms::Button^ console_up_but;
 	private: System::Windows::Forms::Button^ console_down_but;
 
-
-
-
-
-
-
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -323,7 +316,7 @@ namespace Pffff
 		//Functions->FindDateFormat("C:/Users/Bureš/Desktop/Doèasné dokumenty/added_meta.jpg");
 
 		Functions->runScan();
-		printToConsole(Functions->getConsoleOutput());
+		printConsole();
 		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
 		//{
 		//	this->findedItemsCount->Text = "true";
@@ -336,23 +329,23 @@ namespace Pffff
 	private: System::Void upMaxConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
 	{
 		(Functions->addToConsoleIndex(Functions->getConsoleLength() * -1 - 8)); //always index < 0 -> start at index 0;
-		printToConsole(Functions->getConsoleOutput());
+		printConsole();
 	}
 	private: System::Void upConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
 	{
 		Functions->addToConsoleIndex(-1);
-		printToConsole(Functions->getConsoleOutput());
+		printConsole();
 
 	}
 	private: System::Void downConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
 	{
 		Functions->addToConsoleIndex(1);
-		printToConsole(Functions->getConsoleOutput());
+		printConsole();
 	}
 	private: System::Void downMaxConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
 	{
 		Functions->addToConsoleIndex(Functions->getConsoleLength()-8); //always index > max -> start at end of console -8
-		printToConsole(Functions->getConsoleOutput());
+		printConsole();
 	}
 
 	ProgramSettings^ Setting;
@@ -364,9 +357,10 @@ namespace Pffff
 		this->versionText->Text = Setting->getProgramVersion();
 	}
 
-	void printToConsole(String^ consoleText)
+	public:
+	void printConsole()
 	{
-		this->console->Text = consoleText;
+		this->console->Text = Functions->getConsoleOutput();
 	}
 
 };

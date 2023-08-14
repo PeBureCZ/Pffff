@@ -230,9 +230,13 @@ public:
 					}
 				}
 				String^ returnDate = gcnew String(testNumChar);
-				datesFinded->Add(returnDate);
-				addToConsole("FIND!");
-				return true;
+				if (minAndMaxDateCondition(returnDate))
+				{
+					datesFinded->Add(returnDate);
+					return true;
+				}
+				else return false;
+
 			}
 		}
 		return false;
@@ -248,6 +252,11 @@ public:
 			}
 		}
 		return false;
+	}
+
+	bool minAndMaxDateCondition(String^ dateString)
+	{
+		return true;
 	}
 	
 };

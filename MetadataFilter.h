@@ -21,6 +21,8 @@ namespace Pffff {
 		{
 			InitializeComponent();
 			initializeMain(settingObj, functionObj);
+
+			minDate_picBut->Click += gcnew System::EventHandler(this, &Pffff::MetadataFilter::minDate_click);
 		}
 
 	protected:
@@ -34,30 +36,43 @@ namespace Pffff {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::PictureBox^ exifPicBut;
+	protected:
+
 	protected:
 	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::PictureBox^ pictureBox2;
-	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::PictureBox^ pictureBox3;
-	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::PictureBox^ helperImg;
 
-	private: System::Windows::Forms::TextBox^ textBox1;
-	private: System::Windows::Forms::TextBox^ textBox2;
+	private: System::Windows::Forms::Label^ label2;
+
+
+	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::TextBox^ minDateYYYY;
+	private: System::Windows::Forms::TextBox^ minDateMM;
+
+
+
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Label^ label5;
-	private: System::Windows::Forms::TextBox^ textBox3;
-	private: System::Windows::Forms::Label^ label6;
-	private: System::Windows::Forms::PictureBox^ pictureBox5;
-	private: System::Windows::Forms::Label^ label7;
+	private: System::Windows::Forms::TextBox^ minDateDD;
 
-	private: System::Windows::Forms::TextBox^ textBox4;
-	private: System::Windows::Forms::TextBox^ textBox5;
-	private: System::Windows::Forms::TextBox^ textBox6;
+	private: System::Windows::Forms::Label^ label6;
+	private: System::Windows::Forms::PictureBox^ maxDate_picBut;
+
+	private: System::Windows::Forms::Label^ label7;
+	private: System::Windows::Forms::TextBox^ maxDateYYYY;
+	private: System::Windows::Forms::TextBox^ maxDateMM;
+	private: System::Windows::Forms::TextBox^ maxDateDD;
+
+
+
+
 	private: System::Windows::Forms::Label^ label8;
 	private: System::Windows::Forms::Label^ label9;
 	private: System::Windows::Forms::Label^ label10;
 	private: System::Windows::Forms::Label^ versionText;
+	private: System::Windows::Forms::PictureBox^ minDate_picBut;
+
 
 
 	protected:
@@ -76,42 +91,42 @@ namespace Pffff {
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MetadataFilter::typeid));
-			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->exifPicBut = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
+			this->helperImg = (gcnew System::Windows::Forms::PictureBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->minDateYYYY = (gcnew System::Windows::Forms::TextBox());
+			this->minDateMM = (gcnew System::Windows::Forms::TextBox());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
+			this->minDateDD = (gcnew System::Windows::Forms::TextBox());
 			this->label6 = (gcnew System::Windows::Forms::Label());
-			this->pictureBox5 = (gcnew System::Windows::Forms::PictureBox());
+			this->maxDate_picBut = (gcnew System::Windows::Forms::PictureBox());
 			this->label7 = (gcnew System::Windows::Forms::Label());
-			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox6 = (gcnew System::Windows::Forms::TextBox());
+			this->maxDateYYYY = (gcnew System::Windows::Forms::TextBox());
+			this->maxDateMM = (gcnew System::Windows::Forms::TextBox());
+			this->maxDateDD = (gcnew System::Windows::Forms::TextBox());
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->versionText = (gcnew System::Windows::Forms::Label());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->BeginInit();
+			this->minDate_picBut = (gcnew System::Windows::Forms::PictureBox());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->exifPicBut))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->helperImg))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->maxDate_picBut))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minDate_picBut))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// pictureBox1
+			// exifPicBut
 			// 
-			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
-			this->pictureBox1->Location = System::Drawing::Point(43, 30);
-			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(40, 40);
-			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->pictureBox1->TabIndex = 0;
-			this->pictureBox1->TabStop = false;
+			this->exifPicBut->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"exifPicBut.Image")));
+			this->exifPicBut->Location = System::Drawing::Point(43, 30);
+			this->exifPicBut->Name = L"exifPicBut";
+			this->exifPicBut->Size = System::Drawing::Size(40, 40);
+			this->exifPicBut->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
+			this->exifPicBut->TabIndex = 0;
+			this->exifPicBut->TabStop = false;
 			// 
 			// label1
 			// 
@@ -124,15 +139,15 @@ namespace Pffff {
 			this->label1->TabIndex = 1;
 			this->label1->Text = L"EXIF only";
 			// 
-			// pictureBox2
+			// helperImg
 			// 
-			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
-			this->pictureBox2->Location = System::Drawing::Point(182, 41);
-			this->pictureBox2->Name = L"pictureBox2";
-			this->pictureBox2->Size = System::Drawing::Size(20, 20);
-			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
-			this->pictureBox2->TabIndex = 2;
-			this->pictureBox2->TabStop = false;
+			this->helperImg->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"helperImg.Image")));
+			this->helperImg->Location = System::Drawing::Point(182, 41);
+			this->helperImg->Name = L"helperImg";
+			this->helperImg->Size = System::Drawing::Size(20, 20);
+			this->helperImg->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->helperImg->TabIndex = 2;
+			this->helperImg->TabStop = false;
 			// 
 			// label2
 			// 
@@ -143,16 +158,6 @@ namespace Pffff {
 			this->label2->Size = System::Drawing::Size(381, 59);
 			this->label2->TabIndex = 3;
 			this->label2->Text = resources->GetString(L"label2.Text");
-			// 
-			// pictureBox3
-			// 
-			this->pictureBox3->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox3.Image")));
-			this->pictureBox3->Location = System::Drawing::Point(43, 111);
-			this->pictureBox3->Name = L"pictureBox3";
-			this->pictureBox3->Size = System::Drawing::Size(40, 40);
-			this->pictureBox3->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->pictureBox3->TabIndex = 4;
-			this->pictureBox3->TabStop = false;
 			// 
 			// label3
 			// 
@@ -165,23 +170,23 @@ namespace Pffff {
 			this->label3->TabIndex = 5;
 			this->label3->Text = L" Min date";
 			// 
-			// textBox1
+			// minDateYYYY
 			// 
-			this->textBox1->Location = System::Drawing::Point(221, 119);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(65, 20);
-			this->textBox1->TabIndex = 7;
-			this->textBox1->Text = L"1900";
-			this->textBox1->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->minDateYYYY->Location = System::Drawing::Point(221, 119);
+			this->minDateYYYY->Name = L"minDateYYYY";
+			this->minDateYYYY->Size = System::Drawing::Size(65, 20);
+			this->minDateYYYY->TabIndex = 7;
+			this->minDateYYYY->Text = L"1900";
+			this->minDateYYYY->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
-			// textBox2
+			// minDateMM
 			// 
-			this->textBox2->Location = System::Drawing::Point(292, 119);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(41, 20);
-			this->textBox2->TabIndex = 8;
-			this->textBox2->Text = L"01";
-			this->textBox2->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->minDateMM->Location = System::Drawing::Point(292, 119);
+			this->minDateMM->Name = L"minDateMM";
+			this->minDateMM->Size = System::Drawing::Size(41, 20);
+			this->minDateMM->TabIndex = 8;
+			this->minDateMM->Text = L"01";
+			this->minDateMM->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// label4
 			// 
@@ -203,14 +208,14 @@ namespace Pffff {
 			this->label5->TabIndex = 11;
 			this->label5->Text = L"   MM";
 			// 
-			// textBox3
+			// minDateDD
 			// 
-			this->textBox3->Location = System::Drawing::Point(339, 119);
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(41, 20);
-			this->textBox3->TabIndex = 12;
-			this->textBox3->Text = L"01";
-			this->textBox3->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->minDateDD->Location = System::Drawing::Point(339, 119);
+			this->minDateDD->Name = L"minDateDD";
+			this->minDateDD->Size = System::Drawing::Size(41, 20);
+			this->minDateDD->TabIndex = 12;
+			this->minDateDD->Text = L"01";
+			this->minDateDD->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// label6
 			// 
@@ -222,15 +227,15 @@ namespace Pffff {
 			this->label6->TabIndex = 13;
 			this->label6->Text = L"   DD";
 			// 
-			// pictureBox5
+			// maxDate_picBut
 			// 
-			this->pictureBox5->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox5.Image")));
-			this->pictureBox5->Location = System::Drawing::Point(43, 190);
-			this->pictureBox5->Name = L"pictureBox5";
-			this->pictureBox5->Size = System::Drawing::Size(40, 40);
-			this->pictureBox5->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->pictureBox5->TabIndex = 14;
-			this->pictureBox5->TabStop = false;
+			this->maxDate_picBut->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"maxDate_picBut.Image")));
+			this->maxDate_picBut->Location = System::Drawing::Point(43, 190);
+			this->maxDate_picBut->Name = L"maxDate_picBut";
+			this->maxDate_picBut->Size = System::Drawing::Size(40, 40);
+			this->maxDate_picBut->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
+			this->maxDate_picBut->TabIndex = 14;
+			this->maxDate_picBut->TabStop = false;
 			// 
 			// label7
 			// 
@@ -243,32 +248,32 @@ namespace Pffff {
 			this->label7->TabIndex = 15;
 			this->label7->Text = L"Max date";
 			// 
-			// textBox4
+			// maxDateYYYY
 			// 
-			this->textBox4->Location = System::Drawing::Point(221, 201);
-			this->textBox4->Name = L"textBox4";
-			this->textBox4->Size = System::Drawing::Size(65, 20);
-			this->textBox4->TabIndex = 17;
-			this->textBox4->Text = L"2300";
-			this->textBox4->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->maxDateYYYY->Location = System::Drawing::Point(221, 201);
+			this->maxDateYYYY->Name = L"maxDateYYYY";
+			this->maxDateYYYY->Size = System::Drawing::Size(65, 20);
+			this->maxDateYYYY->TabIndex = 17;
+			this->maxDateYYYY->Text = L"2300";
+			this->maxDateYYYY->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
-			// textBox5
+			// maxDateMM
 			// 
-			this->textBox5->Location = System::Drawing::Point(292, 201);
-			this->textBox5->Name = L"textBox5";
-			this->textBox5->Size = System::Drawing::Size(41, 20);
-			this->textBox5->TabIndex = 18;
-			this->textBox5->Text = L"12";
-			this->textBox5->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->maxDateMM->Location = System::Drawing::Point(292, 201);
+			this->maxDateMM->Name = L"maxDateMM";
+			this->maxDateMM->Size = System::Drawing::Size(41, 20);
+			this->maxDateMM->TabIndex = 18;
+			this->maxDateMM->Text = L"12";
+			this->maxDateMM->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
-			// textBox6
+			// maxDateDD
 			// 
-			this->textBox6->Location = System::Drawing::Point(339, 201);
-			this->textBox6->Name = L"textBox6";
-			this->textBox6->Size = System::Drawing::Size(41, 20);
-			this->textBox6->TabIndex = 19;
-			this->textBox6->Text = L"31";
-			this->textBox6->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->maxDateDD->Location = System::Drawing::Point(339, 201);
+			this->maxDateDD->Name = L"maxDateDD";
+			this->maxDateDD->Size = System::Drawing::Size(41, 20);
+			this->maxDateDD->TabIndex = 19;
+			this->maxDateDD->Text = L"31";
+			this->maxDateDD->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// label8
 			// 
@@ -311,41 +316,51 @@ namespace Pffff {
 			this->versionText->Text = L"versionText";
 			this->versionText->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
 			// 
+			// minDate_picBut
+			// 
+			this->minDate_picBut->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"minDate_picBut.Image")));
+			this->minDate_picBut->Location = System::Drawing::Point(43, 113);
+			this->minDate_picBut->Name = L"minDate_picBut";
+			this->minDate_picBut->Size = System::Drawing::Size(40, 40);
+			this->minDate_picBut->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
+			this->minDate_picBut->TabIndex = 24;
+			this->minDate_picBut->TabStop = false;
+			// 
 			// MetadataFilter
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->Controls->Add(this->minDate_picBut);
 			this->Controls->Add(this->versionText);
 			this->Controls->Add(this->label10);
 			this->Controls->Add(this->label9);
 			this->Controls->Add(this->label8);
-			this->Controls->Add(this->textBox6);
-			this->Controls->Add(this->textBox5);
-			this->Controls->Add(this->textBox4);
+			this->Controls->Add(this->maxDateDD);
+			this->Controls->Add(this->maxDateMM);
+			this->Controls->Add(this->maxDateYYYY);
 			this->Controls->Add(this->label7);
-			this->Controls->Add(this->pictureBox5);
+			this->Controls->Add(this->maxDate_picBut);
 			this->Controls->Add(this->label6);
-			this->Controls->Add(this->textBox3);
+			this->Controls->Add(this->minDateDD);
 			this->Controls->Add(this->label5);
 			this->Controls->Add(this->label4);
-			this->Controls->Add(this->textBox2);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->minDateMM);
+			this->Controls->Add(this->minDateYYYY);
 			this->Controls->Add(this->label3);
-			this->Controls->Add(this->pictureBox3);
 			this->Controls->Add(this->label2);
-			this->Controls->Add(this->pictureBox2);
+			this->Controls->Add(this->helperImg);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->pictureBox1);
+			this->Controls->Add(this->exifPicBut);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
 			this->Name = L"MetadataFilter";
 			this->Size = System::Drawing::Size(650, 415);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->exifPicBut))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->helperImg))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->maxDate_picBut))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minDate_picBut))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -359,6 +374,12 @@ namespace Pffff {
 			Setting = setting;
 			Functions = functions;
 			this->versionText->Text = Setting->getProgramVersion();
+		}
+
+		private: System::Void minDate_click(System::Object^ sender, System::EventArgs^ e)
+		{
+			Functions->addToConsole("clicked on minDate");
+			//this->minDate_picBut->Image = Image::FromFile("C:\\Users\\o\\source\\repos\\Pffff_git\\Images\\true_icon.png"); // HAVE TO CHANGE TO RELATIVE
 		}
 
 	};

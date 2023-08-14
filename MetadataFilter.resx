@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="exifPicBut.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKM+VkT1I
         w1AUhU/TSotUHOwg4pChioMFURFHiWIRLJS2QqsOJi/9gyYNSYqLo+BacPBnserg4qyrg6sgCP6AuLo4
@@ -178,7 +178,7 @@
         RK5CYII=
 </value>
   </data>
-  <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="helperImg.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAnCAYAAAB9qAq4AAABg2lDQ1BJQ0MgcHJvZmlsZQAAKM+VkUso
         RFEcxn8GDRpZmIVkccuwooRkqSFSlGZGjcfCvXfMmJp7TfeObCyVrbLw2HgtbKzZWtgqpTxKtjZWxEa6
@@ -223,7 +223,7 @@
   <data name="label2.Text" xml:space="preserve">
     <value>It will only open files with an 'Exif mark,' which can dramatically shorten the search for files with metadata. Very old .Jpg / .JPG files may contain a creation date without 'Exif mark.' The file verification to check if it contains an 'Exif mark' is done within the 'Maximal Exif scan' length - see 'Advanced'."</value>
   </data>
-  <data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="maxDate_picBut.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKM+VkT1I
         w1AUhU/TSotUHOwg4pChioMFURFHiWIRLJS2QqsOJi/9gyYNSYqLo+BacPBnserg4qyrg6sgCP6AuLo4
@@ -283,7 +283,7 @@
         RK5CYII=
 </value>
   </data>
-  <data name="pictureBox5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="minDate_picBut.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKM+VkT1I
         w1AUhU/TSotUHOwg4pChioMFURFHiWIRLJS2QqsOJi/9gyYNSYqLo+BacPBnserg4qyrg6sgCP6AuLo4
