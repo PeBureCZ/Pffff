@@ -20,9 +20,7 @@ namespace Pffff {
 		FileSpecificationFilter(ProgramSettings^ settingObj, ProgramFunctions^ functionObj)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			initializeMain(settingObj, functionObj);
 		}
 
 	protected:
@@ -52,6 +50,8 @@ namespace Pffff {
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::PictureBox^ pictureBox5;
 	private: System::Windows::Forms::PictureBox^ pictureBox6;
+	private: System::Windows::Forms::Label^ versionText;
+
 
 	private:
 		/// <summary>
@@ -80,6 +80,7 @@ namespace Pffff {
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->pictureBox5 = (gcnew System::Windows::Forms::PictureBox());
 			this->pictureBox6 = (gcnew System::Windows::Forms::PictureBox());
+			this->versionText = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
@@ -221,12 +222,24 @@ namespace Pffff {
 			this->pictureBox6->TabIndex = 18;
 			this->pictureBox6->TabStop = false;
 			// 
-			// UserControl4
+			// versionText
+			// 
+			this->versionText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->versionText->Location = System::Drawing::Point(422, 0);
+			this->versionText->Name = L"versionText";
+			this->versionText->Size = System::Drawing::Size(228, 22);
+			this->versionText->TabIndex = 19;
+			this->versionText->Text = L"versionText";
+			this->versionText->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
+			// FileSpecificationFilter
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->Controls->Add(this->versionText);
 			this->Controls->Add(this->pictureBox6);
 			this->Controls->Add(this->pictureBox5);
 			this->Controls->Add(this->label3);
@@ -242,7 +255,7 @@ namespace Pffff {
 			this->Controls->Add(this->pictureBox1);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
-			this->Name = L"UserControl4";
+			this->Name = L"FileSpecificationFilter";
 			this->Size = System::Drawing::Size(650, 415);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
@@ -255,5 +268,15 @@ namespace Pffff {
 
 		}
 #pragma endregion
+
+		ProgramSettings^ Setting;
+		ProgramFunctions^ Functions;
+		void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
+		{
+			Setting = setting;
+			Functions = functions;
+			this->versionText->Text = Setting->getProgramVersion();
+		}
+
 	};
 }

@@ -62,6 +62,7 @@ namespace Pffff
 
 
 
+
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -153,15 +154,14 @@ namespace Pffff
 			// 
 			// versionText
 			// 
-			this->versionText->AutoSize = true;
 			this->versionText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->versionText->Location = System::Drawing::Point(539, 12);
+			this->versionText->Location = System::Drawing::Point(422, 0);
 			this->versionText->Name = L"versionText";
-			this->versionText->Size = System::Drawing::Size(89, 12);
+			this->versionText->Size = System::Drawing::Size(228, 22);
 			this->versionText->TabIndex = 5;
-			this->versionText->Text = L"version 0.0.230809a";
-			this->versionText->TextAlign = System::Drawing::ContentAlignment::BottomRight;
+			this->versionText->Text = L"versionText";
+			this->versionText->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
 			// 
 			// imageBox
 			// 
@@ -273,6 +273,7 @@ namespace Pffff
 	{
 		Setting = setting;
 		Functions = functions;
+		this->versionText->Text = Setting->getProgramVersion();
 	}
 
 	void printToConsole(List <String^>^ consoleText)

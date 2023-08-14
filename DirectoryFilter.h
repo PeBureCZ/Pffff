@@ -46,6 +46,8 @@ namespace Pffff {
 	private: System::Windows::Forms::Button^ Add_but;
 	private: System::Windows::Forms::ListBox^ DirectoryListBox;
 	private: System::Windows::Forms::Button^ Remove_but;
+	private: System::Windows::Forms::Label^ versionText;
+
 
 
 	protected:
@@ -73,6 +75,7 @@ namespace Pffff {
 			this->Add_but = (gcnew System::Windows::Forms::Button());
 			this->DirectoryListBox = (gcnew System::Windows::Forms::ListBox());
 			this->Remove_but = (gcnew System::Windows::Forms::Button());
+			this->versionText = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -100,7 +103,7 @@ namespace Pffff {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(447, 28);
+			this->label1->Location = System::Drawing::Point(151, 50);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(104, 13);
 			this->label1->TabIndex = 4;
@@ -111,7 +114,7 @@ namespace Pffff {
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label2->Location = System::Drawing::Point(447, 53);
+			this->label2->Location = System::Drawing::Point(261, 50);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(122, 13);
 			this->label2->TabIndex = 5;
@@ -120,7 +123,7 @@ namespace Pffff {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(494, 79);
+			this->label3->Location = System::Drawing::Point(412, 50);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(16, 13);
 			this->label3->TabIndex = 6;
@@ -131,7 +134,7 @@ namespace Pffff {
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label4->Location = System::Drawing::Point(447, 101);
+			this->label4->Location = System::Drawing::Point(468, 50);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(122, 13);
 			this->label4->TabIndex = 7;
@@ -173,12 +176,24 @@ namespace Pffff {
 			this->Remove_but->Text = L"Remove";
 			this->Remove_but->UseVisualStyleBackColor = false;
 			// 
+			// versionText
+			// 
+			this->versionText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->versionText->Location = System::Drawing::Point(422, 0);
+			this->versionText->Name = L"versionText";
+			this->versionText->Size = System::Drawing::Size(228, 22);
+			this->versionText->TabIndex = 11;
+			this->versionText->Text = L"versionText";
+			this->versionText->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
 			// DirectoryFilter
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			this->Controls->Add(this->versionText);
 			this->Controls->Add(this->Remove_but);
 			this->Controls->Add(this->DirectoryListBox);
 			this->Controls->Add(this->Add_but);
@@ -204,6 +219,7 @@ namespace Pffff {
 		{
 			Setting = setting;
 			Functions = functions;
+			this->versionText->Text = Setting->getProgramVersion();
 		}
 		
 		private: System::Void AddButtClick(System::Object^ sender, System::EventArgs^ e)

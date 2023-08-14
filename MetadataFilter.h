@@ -20,9 +20,7 @@ namespace Pffff {
 		MetadataFilter(ProgramSettings^ settingObj, ProgramFunctions^ functionObj)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			initializeMain(settingObj, functionObj);
 		}
 
 	protected:
@@ -59,6 +57,8 @@ namespace Pffff {
 	private: System::Windows::Forms::Label^ label8;
 	private: System::Windows::Forms::Label^ label9;
 	private: System::Windows::Forms::Label^ label10;
+	private: System::Windows::Forms::Label^ versionText;
+
 
 	protected:
 
@@ -96,6 +96,7 @@ namespace Pffff {
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->label10 = (gcnew System::Windows::Forms::Label());
+			this->versionText = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
@@ -299,12 +300,24 @@ namespace Pffff {
 			this->label10->TabIndex = 22;
 			this->label10->Text = L"   DD";
 			// 
-			// UserControl3
+			// versionText
+			// 
+			this->versionText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->versionText->Location = System::Drawing::Point(422, 0);
+			this->versionText->Name = L"versionText";
+			this->versionText->Size = System::Drawing::Size(228, 22);
+			this->versionText->TabIndex = 23;
+			this->versionText->Text = L"versionText";
+			this->versionText->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
+			// MetadataFilter
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->Controls->Add(this->versionText);
 			this->Controls->Add(this->label10);
 			this->Controls->Add(this->label9);
 			this->Controls->Add(this->label8);
@@ -327,7 +340,7 @@ namespace Pffff {
 			this->Controls->Add(this->pictureBox1);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
-			this->Name = L"UserControl3";
+			this->Name = L"MetadataFilter";
 			this->Size = System::Drawing::Size(650, 415);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
@@ -338,5 +351,15 @@ namespace Pffff {
 
 		}
 #pragma endregion
+
+		ProgramSettings^ Setting;
+		ProgramFunctions^ Functions;
+		void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
+		{
+			Setting = setting;
+			Functions = functions;
+			this->versionText->Text = Setting->getProgramVersion();
+		}
+
 	};
 }

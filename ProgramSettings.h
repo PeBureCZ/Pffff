@@ -18,14 +18,14 @@ public:
     size_t maxByteExifScan;
     size_t maxByteFileScan;
     bool checkExif;
-    String^ testString = L"subClass communication";
+    String^ programVersion = L"v.0.0.230814a   ";
     void testFunction()
     {
 
     }
-    String^ testFunction2()
+    String^ getProgramVersion()
     {
-        return testString;
+        return programVersion;
     }
 
 
