@@ -321,10 +321,10 @@ namespace Pffff
 	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		//Functions->FindDateFormat("C:/Users/Bureš/Desktop/Doèasné dokumenty/added_meta.jpg");
+
+		Functions->runScan();
 		printToConsole(Functions->getConsoleOutput());
-
-
-		//if (Functions->FindDateFormat("C:/Users/o/Downloads/smazat_C++/narozeniny.JPG"))
+		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
 		//{
 		//	this->findedItemsCount->Text = "true";
 		//}
@@ -337,27 +337,22 @@ namespace Pffff
 	{
 		(Functions->addToConsoleIndex(Functions->getConsoleLength() * -1 - 8)); //always index < 0 -> start at index 0;
 		printToConsole(Functions->getConsoleOutput());
-		this->findedItemsCount->Text = Functions->consoleActiveIndex.ToString();
-
 	}
 	private: System::Void upConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
 	{
 		Functions->addToConsoleIndex(-1);
 		printToConsole(Functions->getConsoleOutput());
-		this->findedItemsCount->Text = Functions->consoleActiveIndex.ToString();
 
 	}
 	private: System::Void downConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
 	{
 		Functions->addToConsoleIndex(1);
 		printToConsole(Functions->getConsoleOutput());
-		this->findedItemsCount->Text = Functions->consoleActiveIndex.ToString();
 	}
 	private: System::Void downMaxConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
 	{
 		Functions->addToConsoleIndex(Functions->getConsoleLength()-8); //always index > max -> start at end of console -8
 		printToConsole(Functions->getConsoleOutput());
-		this->findedItemsCount->Text = Functions->consoleActiveIndex.ToString();
 	}
 
 	ProgramSettings^ Setting;
@@ -367,18 +362,11 @@ namespace Pffff
 		Setting = setting;
 		Functions = functions;
 		this->versionText->Text = Setting->getProgramVersion();
-
 	}
 
 	void printToConsole(String^ consoleText)
 	{
-		//String^ consoleFullText;
-		//for each (String ^ line in consoleText)
-		//{
-		//	consoleFullText += line + "\r\n";
-		//}
 		this->console->Text = consoleText;
-
 	}
 
 };

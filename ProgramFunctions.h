@@ -18,29 +18,32 @@ public ref class ProgramFunctions
 
 private:
 	List<String^>^ directories = gcnew List<String^>();
-	List<String^>^ filesFinded = gcnew List<String^>();
-	List<String^>^ datesFinded = gcnew List<String^>();
+	List<String^>^ filesForScan = gcnew List<String^>();
+	List<String^>^ datesFinded = gcnew List<String^>(); //indexed
+	List<String^>^ filesFinded = gcnew List<String^>(); //indexed
 	List<String^>^ consoleText = gcnew List<String^>();
 	List<String^>^ directoryInFilter = gcnew List<String^>();
-public: int consoleActiveIndex = 0;
+	int consoleActiveIndex = 0;
 
 public:
-
-
 	String^ functionTesting()
 	{
-		//List<String^>^ directories2 = gcnew List<String^>();
-		//array<String^>^ initialItems = { L"1", L"2", L"3" };
-		//directories2->AddRange(initialItems);
-		//directories2->Add(L"8");
-		//return directories2[3];
-		//findNewFilesInDirectory(directories[0], 0);
-		return "directory: " + directories->Count.ToString() + "files: " + filesFinded->Count.ToString();
+		return "";
+	}
+
+	int getFilesFindedCount()
+	{
+		return filesFinded->Count;
 	}
 
 	void addToConsole(String^ text)
 	{
 		consoleText->Add(text + "\r\n");
+	}
+
+	void clearConsole()
+	{
+		consoleText->Clear();
 	}
 
 	void addToConsoleIndex(int addToIndex)
@@ -63,20 +66,6 @@ public:
 				outputStr += consoleText[i];
 			}
 		}
-		//else if (consoleActiveIndex + 8 > consoleText->Count || consoleText->Count >= 8)
-		//{
-		//	for (size_t i = consoleText->Count - 8; i < consoleText->Count; i++)
-		//	{
-		//		outputStr += consoleText[i];
-		//	}
-		//}
-		//else if (consoleActiveIndex = 0 || consoleText->Count < 8)
-		//{
-		//	for (size_t i = 0; i < consoleText->Count; i++)
-		//	{
-		//		outputStr += consoleText[i];
-		//	}
-		//}
 		else
 		{
 			for (size_t i = consoleActiveIndex; i <= consoleActiveIndex +7; i++)
@@ -96,21 +85,41 @@ public:
 	void runScan()
 	{
 		directories->AddRange(directoryInFilter);
-		consoleText->Add("Console start...");
+		clearConsole();
+		addToConsole("Filters applied...");
 		int lastIndex = directories->Count - 1;
-		do
+		if (directories->Count > 0)
 		{
-			findNewFilesInDirectory(directories[lastIndex], lastIndex);
-			lastIndex = directories->Count - 1;
-		} while (!directories->Count == 0);
+			addToConsole("New scan started...");
+			do
+			{
+				findNewFilesInDirectory(directories[lastIndex], lastIndex);
+				lastIndex = directories->Count - 1;
+			} while (!directories->Count == 0);
+		}
+		else addToConsole("No directory finded: try add new directory in Directory filter");
+		addToConsole("Directory scan end...");
+		if (filesForScan->Count > 0)
+		{
+			addToConsole("Start scan " + filesForScan->Count + " files...");
+			do
+			{
+				if (FindDateFormat(filesForScan[0]))
+				{
+					filesFinded->Add(filesForScan[0]);
+				}
+				filesForScan->RemoveAt(0);
+			} while (filesForScan->Count > 0);
+		}
+		else
+		{
+			
+		}
 	}
 
 	void findNewFilesInDirectory(String^ path, int lastIndexPath)
 	{
-		if (lastIndexPath <= -1)
-		{
-			return; //NEED REWORK - ERROR: NO DIRECTORY ADDED IN DIRECTORY FILTER!
-		}
+
 		try
 		{
 			for each (String ^ file in Directory::GetFileSystemEntries(path))
@@ -121,7 +130,7 @@ public:
 				}
 				else if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) or Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
 				{
-					filesFinded->Add(file);
+					filesForScan->Add(file);
 				}
 				//else if
 				//{
@@ -174,12 +183,10 @@ public:
 			else
 			{
 				return scanJpgNoExif(bytesVec, scanSize);
-				return false;
 			}
 		}
 		catch (Exception^ ex)
 		{
-			// Zpracování výjimky
 			return false;
 		}
 	}
@@ -192,7 +199,7 @@ public:
 			// test colon char
 			if (fileOpened[index + 3] == ':' && fileOpened[index + 9] == ':' && fileOpened[index + 12] == ':')
 			{
-				array<Char>^ testNumChar = gcnew array<Char>(15);
+				array<Char>^ testNumChar = gcnew array<Char>(14);
 				testNumChar[0] = fileOpened[index - 4];
 				testNumChar[1] = fileOpened[index - 3];
 				testNumChar[2] = fileOpened[index - 2];
@@ -212,20 +219,19 @@ public:
 				// colon
 				testNumChar[12] = fileOpened[index + 13];
 				testNumChar[13] = fileOpened[index + 14];
-				testNumChar[14] = '\0'; // Null-terminate the string
 
 				// test numbers format
 				for (size_t l = 0; l < testNumChar->Length; l++)
 				{
-					addToConsole(testNumChar[l].ToString());
+					//addToConsole(testNumChar[l].ToString());
 					if (!Char::IsDigit(testNumChar[l]))
 					{
-						addToConsole("false");
 						return false;
 					}
 				}
 				String^ returnDate = gcnew String(testNumChar);
 				datesFinded->Add(returnDate);
+				addToConsole("FIND!");
 				return true;
 			}
 		}
