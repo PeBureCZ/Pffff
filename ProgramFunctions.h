@@ -22,6 +22,7 @@ private:
 	List<String^>^ datesFinded = gcnew List<String^>();
 	List<String^>^ consoleText = gcnew List<String^>();
 	List<String^>^ directoryInFilter = gcnew List<String^>();
+public: int consoleActiveIndex = 0;
 
 public:
 
@@ -39,19 +40,64 @@ public:
 
 	void addToConsole(String^ text)
 	{
-		consoleText->Add(text);
+		consoleText->Add(text + "\r\n");
 	}
 
-	List<String^>^ getConsoleOutput()
+	void addToConsoleIndex(int addToIndex)
 	{
-		return consoleText;
+		if (consoleActiveIndex + addToIndex > consoleText->Count - 7)
+		{
+			if (addToIndex > 0 ) consoleActiveIndex = consoleText->Count - 7;
+		}
+		consoleActiveIndex += addToIndex;
+		if (consoleActiveIndex < 0) consoleActiveIndex = 0;
+	}
+
+	String^ getConsoleOutput()
+	{
+		String^ outputStr;
+		if (consoleActiveIndex + 7 >= consoleText->Count) //CONSOLE LENGTH = 8 LINES
+		{
+			for (size_t i = consoleActiveIndex; i < consoleText->Count; i++)
+			{
+				outputStr += consoleText[i];
+			}
+		}
+		//else if (consoleActiveIndex + 8 > consoleText->Count || consoleText->Count >= 8)
+		//{
+		//	for (size_t i = consoleText->Count - 8; i < consoleText->Count; i++)
+		//	{
+		//		outputStr += consoleText[i];
+		//	}
+		//}
+		//else if (consoleActiveIndex = 0 || consoleText->Count < 8)
+		//{
+		//	for (size_t i = 0; i < consoleText->Count; i++)
+		//	{
+		//		outputStr += consoleText[i];
+		//	}
+		//}
+		else
+		{
+			for (size_t i = consoleActiveIndex; i <= consoleActiveIndex +7; i++)
+			{
+				outputStr += consoleText[i];
+			}
+		}
+		return outputStr;
+	}
+
+	size_t getConsoleLength()
+	{
+		return static_cast<size_t>(consoleText->Count);
 	}
 
 
 	void runScan()
 	{
 		directories->AddRange(directoryInFilter);
-		int lastIndex = directories->Count - 1;;
+		consoleText->Add("Console start...");
+		int lastIndex = directories->Count - 1;
 		do
 		{
 			findNewFilesInDirectory(directories[lastIndex], lastIndex);
@@ -90,8 +136,6 @@ public:
 		}
 	}
 
-
-
 	void addDirectoryPath(String^ path)
 	{
 		directoryInFilter->Add(path);
@@ -108,7 +152,6 @@ public:
 		{
 			array<Byte>^ byteArray = File::ReadAllBytes(path);
 			List<Byte>^ bytesVec = gcnew List<Byte>(byteArray);
-
 			size_t scanSize = 0;
 			if (450000 < bytesVec->Count) //NEED REWORK (maxByteScan -> setting)
 			{
@@ -123,7 +166,6 @@ public:
 			{
 				return false;
 			}
-
 			if (false) //NEED REWORK - CHECK EXIF ->setting
 			{
 				/*return ScanJpgExif(bytesVec, scanSize);*/
@@ -175,8 +217,10 @@ public:
 				// test numbers format
 				for (size_t l = 0; l < testNumChar->Length; l++)
 				{
+					addToConsole(testNumChar[l].ToString());
 					if (!Char::IsDigit(testNumChar[l]))
 					{
+						addToConsole("false");
 						return false;
 					}
 				}

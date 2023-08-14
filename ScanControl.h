@@ -29,6 +29,13 @@ namespace Pffff
 			InitializeComponent();
 			ScanBut->Click += gcnew System::EventHandler(this, &ScanControl::ScanBut_Click);
 			initializeMain(settingObj, functionObj);
+
+			//console buttons
+			/*but_advancedFilter->Click += gcnew System::EventHandler(this, &basicForm::but_advancedFilter_Click);*/
+			console_upMax_but->Click += gcnew System::EventHandler(this, &Pffff::ScanControl::upMaxConsoleOnClick);
+			console_up_but->Click += gcnew System::EventHandler(this, &Pffff::ScanControl::upConsoleOnClick);
+			console_down_but->Click += gcnew System::EventHandler(this, &Pffff::ScanControl::downConsoleOnClick);
+			console_downMax_but->Click += gcnew System::EventHandler(this, &Pffff::ScanControl::downMaxConsoleOnClick);
 		}
 
 	protected:
@@ -58,6 +65,13 @@ namespace Pffff
 
 	private: System::Windows::Forms::TextBox^ ImgTextBox;
 	private: System::Windows::Forms::ListBox^ FindBox;
+	private: System::Windows::Forms::Button^ console_upMax_but;
+	private: System::Windows::Forms::Button^ console_downMax_but;
+	private: System::Windows::Forms::Button^ console_up_but;
+	private: System::Windows::Forms::Button^ console_down_but;
+
+
+
 
 
 
@@ -90,6 +104,10 @@ namespace Pffff
 			this->nextBut = (gcnew System::Windows::Forms::Button());
 			this->ImgTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->FindBox = (gcnew System::Windows::Forms::ListBox());
+			this->console_upMax_but = (gcnew System::Windows::Forms::Button());
+			this->console_downMax_but = (gcnew System::Windows::Forms::Button());
+			this->console_up_but = (gcnew System::Windows::Forms::Button());
+			this->console_down_but = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->imageBox))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -110,13 +128,13 @@ namespace Pffff
 			this->console->BackColor = System::Drawing::SystemColors::ButtonFace;
 			this->console->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->console->Location = System::Drawing::Point(24, 311);
+			this->console->Location = System::Drawing::Point(24, 294);
 			this->console->Multiline = true;
 			this->console->Name = L"console";
 			this->console->ReadOnly = true;
-			this->console->Size = System::Drawing::Size(604, 95);
+			this->console->Size = System::Drawing::Size(570, 101);
 			this->console->TabIndex = 1;
-			this->console->Text = L"Welcome to the Pfff (Personal filter for file find) console...";
+			this->console->Text = L"Console start...";
 			// 
 			// resetBut
 			// 
@@ -211,11 +229,59 @@ namespace Pffff
 			// 
 			this->FindBox->BackColor = System::Drawing::SystemColors::MenuHighlight;
 			this->FindBox->FormattingEnabled = true;
-			this->FindBox->Location = System::Drawing::Point(24, 154);
+			this->FindBox->Location = System::Drawing::Point(24, 130);
 			this->FindBox->Name = L"FindBox";
 			this->FindBox->ScrollAlwaysVisible = true;
-			this->FindBox->Size = System::Drawing::Size(345, 147);
+			this->FindBox->Size = System::Drawing::Size(345, 121);
 			this->FindBox->TabIndex = 10;
+			// 
+			// console_upMax_but
+			// 
+			this->console_upMax_but->AllowDrop = true;
+			this->console_upMax_but->AutoSize = true;
+			this->console_upMax_but->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
+			this->console_upMax_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"console_upMax_but.Image")));
+			this->console_upMax_but->Location = System::Drawing::Point(600, 294);
+			this->console_upMax_but->Name = L"console_upMax_but";
+			this->console_upMax_but->Size = System::Drawing::Size(30, 30);
+			this->console_upMax_but->TabIndex = 11;
+			this->console_upMax_but->UseVisualStyleBackColor = true;
+			// 
+			// console_downMax_but
+			// 
+			this->console_downMax_but->AllowDrop = true;
+			this->console_downMax_but->AutoSize = true;
+			this->console_downMax_but->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
+			this->console_downMax_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"console_downMax_but.Image")));
+			this->console_downMax_but->Location = System::Drawing::Point(600, 375);
+			this->console_downMax_but->Name = L"console_downMax_but";
+			this->console_downMax_but->Size = System::Drawing::Size(30, 30);
+			this->console_downMax_but->TabIndex = 12;
+			this->console_downMax_but->UseVisualStyleBackColor = true;
+			// 
+			// console_up_but
+			// 
+			this->console_up_but->AllowDrop = true;
+			this->console_up_but->AutoSize = true;
+			this->console_up_but->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
+			this->console_up_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"console_up_but.Image")));
+			this->console_up_but->Location = System::Drawing::Point(600, 321);
+			this->console_up_but->Name = L"console_up_but";
+			this->console_up_but->Size = System::Drawing::Size(30, 30);
+			this->console_up_but->TabIndex = 13;
+			this->console_up_but->UseVisualStyleBackColor = true;
+			// 
+			// console_down_but
+			// 
+			this->console_down_but->AllowDrop = true;
+			this->console_down_but->AutoSize = true;
+			this->console_down_but->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
+			this->console_down_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"console_down_but.Image")));
+			this->console_down_but->Location = System::Drawing::Point(600, 348);
+			this->console_down_but->Name = L"console_down_but";
+			this->console_down_but->Size = System::Drawing::Size(30, 30);
+			this->console_down_but->TabIndex = 14;
+			this->console_down_but->UseVisualStyleBackColor = true;
 			// 
 			// ScanControl
 			// 
@@ -224,6 +290,10 @@ namespace Pffff
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->Controls->Add(this->console_down_but);
+			this->Controls->Add(this->console_up_but);
+			this->Controls->Add(this->console_downMax_but);
+			this->Controls->Add(this->console_upMax_but);
 			this->Controls->Add(this->FindBox);
 			this->Controls->Add(this->ImgTextBox);
 			this->Controls->Add(this->nextBut);
@@ -250,12 +320,8 @@ namespace Pffff
 		
 	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		Functions->addToConsole("test0");
-		Functions->addToConsole("test1");
-		Functions->addToConsole("test2");
-		Functions->addToConsole("test3");
-		List <String^>^ consoleOutput = Functions->getConsoleOutput();
-		printToConsole(consoleOutput);
+		//Functions->FindDateFormat("C:/Users/Bureš/Desktop/Doèasné dokumenty/added_meta.jpg");
+		printToConsole(Functions->getConsoleOutput());
 
 
 		//if (Functions->FindDateFormat("C:/Users/o/Downloads/smazat_C++/narozeniny.JPG"))
@@ -267,6 +333,33 @@ namespace Pffff
 		//addToConsole();
 	}
 
+	private: System::Void upMaxConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
+	{
+		(Functions->addToConsoleIndex(Functions->getConsoleLength() * -1 - 8)); //always index < 0 -> start at index 0;
+		printToConsole(Functions->getConsoleOutput());
+		this->findedItemsCount->Text = Functions->consoleActiveIndex.ToString();
+
+	}
+	private: System::Void upConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
+	{
+		Functions->addToConsoleIndex(-1);
+		printToConsole(Functions->getConsoleOutput());
+		this->findedItemsCount->Text = Functions->consoleActiveIndex.ToString();
+
+	}
+	private: System::Void downConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
+	{
+		Functions->addToConsoleIndex(1);
+		printToConsole(Functions->getConsoleOutput());
+		this->findedItemsCount->Text = Functions->consoleActiveIndex.ToString();
+	}
+	private: System::Void downMaxConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
+	{
+		Functions->addToConsoleIndex(Functions->getConsoleLength()-8); //always index > max -> start at end of console -8
+		printToConsole(Functions->getConsoleOutput());
+		this->findedItemsCount->Text = Functions->consoleActiveIndex.ToString();
+	}
+
 	ProgramSettings^ Setting;
 	ProgramFunctions^ Functions;
 	void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
@@ -274,17 +367,17 @@ namespace Pffff
 		Setting = setting;
 		Functions = functions;
 		this->versionText->Text = Setting->getProgramVersion();
+
 	}
 
-	void printToConsole(List <String^>^ consoleText)
+	void printToConsole(String^ consoleText)
 	{
-		String^ consoleFullText;
-		for each (String ^ line in consoleText)
-		{
-			consoleFullText += line + "\r\n";
-		
-		}
-		this->console->Text = consoleFullText;
+		//String^ consoleFullText;
+		//for each (String ^ line in consoleText)
+		//{
+		//	consoleFullText += line + "\r\n";
+		//}
+		this->console->Text = consoleText;
 
 	}
 

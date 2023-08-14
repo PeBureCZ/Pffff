@@ -17,6 +17,7 @@ public ref class ProgramSettings
 public: 
     size_t maxByteExifScan;
     size_t maxByteFileScan;
+
     bool checkExif;
     String^ programVersion = L"v.0.0.230814a   ";
     void testFunction()

@@ -31,16 +31,11 @@ namespace Pffff {
 		basicForm(ProgramSettings^ setting, ProgramFunctions^ functions)
 		{
 			InitializeComponent(setting, functions);
-			//
-			//TODO: Add the constructor code here
-			//
 			but_scan->Click += gcnew System::EventHandler(this, &basicForm::but_scan_Click);
 			but_direcFilter->Click += gcnew System::EventHandler(this, &basicForm::but_direcFilter_Click);
 			but_metaFilter->Click += gcnew System::EventHandler(this, &basicForm::but_metaFilter_Click);
 			but_specFilter->Click += gcnew System::EventHandler(this, &basicForm::but_specFilter_Click);
 			but_advancedFilter->Click += gcnew System::EventHandler(this, &basicForm::but_advancedFilter_Click);
-		
-			//initializeSubClasses(setting);
 		}			   
 
 
@@ -250,7 +245,7 @@ namespace Pffff {
 			this->MaximumSize = System::Drawing::Size(860, 450);
 			this->MinimumSize = System::Drawing::Size(860, 450);
 			this->Name = L"basicForm";
-			this->Text = L"Pffff (Personal filter for file find)";
+			this->Text = L"Pffff (Personal filter for file)";
 			this->leftPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -302,19 +297,5 @@ namespace Pffff {
 
 			
 		}
-
-		//void initializeSubClasses(ProgramSettings^ setting)
-		//{
-		//	//SET CLASS SETTING AND LOADER HERE
-		//	//this->scanControl->test
-
-		//	this->scanControl1->test2(setting->testFunction2());
-
-		//	
-		//}
-		
-
-
-
 	};
 }
