@@ -8,6 +8,9 @@ using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
 
+using namespace System::IO;
+using namespace System::Reflection;
+
 
 namespace Pffff {
 
@@ -22,7 +25,9 @@ namespace Pffff {
 			InitializeComponent();
 			initializeMain(settingObj, functionObj);
 
-			minDate_picBut->Click += gcnew System::EventHandler(this, &Pffff::MetadataFilter::minDate_click);
+			minDate_But->Click += gcnew System::EventHandler(this, &Pffff::MetadataFilter::minDate_click);
+			maxDate_But->Click += gcnew System::EventHandler(this, &Pffff::MetadataFilter::maxDate_click);
+			exif_but->Click += gcnew System::EventHandler(this, &Pffff::MetadataFilter::exif_click);
 		}
 
 	protected:
@@ -36,7 +41,7 @@ namespace Pffff {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::PictureBox^ exifPicBut;
+
 	protected:
 
 	protected:
@@ -57,7 +62,7 @@ namespace Pffff {
 	private: System::Windows::Forms::TextBox^ minDateDD;
 
 	private: System::Windows::Forms::Label^ label6;
-	private: System::Windows::Forms::PictureBox^ maxDate_picBut;
+
 
 	private: System::Windows::Forms::Label^ label7;
 	private: System::Windows::Forms::TextBox^ maxDateYYYY;
@@ -71,7 +76,16 @@ namespace Pffff {
 	private: System::Windows::Forms::Label^ label9;
 	private: System::Windows::Forms::Label^ label10;
 	private: System::Windows::Forms::Label^ versionText;
-	private: System::Windows::Forms::PictureBox^ minDate_picBut;
+
+	private: System::Windows::Forms::ImageList^ imageList1;
+	private: System::Windows::Forms::Button^ minDate_But;
+	private: System::Windows::Forms::Button^ maxDate_But;
+	private: System::Windows::Forms::Button^ exif_but;
+
+
+
+
+	private: System::ComponentModel::IContainer^ components;
 
 
 
@@ -81,7 +95,7 @@ namespace Pffff {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -90,8 +104,8 @@ namespace Pffff {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MetadataFilter::typeid));
-			this->exifPicBut = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->helperImg = (gcnew System::Windows::Forms::PictureBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
@@ -102,7 +116,6 @@ namespace Pffff {
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->minDateDD = (gcnew System::Windows::Forms::TextBox());
 			this->label6 = (gcnew System::Windows::Forms::Label());
-			this->maxDate_picBut = (gcnew System::Windows::Forms::PictureBox());
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->maxDateYYYY = (gcnew System::Windows::Forms::TextBox());
 			this->maxDateMM = (gcnew System::Windows::Forms::TextBox());
@@ -111,22 +124,12 @@ namespace Pffff {
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->versionText = (gcnew System::Windows::Forms::Label());
-			this->minDate_picBut = (gcnew System::Windows::Forms::PictureBox());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->exifPicBut))->BeginInit();
+			this->imageList1 = (gcnew System::Windows::Forms::ImageList(this->components));
+			this->minDate_But = (gcnew System::Windows::Forms::Button());
+			this->maxDate_But = (gcnew System::Windows::Forms::Button());
+			this->exif_but = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->helperImg))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->maxDate_picBut))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minDate_picBut))->BeginInit();
 			this->SuspendLayout();
-			// 
-			// exifPicBut
-			// 
-			this->exifPicBut->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"exifPicBut.Image")));
-			this->exifPicBut->Location = System::Drawing::Point(43, 30);
-			this->exifPicBut->Name = L"exifPicBut";
-			this->exifPicBut->Size = System::Drawing::Size(40, 40);
-			this->exifPicBut->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->exifPicBut->TabIndex = 0;
-			this->exifPicBut->TabStop = false;
 			// 
 			// label1
 			// 
@@ -227,16 +230,6 @@ namespace Pffff {
 			this->label6->TabIndex = 13;
 			this->label6->Text = L"   DD";
 			// 
-			// maxDate_picBut
-			// 
-			this->maxDate_picBut->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"maxDate_picBut.Image")));
-			this->maxDate_picBut->Location = System::Drawing::Point(43, 190);
-			this->maxDate_picBut->Name = L"maxDate_picBut";
-			this->maxDate_picBut->Size = System::Drawing::Size(40, 40);
-			this->maxDate_picBut->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->maxDate_picBut->TabIndex = 14;
-			this->maxDate_picBut->TabStop = false;
-			// 
 			// label7
 			// 
 			this->label7->AutoSize = true;
@@ -316,15 +309,72 @@ namespace Pffff {
 			this->versionText->Text = L"versionText";
 			this->versionText->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
 			// 
-			// minDate_picBut
+			// imageList1
 			// 
-			this->minDate_picBut->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"minDate_picBut.Image")));
-			this->minDate_picBut->Location = System::Drawing::Point(43, 113);
-			this->minDate_picBut->Name = L"minDate_picBut";
-			this->minDate_picBut->Size = System::Drawing::Size(40, 40);
-			this->minDate_picBut->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->minDate_picBut->TabIndex = 24;
-			this->minDate_picBut->TabStop = false;
+			this->imageList1->ImageStream = (cli::safe_cast<System::Windows::Forms::ImageListStreamer^>(resources->GetObject(L"imageList1.ImageStream")));
+			this->imageList1->TransparentColor = System::Drawing::Color::Transparent;
+			this->imageList1->Images->SetKeyName(0, L"false_icon.png");
+			this->imageList1->Images->SetKeyName(1, L"true_icon.png");
+			// 
+			// minDate_But
+			// 
+			this->minDate_But->AutoSize = true;
+			this->minDate_But->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->minDate_But->FlatAppearance->BorderSize = 0;
+			this->minDate_But->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->minDate_But->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->minDate_But->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->minDate_But->ImageIndex = 0;
+			this->minDate_But->ImageList = this->imageList1;
+			this->minDate_But->Location = System::Drawing::Point(43, 108);
+			this->minDate_But->Name = L"minDate_But";
+			this->minDate_But->Size = System::Drawing::Size(46, 46);
+			this->minDate_But->TabIndex = 26;
+			this->minDate_But->UseVisualStyleBackColor = false;
+			// 
+			// maxDate_But
+			// 
+			this->maxDate_But->AutoSize = true;
+			this->maxDate_But->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->maxDate_But->FlatAppearance->BorderSize = 0;
+			this->maxDate_But->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->maxDate_But->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->maxDate_But->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->maxDate_But->ImageIndex = 0;
+			this->maxDate_But->ImageList = this->imageList1;
+			this->maxDate_But->Location = System::Drawing::Point(43, 187);
+			this->maxDate_But->Name = L"maxDate_But";
+			this->maxDate_But->Size = System::Drawing::Size(46, 46);
+			this->maxDate_But->TabIndex = 27;
+			this->maxDate_But->UseVisualStyleBackColor = false;
+			// 
+			// exif_but
+			// 
+			this->exif_but->AutoSize = true;
+			this->exif_but->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->exif_but->FlatAppearance->BorderSize = 0;
+			this->exif_but->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->exif_but->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->exif_but->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->exif_but->ImageIndex = 0;
+			this->exif_but->ImageList = this->imageList1;
+			this->exif_but->Location = System::Drawing::Point(43, 29);
+			this->exif_but->Name = L"exif_but";
+			this->exif_but->Size = System::Drawing::Size(46, 46);
+			this->exif_but->TabIndex = 28;
+			this->exif_but->UseVisualStyleBackColor = false;
 			// 
 			// MetadataFilter
 			// 
@@ -332,7 +382,9 @@ namespace Pffff {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			this->Controls->Add(this->minDate_picBut);
+			this->Controls->Add(this->exif_but);
+			this->Controls->Add(this->maxDate_But);
+			this->Controls->Add(this->minDate_But);
 			this->Controls->Add(this->versionText);
 			this->Controls->Add(this->label10);
 			this->Controls->Add(this->label9);
@@ -341,7 +393,6 @@ namespace Pffff {
 			this->Controls->Add(this->maxDateMM);
 			this->Controls->Add(this->maxDateYYYY);
 			this->Controls->Add(this->label7);
-			this->Controls->Add(this->maxDate_picBut);
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->minDateDD);
 			this->Controls->Add(this->label5);
@@ -352,15 +403,11 @@ namespace Pffff {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->helperImg);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->exifPicBut);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
 			this->Name = L"MetadataFilter";
 			this->Size = System::Drawing::Size(650, 415);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->exifPicBut))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->helperImg))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->maxDate_picBut))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minDate_picBut))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -378,8 +425,55 @@ namespace Pffff {
 
 		private: System::Void minDate_click(System::Object^ sender, System::EventArgs^ e)
 		{
-			Functions->addToConsole("clicked on minDate");
-			//this->minDate_picBut->Image = Image::FromFile("C:\\Users\\o\\source\\repos\\Pffff_git\\Images\\true_icon.png"); // HAVE TO CHANGE TO RELATIVE
+			if (this->minDate_But->ImageIndex == 0)
+			{
+				this->minDate_But->ImageIndex = 1;
+				Setting->checkMinDate = true;
+				Int64 num64;
+				String^ newDate = this->minDateYYYY->Text + this->minDateMM->Text + this->minDateDD->Text;
+				Int64::TryParse(newDate, num64); //convert newDate <String^> to Int64 (custom dateformat)
+				Functions->setMinDate(num64);
+			}
+			else
+			{
+				this->minDate_But->ImageIndex = 0;
+				Setting->checkMinDate = false;
+			}
+		}
+
+		private: System::Void maxDate_click(System::Object^ sender, System::EventArgs^ e)
+		{
+			if (this->maxDate_But->ImageIndex == 0)
+			{
+				this->maxDate_But->ImageIndex = 1;
+				Setting->checkMaxDate = true;
+				Int64 num64;
+				String^ newDate = this->maxDateYYYY->Text + this->maxDateMM->Text + this->maxDateDD->Text;
+				Int64::TryParse(newDate, num64); //convert newDate <String^> to Int64 (custom dateformat)
+				Functions->setMaxDate(num64);
+			}
+			else
+			{
+				this->maxDate_But->ImageIndex = 0;
+				Setting->checkMaxDate = false;
+
+			}	
+		}
+
+		private: System::Void exif_click(System::Object^ sender, System::EventArgs^ e)
+		{
+			if (this->exif_but->ImageIndex == 0)
+			{
+				this->exif_but->ImageIndex = 1;
+				Setting->checkExif = true;
+
+			}
+			else
+			{
+				this->exif_but->ImageIndex = 0;
+				Setting->checkExif = false;
+			}
+			
 		}
 
 	};

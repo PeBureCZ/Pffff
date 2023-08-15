@@ -24,6 +24,8 @@ private:
 	List<String^>^ filesFinded = gcnew List<String^>(); //indexed
 	List<String^>^ consoleText = gcnew List<String^>();
 	List<String^>^ directoryInFilter = gcnew List<String^>();
+	Int64 minDate = 19000101000000; //date format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
+	Int64 maxDate = 23001231000000; // 2300:12:31 00:00:00
 	int consoleActiveIndex = 0;
 
 public:
@@ -234,6 +236,8 @@ public:
 				if (minAndMaxDateCondition(returnDate))
 				{
 					datesFinded->Add(returnDate);
+					//returned format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
+					addToConsole(returnDate);
 					return true;
 				}
 				else return false;
@@ -258,6 +262,18 @@ public:
 	bool minAndMaxDateCondition(String^ dateString)
 	{
 		return true;
+	}
+
+	void setMinDate(Int64 newMinDate)
+	{
+		minDate = newMinDate;
+		addToConsole(minDate.ToString());
+	}
+
+	void setMaxDate(Int64 newMaxDate)
+	{
+		maxDate = newMaxDate;
+		addToConsole(maxDate.ToString());
 	}
 	
 };
