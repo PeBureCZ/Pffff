@@ -36,6 +36,7 @@ namespace Pffff {
 			but_metaFilter->Click += gcnew System::EventHandler(this, &basicForm::but_metaFilter_Click);
 			but_specFilter->Click += gcnew System::EventHandler(this, &basicForm::but_specFilter_Click);
 			but_advancedFilter->Click += gcnew System::EventHandler(this, &basicForm::but_advancedFilter_Click);
+
 		}			   
 
 
@@ -252,7 +253,7 @@ namespace Pffff {
 
 		}
 #pragma endregion
-
+	
 		private: System::Void but_scan_Click(System::Object^ sender, System::EventArgs^ e)
 		{
 			this->scanControl1->Visible = true;
