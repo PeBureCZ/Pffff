@@ -10,6 +10,7 @@
 
 //Custom Classes start
 #include "ProgramSettings.h"
+#include "ProgramFunctions.h"
 //Custom Classes end
 
 namespace Pffff {

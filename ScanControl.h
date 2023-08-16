@@ -1,5 +1,6 @@
 #pragma once
 #include "ProgramSettings.h"
+#include "ProgramFunctions.h"
 
 
 using namespace System;

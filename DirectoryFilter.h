@@ -1,5 +1,6 @@
 #pragma once
 #include "ProgramSettings.h"
+#include "ProgramFunctions.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -19,7 +20,8 @@ namespace Pffff {
 		DirectoryFilter(ProgramSettings^ settingObj, ProgramFunctions^ functionObj)
 		{
 			InitializeComponent();
-			Add_but->Click += gcnew System::EventHandler(this, &Pffff::DirectoryFilter::AddButtClick);
+			Add_but->Click += gcnew System::EventHandler(this, &Pffff::DirectoryFilter::addButtClick);
+			Remove_but->Click += gcnew System::EventHandler(this, &Pffff::DirectoryFilter::removeButtClick);
 			initializeMain (settingObj, functionObj);
 		}
 
@@ -44,7 +46,8 @@ namespace Pffff {
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Button^ Add_but;
-	private: System::Windows::Forms::ListBox^ DirectoryListBox;
+	private: System::Windows::Forms::ListBox^ DirectoryBox;
+
 	private: System::Windows::Forms::Button^ Remove_but;
 	private: System::Windows::Forms::Label^ versionText;
 
@@ -73,7 +76,7 @@ namespace Pffff {
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->Add_but = (gcnew System::Windows::Forms::Button());
-			this->DirectoryListBox = (gcnew System::Windows::Forms::ListBox());
+			this->DirectoryBox = (gcnew System::Windows::Forms::ListBox());
 			this->Remove_but = (gcnew System::Windows::Forms::Button());
 			this->versionText = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
@@ -152,18 +155,18 @@ namespace Pffff {
 			this->Add_but->Text = L"Add";
 			this->Add_but->UseVisualStyleBackColor = false;
 			// 
-			// DirectoryListBox
+			// DirectoryBox
 			// 
-			this->DirectoryListBox->Font = (gcnew System::Drawing::Font(L"Sitka Banner", 7.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->DirectoryBox->Font = (gcnew System::Drawing::Font(L"Sitka Banner", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->DirectoryListBox->FormattingEnabled = true;
-			this->DirectoryListBox->ItemHeight = 14;
-			this->DirectoryListBox->Location = System::Drawing::Point(20, 142);
-			this->DirectoryListBox->MultiColumn = true;
-			this->DirectoryListBox->Name = L"DirectoryListBox";
-			this->DirectoryListBox->Size = System::Drawing::Size(612, 256);
-			this->DirectoryListBox->TabIndex = 9;
-			this->DirectoryListBox->SelectedIndexChanged += gcnew System::EventHandler(this, &DirectoryFilter::DirectoryListBox_SelectedIndexChanged);
+			this->DirectoryBox->FormattingEnabled = true;
+			this->DirectoryBox->ItemHeight = 16;
+			this->DirectoryBox->Location = System::Drawing::Point(20, 142);
+			this->DirectoryBox->MultiColumn = true;
+			this->DirectoryBox->Name = L"DirectoryBox";
+			this->DirectoryBox->Size = System::Drawing::Size(612, 260);
+			this->DirectoryBox->TabIndex = 9;
+			this->DirectoryBox->SelectedIndexChanged += gcnew System::EventHandler(this, &DirectoryFilter::DirectoryListBox_SelectedIndexChanged);
 			// 
 			// Remove_but
 			// 
@@ -195,7 +198,7 @@ namespace Pffff {
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->Controls->Add(this->versionText);
 			this->Controls->Add(this->Remove_but);
-			this->Controls->Add(this->DirectoryListBox);
+			this->Controls->Add(this->DirectoryBox);
 			this->Controls->Add(this->Add_but);
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
@@ -215,6 +218,8 @@ namespace Pffff {
 #pragma endregion
 		ProgramSettings^ Setting;
 		ProgramFunctions^ Functions;
+		int selectedDirecoryIndex = -1;
+
 		void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
 		{
 			Setting = setting;
@@ -222,11 +227,11 @@ namespace Pffff {
 			this->versionText->Text = Setting->getProgramVersion();
 		}
 		
-		private: System::Void AddButtClick(System::Object^ sender, System::EventArgs^ e)
+		private: System::Void addButtClick(System::Object^ sender, System::EventArgs^ e)
 		{
 			if (Directory::Exists(this->DirectoryTextBox->Text))
 			{
-				this->DirectoryListBox->Items->Add(this->DirectoryTextBox->Text);
+				this->DirectoryBox->Items->Add(this->DirectoryTextBox->Text);
 				Functions->addDirectoryPath(this->DirectoryTextBox->Text);
 				this->DirectoryTextBox->Text = L"Add directory here...";
 			}
@@ -236,6 +241,26 @@ namespace Pffff {
 			}
 
 		}
+
+		private: System::Void removeButtClick(System::Object^ sender, System::EventArgs^ e)
+		{
+			if (DirectoryBox->Items->Count == 0)
+			{
+				Functions->addToConsole("NO INDEX TO DELETE");
+				Functions->addToConsole(DirectoryBox->SelectedIndex.ToString());
+
+			}
+			else if (DirectoryBox->SelectedIndex != -1)
+			{
+				DirectoryBox->Items->RemoveAt(this->DirectoryBox->SelectedIndex);
+			}
+		}
+
+/*		private: System::Void directoryIndexSelected(System::Object^ sender, System::EventArgs^ e)
+		{
+			Functions->addToConsole("index selected");
+		}	  */ 
+
 	private: System::Void DirectoryListBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
 };

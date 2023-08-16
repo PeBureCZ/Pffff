@@ -1,5 +1,5 @@
 #pragma once
-#include "ProgramFunctions.h"
+
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -10,20 +10,15 @@ using namespace System::Drawing;
 
 public ref class ProgramSettings
 {
-//public:
-//
-
-
 public: 
-    size_t maxByteExifScan;
-    size_t maxByteFileScan;
-    String^ maxDate;
-    String^ minDate;
+    size_t maxByteExifScan = 120; //for advanced
+    size_t maxByteFileScan = 8388608; //for advanced
 
     bool checkMinDate = false;
     bool checkMaxDate = false;
-    bool checkExif;
-    String^ programVersion = L"v.0.0.230814a   ";
+    bool checkExif = false;
+    String^ programVersion = L" Alfa v.0.1.230816a   ";
+
     void testFunction()
     {
 
@@ -32,19 +27,6 @@ public:
     {
         return programVersion;
     }
-
-
-
-
-//
-    //ProgramSettings() : checkExif(true), maxByteExifScan(120), maxByteFileScan(10000000)
-    //{
-    //    //constructor...
-    //}
-//
-//    //size_t nothingYet();
-//
-//private:
 };
 
 

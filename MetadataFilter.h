@@ -1,5 +1,6 @@
 #pragma once
 #include "ProgramSettings.h"
+#include "ProgramFunctions.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -28,6 +29,14 @@ namespace Pffff {
 			minDate_But->Click += gcnew System::EventHandler(this, &Pffff::MetadataFilter::minDate_click);
 			maxDate_But->Click += gcnew System::EventHandler(this, &Pffff::MetadataFilter::maxDate_click);
 			exif_but->Click += gcnew System::EventHandler(this, &Pffff::MetadataFilter::exif_click);
+
+			minDateYYYY->TextChanged += gcnew System::EventHandler(this, &Pffff::MetadataFilter::onChangeMinYYYY);
+			minDateMM->TextChanged += gcnew System::EventHandler(this, &Pffff::MetadataFilter::onChangeMinMM);
+			minDateDD->TextChanged += gcnew System::EventHandler(this, &Pffff::MetadataFilter::onChangeMinDD);
+
+			maxDateYYYY->TextChanged += gcnew System::EventHandler(this, &Pffff::MetadataFilter::onChangeMaxYYYY);
+			maxDateMM->TextChanged += gcnew System::EventHandler(this, &Pffff::MetadataFilter::onChangeMaxMM);
+			maxDateDD->TextChanged += gcnew System::EventHandler(this, &Pffff::MetadataFilter::onChangeMaxDD);
 		}
 
 	protected:
@@ -78,9 +87,12 @@ namespace Pffff {
 	private: System::Windows::Forms::Label^ versionText;
 
 	private: System::Windows::Forms::ImageList^ imageList1;
-	private: System::Windows::Forms::Button^ minDate_But;
+
 	private: System::Windows::Forms::Button^ maxDate_But;
 	private: System::Windows::Forms::Button^ exif_but;
+	private: System::Windows::Forms::Button^ minDate_But;
+	private: System::Windows::Forms::Label^ minDateValidText;
+	private: System::Windows::Forms::Label^ maxDateValidText;
 
 
 
@@ -128,6 +140,8 @@ namespace Pffff {
 			this->minDate_But = (gcnew System::Windows::Forms::Button());
 			this->maxDate_But = (gcnew System::Windows::Forms::Button());
 			this->exif_but = (gcnew System::Windows::Forms::Button());
+			this->minDateValidText = (gcnew System::Windows::Forms::Label());
+			this->maxDateValidText = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->helperImg))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -312,13 +326,14 @@ namespace Pffff {
 			// imageList1
 			// 
 			this->imageList1->ImageStream = (cli::safe_cast<System::Windows::Forms::ImageListStreamer^>(resources->GetObject(L"imageList1.ImageStream")));
-			this->imageList1->TransparentColor = System::Drawing::Color::Transparent;
+			this->imageList1->TransparentColor = System::Drawing::Color::IndianRed;
 			this->imageList1->Images->SetKeyName(0, L"false_icon.png");
 			this->imageList1->Images->SetKeyName(1, L"true_icon.png");
 			// 
 			// minDate_But
 			// 
-			this->minDate_But->AutoSize = true;
+			this->minDate_But->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
+				static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->minDate_But->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->minDate_But->FlatAppearance->BorderSize = 0;
@@ -326,13 +341,12 @@ namespace Pffff {
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->minDate_But->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			this->minDate_But->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
-				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->minDate_But->ForeColor = System::Drawing::Color::Red;
 			this->minDate_But->ImageIndex = 0;
 			this->minDate_But->ImageList = this->imageList1;
 			this->minDate_But->Location = System::Drawing::Point(43, 108);
 			this->minDate_But->Name = L"minDate_But";
-			this->minDate_But->Size = System::Drawing::Size(46, 46);
+			this->minDate_But->Size = System::Drawing::Size(46, 48);
 			this->minDate_But->TabIndex = 26;
 			this->minDate_But->UseVisualStyleBackColor = false;
 			// 
@@ -376,12 +390,44 @@ namespace Pffff {
 			this->exif_but->TabIndex = 28;
 			this->exif_but->UseVisualStyleBackColor = false;
 			// 
+			// minDateValidText
+			// 
+			this->minDateValidText->AutoSize = true;
+			this->minDateValidText->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->minDateValidText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->minDateValidText->ForeColor = System::Drawing::Color::Red;
+			this->minDateValidText->Location = System::Drawing::Point(386, 119);
+			this->minDateValidText->Name = L"minDateValidText";
+			this->minDateValidText->Size = System::Drawing::Size(147, 17);
+			this->minDateValidText->TabIndex = 29;
+			this->minDateValidText->Text = L"Invalid date format!";
+			this->minDateValidText->Visible = false;
+			// 
+			// maxDateValidText
+			// 
+			this->maxDateValidText->AutoSize = true;
+			this->maxDateValidText->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->maxDateValidText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->maxDateValidText->ForeColor = System::Drawing::Color::Red;
+			this->maxDateValidText->Location = System::Drawing::Point(386, 204);
+			this->maxDateValidText->Name = L"maxDateValidText";
+			this->maxDateValidText->Size = System::Drawing::Size(147, 17);
+			this->maxDateValidText->TabIndex = 30;
+			this->maxDateValidText->Text = L"Invalid date format!";
+			this->maxDateValidText->Visible = false;
+			// 
 			// MetadataFilter
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->Controls->Add(this->maxDateValidText);
+			this->Controls->Add(this->minDateValidText);
 			this->Controls->Add(this->exif_but);
 			this->Controls->Add(this->maxDate_But);
 			this->Controls->Add(this->minDate_But);
@@ -429,10 +475,6 @@ namespace Pffff {
 			{
 				this->minDate_But->ImageIndex = 1;
 				Setting->checkMinDate = true;
-				Int64 num64;
-				String^ newDate = this->minDateYYYY->Text + this->minDateMM->Text + this->minDateDD->Text;
-				Int64::TryParse(newDate, num64); //convert newDate <String^> to Int64 (custom dateformat)
-				Functions->setMinDate(num64);
 			}
 			else
 			{
@@ -447,10 +489,6 @@ namespace Pffff {
 			{
 				this->maxDate_But->ImageIndex = 1;
 				Setting->checkMaxDate = true;
-				Int64 num64;
-				String^ newDate = this->maxDateYYYY->Text + this->maxDateMM->Text + this->maxDateDD->Text;
-				Int64::TryParse(newDate, num64); //convert newDate <String^> to Int64 (custom dateformat)
-				Functions->setMaxDate(num64);
 			}
 			else
 			{
@@ -466,15 +504,93 @@ namespace Pffff {
 			{
 				this->exif_but->ImageIndex = 1;
 				Setting->checkExif = true;
-
 			}
 			else
 			{
 				this->exif_but->ImageIndex = 0;
 				Setting->checkExif = false;
 			}
-			
 		}
+
+		private: System::Void onChangeMinYYYY(System::Object^ sender, System::EventArgs^ e)
+		{
+			this->minDateYYYY->Text = Functions->setMinYYYY(this->minDateYYYY->Text); //return corected value
+			checkLenghtOfMinDateString(); //set min date to Functions!
+		}
+
+		private: System::Void onChangeMinMM(System::Object^ sender, System::EventArgs^ e)
+		{
+			this->minDateMM->Text = Functions->setMinMM(this->minDateMM->Text); //return corected value
+			checkLenghtOfMinDateString(); //set min date to Functions!
+		}
+
+		private: System::Void onChangeMinDD(System::Object^ sender, System::EventArgs^ e)
+		{
+			this->minDateDD->Text = Functions->setMinDD(this->minDateDD->Text); //return corected value
+			checkLenghtOfMinDateString(); //set min date to Functions!
+		}
+
+		private: System::Void onChangeMaxYYYY(System::Object^ sender, System::EventArgs^ e)
+		{
+			this->maxDateYYYY->Text = Functions->setMaxYYYY(this->maxDateYYYY->Text); //return corected value
+			checkLenghtOfMaxDateString(); //set max date to Functions!
+		}
+
+		private: System::Void onChangeMaxMM(System::Object^ sender, System::EventArgs^ e)
+		{
+			this->maxDateMM->Text = Functions->setMaxMM(this->maxDateMM->Text); //return corected value
+			checkLenghtOfMaxDateString(); //set max date to Functions!
+		}
+
+		private: System::Void onChangeMaxDD(System::Object^ sender, System::EventArgs^ e)
+		{
+			this->maxDateDD->Text = Functions->setMaxDD(this->maxDateDD->Text); //return corected value
+			checkLenghtOfMaxDateString(); //set max date to Functions!
+		}
+
+		void checkLenghtOfMinDateString()
+		{
+			String^ checkedLength = this->minDateYYYY->Text + this->minDateMM->Text + this->minDateDD->Text;
+			if (checkedLength->Length == 8)
+			{
+				this->minDateValidText->Visible = false;
+				Int64 num64;
+				String^ newDate = this->minDateYYYY->Text + this->minDateMM->Text + this->minDateDD->Text + "000000"; //6x zero for hours, mins, secs
+				if (Int64::TryParse(newDate, num64)) //convert newDate <String^> to Int64 (custom dateformat)
+				{
+					Functions->setMinDate(num64);
+				}
+				else
+				{
+					this->minDateValidText->Visible = true;
+				}
+				return;
+			}
+			this->minDateValidText->Visible = true;
+		}
+
+		void checkLenghtOfMaxDateString()
+		{
+			String^ checkedLength = this->maxDateYYYY->Text + this->maxDateMM->Text + this->maxDateDD->Text;
+			if (checkedLength->Length == 8)
+			{
+				this->maxDateValidText->Visible = false;
+				Int64 num64;
+				String^ newDate = this->maxDateYYYY->Text + this->maxDateMM->Text + this->maxDateDD->Text + "000000"; //6x zero for hours, mins, secs
+				if (Int64::TryParse(newDate, num64)) //convert newDate <String^> to Int64 (custom dateformat)
+				{
+					Functions->setMaxDate(num64);
+				}
+				else
+				{
+					this->maxDateValidText->Visible = true;
+				}
+				return;
+			}
+			this->maxDateValidText->Visible = true;
+		}
+
+			   
 
 	};
 }

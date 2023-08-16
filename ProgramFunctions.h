@@ -1,6 +1,5 @@
 #pragma once
-#include "ProgramFunctions.h"
-
+#include "ProgramSettings.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -9,10 +8,8 @@ using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
 
-//CUSTOM START
 using namespace System::IO;
 using namespace System::Collections::Generic;
-//CUSTOM END
 
 public ref class ProgramFunctions
 {
@@ -27,11 +24,22 @@ private:
 	Int64 minDate = 19000101000000; //date format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
 	Int64 maxDate = 23001231000000; // 2300:12:31 00:00:00
 	int consoleActiveIndex = 0;
+	ProgramSettings^ Settings;
 
-public:
+public: 
+	//void initializeSettings(ProgramSettings^ settingsObj)
+	//{
+	//	Settings = settingsObj;
+	//}
+
 	String^ functionTesting()
 	{
 		return "";
+	}
+
+	void initializeSettings(ProgramSettings^ SettingObj)
+	{
+		Settings = SettingObj;
 	}
 
 	int getFilesFindedCount()
@@ -110,14 +118,12 @@ public:
 				if (FindDateFormat(filesForScan[0]))
 				{
 					filesFinded->Add(filesForScan[0]);
+					addToConsole("Finded new file at directory: " + filesForScan[0]);
 				}
 				filesForScan->RemoveAt(0);
 			} while (filesForScan->Count > 0);
 		}
-		else
-		{
-			
-		}
+		addToConsole("Scan end...");
 	}
 
 	void findNewFilesInDirectory(String^ path, int lastIndexPath)
@@ -165,35 +171,27 @@ public:
 			array<Byte>^ byteArray = File::ReadAllBytes(path);
 			List<Byte>^ bytesVec = gcnew List<Byte>(byteArray);
 			size_t scanSize = 0;
-			if (450000 < bytesVec->Count) //NEED REWORK (maxByteScan -> setting)
+			if (Settings->maxByteFileScan < bytesVec->Count)
 			{
-				scanSize = 450000;
+				scanSize = Settings->maxByteFileScan;
 			}
 			else
 			{
 				scanSize = bytesVec->Count;
 			}
 
-			if (450000 < 18 && bytesVec->Count < 18) //NEED REWORK (maxByteScan -> setting)
+			if (Settings->maxByteFileScan < 18 && bytesVec->Count < 18)
 			{
 				return false;
 			}
-			if (false) //NEED REWORK - CHECK EXIF ->setting
-			{
-				/*return ScanJpgExif(bytesVec, scanSize);*/
-				return false;
-			}
-			else
-			{
-				return scanJpgNoExif(bytesVec, scanSize);
-			}
+			if (Settings->checkExif) return scanJpgExif(bytesVec, scanSize);
+			else return scanJpgNoExif(bytesVec, scanSize);
 		}
 		catch (Exception^ ex)
 		{
 			return false;
 		}
 	}
-
 
 	bool scanDateFormatOfJpg(List<Byte>^ fileOpened, int index)
 	{
@@ -227,21 +225,16 @@ public:
 				for (size_t l = 0; l < testNumChar->Length; l++)
 				{
 					//addToConsole(testNumChar[l].ToString());
-					if (!Char::IsDigit(testNumChar[l]))
-					{
-						return false;
-					}
+					if (!Char::IsDigit(testNumChar[l])) return false;
 				}
 				String^ returnDate = gcnew String(testNumChar);
-				if (minAndMaxDateCondition(returnDate))
+				if (minAndMaxDateCondition(returnDate)) //check min and max date condition (metadataFilter)
 				{
 					datesFinded->Add(returnDate);
 					//returned format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
-					addToConsole(returnDate);
 					return true;
 				}
 				else return false;
-
 			}
 		}
 		return false;
@@ -259,21 +252,177 @@ public:
 		return false;
 	}
 
-	bool minAndMaxDateCondition(String^ dateString)
+	bool scanJpgExif(List<Byte>^ fileOpened, size_t maxScanSize)
 	{
+		bool exifChecked = false;
+		for (size_t i = 0; i < maxScanSize; i++)
+		{
+			if (static_cast<unsigned char>(fileOpened[i]) == 0xFF && static_cast<unsigned char>(fileOpened[i + 1]) == 0XE1)
+				{
+				    exifChecked = true; //EXIF FINDED!
+				}
+			else if (scanDateFormatOfJpg(fileOpened, i)) return true;
+			else if (exifChecked == false && i >= Settings->maxByteExifScan) return false;
+		}
+		return false;
+
+		////    bool exifChecked = false;
+////    for (size_t i = 0; i < maxScanSize; i++)
+////    {
+////        if (static_cast<unsigned char>(fileOpened[i]) == 0xFF and static_cast<unsigned char>(fileOpened[i + 1]) == 0XE1)
+////        {
+////            //EXIF FINDED!
+////            std::cout << "exif finded" << std::endl;
+////            exifChecked = true;
+////        }
+////        else if (scanDateFormatOfJpg(fileOpened, i)) return true;
+////        /*      else if (exifChecked == false && i >= settingRefObj.maxByteExifScan) return false;*/
+////    }
+//    return false;
+	}
+
+	bool minAndMaxDateCondition(String^ dateStringChecked)
+	{
+		Int64 checkedDate = Int64::Parse(dateStringChecked);
+		if (Settings->checkMinDate && minDate > checkedDate)return false;
+		if (Settings->checkMaxDate && maxDate < checkedDate) return false;
 		return true;
 	}
 
 	void setMinDate(Int64 newMinDate)
 	{
 		minDate = newMinDate;
-		addToConsole(minDate.ToString());
 	}
 
 	void setMaxDate(Int64 newMaxDate)
 	{
 		maxDate = newMaxDate;
-		addToConsole(maxDate.ToString());
+	}
+
+	String^ setMinYYYY(String^ newYYYY)
+	{
+		Int32 numDate;
+		if (Int32::TryParse(newYYYY, numDate))
+		{
+			if (numDate > 9999)
+			{
+				return "1900";
+			}
+			else if (newYYYY->Length == 0)
+			{
+				return "0001";
+			}
+			return newYYYY;
+		}
+		else
+		{
+			return "1900";
+		}
+	}
+
+	String^ setMinMM(String^ newMM)
+	{
+		Int32 numDate;
+		if (Int32::TryParse(newMM, numDate))
+		{
+			if (numDate > 12)
+			{
+				return "12";
+			}
+			else if (newMM->Length == 0)
+			{
+				return "01";
+			}
+			return newMM;
+		}
+		else
+		{
+			return "01";
+		}
+	}
+
+	String^ setMinDD(String^ newDD)
+	{
+		Int32 numDate;
+		if (Int32::TryParse(newDD, numDate))
+		{
+			if (numDate > 31)
+			{
+				return "31";
+			}
+			else if (newDD->Length == 0)
+			{
+				return "01";
+			}
+			return newDD;
+		}
+		else
+		{
+			return "01";
+		}
+	}
+
+	String^ setMaxYYYY(String^ newYYYY)
+	{
+		Int32 numDate;
+		if (Int32::TryParse(newYYYY, numDate))
+		{
+			if (numDate > 9999)
+			{
+				return "9999";
+			}
+			else if (newYYYY->Length == 0)
+			{
+				return "0001";
+			}
+			return newYYYY;
+		}
+		else
+		{
+			return "2300";
+		}
+	}
+
+	String^ setMaxMM(String^ newMM)
+	{
+		Int32 numDate;
+		if (Int32::TryParse(newMM, numDate))
+		{
+			if (numDate > 12)
+			{
+				return "12";
+			}
+			else if (newMM->Length == 0)
+			{
+				return "01";
+			}
+			return newMM;
+		}
+		else
+		{
+			return "01";
+		}
+	}
+
+	String^ setMaxDD(String^ newDD)
+	{
+		Int32 numDate;
+		if (Int32::TryParse(newDD, numDate))
+		{
+			if (numDate > 31)
+			{
+				return "31";
+			}
+			else if (newDD->Length == 0)
+			{
+				return "01";
+			}
+			return newDD;
+		}
+		else
+		{
+			return "01";
+		}
 	}
 	
 };
