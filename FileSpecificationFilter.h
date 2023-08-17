@@ -299,16 +299,16 @@ namespace Pffff {
 			// 
 			// NameTextBox
 			// 
-			this->NameTextBox->Font = (gcnew System::Drawing::Font(L"Sitka Banner", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->NameTextBox->Font = (gcnew System::Drawing::Font(L"Sitka Banner", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->NameTextBox->FormattingEnabled = true;
 			this->NameTextBox->HorizontalScrollbar = true;
-			this->NameTextBox->ItemHeight = 16;
+			this->NameTextBox->ItemHeight = 19;
 			this->NameTextBox->Location = System::Drawing::Point(19, 83);
 			this->NameTextBox->MultiColumn = true;
 			this->NameTextBox->Name = L"NameTextBox";
 			this->NameTextBox->ScrollAlwaysVisible = true;
-			this->NameTextBox->Size = System::Drawing::Size(215, 100);
+			this->NameTextBox->Size = System::Drawing::Size(215, 99);
 			this->NameTextBox->TabIndex = 33;
 			// 
 			// FileSpecificationFilter
@@ -370,14 +370,25 @@ namespace Pffff {
 		{
 
 			NameTextBox->Items->Add(TextBox->Text);
+			Functions->addNameToFilter(TextBox->Text);
 		}
 
 		private: System::Void removeButtClick(System::Object^ sender, System::EventArgs^ e)
 		{
 			if (NameTextBox->Items->Count != 0 )
 			{
-				if (NameTextBox->SelectedIndex == -1) NameTextBox->Items->RemoveAt(0);
-				else NameTextBox->Items->RemoveAt(NameTextBox->SelectedIndex);	
+				if (NameTextBox->SelectedIndex == -1)
+				{
+					Functions->removeNameFromFilter(0); //remove in Functions (list)
+					NameTextBox->Items->RemoveAt(0); //remove in this->NameTextBox
+				}
+				else
+				{
+					Functions->removeNameFromFilter(NameTextBox->SelectedIndex); //remove in Functions (list)
+					NameTextBox->Items->RemoveAt(NameTextBox->SelectedIndex);	//remove in this->NameTextBox
+				}
+					
+
 			}
 		}
 

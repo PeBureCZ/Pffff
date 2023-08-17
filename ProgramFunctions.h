@@ -22,8 +22,11 @@ private:
 	List<String^>^ filesFinded = gcnew List<String^>(); //indexed
 	List<String^>^ consoleText = gcnew List<String^>();
 	List<String^>^ directoryInFilter = gcnew List<String^>();
+	List<String^>^ nameMustContain = gcnew List<String^>();
+
 	Int64 minDate = 19000101000000; //date format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
 	Int64 maxDate = 23001231000000; // 2300:12:31 00:00:00
+
 	int consoleActiveIndex = 0;
 	ProgramSettings^ Settings;
 public:
@@ -317,6 +320,18 @@ public:
 		}
 	}
 
+	//FILE SPECIFICATION FILTER FUNCTIONS START________________________________________________
+
+	void addNameToFilter(String^ name)
+	{
+		nameMustContain->Add(name);
+	}
+
+	void removeNameFromFilter(int index)
+	{
+		nameMustContain->RemoveAt(index);
+	}
+
 	private: //PRIVATE FUNCTIONS START________________________________________________
 	
 
@@ -361,8 +376,11 @@ public:
 					directories->Add(file);
 				}
 				else if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) || Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
-				{
-
+				{	
+					if (nameMustContain->Count > 0)
+					{
+						if (!containName(file)) continue; //The file does not contain the requested text in its name or in its directory path
+					}
 					if (Settings->checkMinFileSize)
 					{
 						FileInfo^ fileInfo = gcnew FileInfo(file);
@@ -461,6 +479,17 @@ public:
 			else if (exifChecked == false && i >= Settings->maxByteExifScan) return false;
 		}
 		return false;
+	}
+
+	bool containName(String^ pathAndName)
+	{
+		int count = nameMustContain->Count;
+		for (int i = 0; i < count; i++)
+		{
+			if (pathAndName->Contains(nameMustContain[i])) return true;
+		}
+		return false;
+
 	}
 	
 };
