@@ -38,7 +38,7 @@ namespace Pffff {
 		}
 
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
-	private: System::Windows::Forms::TextBox^ DirectoryTextBox;
+	private: System::Windows::Forms::TextBox^ NameTextBox;
 
 
 	private: System::Windows::Forms::Label^ label1;
@@ -70,7 +70,7 @@ namespace Pffff {
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(DirectoryFilter::typeid));
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			this->DirectoryTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->NameTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
@@ -93,15 +93,15 @@ namespace Pffff {
 			this->pictureBox1->TabIndex = 1;
 			this->pictureBox1->TabStop = false;
 			// 
-			// DirectoryTextBox
+			// NameTextBox
 			// 
-			this->DirectoryTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->NameTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->DirectoryTextBox->Location = System::Drawing::Point(151, 66);
-			this->DirectoryTextBox->Name = L"DirectoryTextBox";
-			this->DirectoryTextBox->Size = System::Drawing::Size(257, 20);
-			this->DirectoryTextBox->TabIndex = 3;
-			this->DirectoryTextBox->Text = L"Add directory here...";
+			this->NameTextBox->Location = System::Drawing::Point(151, 66);
+			this->NameTextBox->Name = L"DirectoryTextBox";
+			this->NameTextBox->Size = System::Drawing::Size(257, 20);
+			this->NameTextBox->TabIndex = 3;
+			this->NameTextBox->Text = L"Add directory here...";
 			// 
 			// label1
 			// 
@@ -204,7 +204,7 @@ namespace Pffff {
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->DirectoryTextBox);
+			this->Controls->Add(this->NameTextBox);
 			this->Controls->Add(this->pictureBox1);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
@@ -229,15 +229,15 @@ namespace Pffff {
 		
 		private: System::Void addButtClick(System::Object^ sender, System::EventArgs^ e)
 		{
-			if (Directory::Exists(this->DirectoryTextBox->Text))
+			if (Directory::Exists(this->NameTextBox->Text))
 			{
-				this->DirectoryBox->Items->Add(this->DirectoryTextBox->Text);
-				Functions->addDirectoryPath(this->DirectoryTextBox->Text);
-				this->DirectoryTextBox->Text = L"Add directory here...";
+				this->DirectoryBox->Items->Add(this->NameTextBox->Text);
+				Functions->addDirectoryPath(this->NameTextBox->Text);
+				this->NameTextBox->Text = L"Add directory here...";
 			}
 			else
 			{
-				this->DirectoryTextBox->Text = L"Incorrectly entered or nonexistent directory...";
+				this->NameTextBox->Text = L"Incorrectly entered or nonexistent directory...";
 			}
 
 		}

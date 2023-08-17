@@ -25,6 +25,8 @@ namespace Pffff {
 
 			MinSize_but->Click += gcnew System::EventHandler(this, &Pffff::FileSpecificationFilter::minSizeChecked);
 			minSize_text->TextChanged += gcnew System::EventHandler(this, &Pffff::FileSpecificationFilter::OnTextChanged);
+			Add_but->Click += gcnew System::EventHandler(this, &Pffff::FileSpecificationFilter::addButtClick);
+			Remove_but->Click += gcnew System::EventHandler(this, &Pffff::FileSpecificationFilter::removeButtClick);
 		}
 
 	protected:
@@ -43,11 +45,14 @@ namespace Pffff {
 	private: System::Windows::Forms::PictureBox^ pictureBox2;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::TextBox^ minSize_text;
+	private: System::Windows::Forms::TextBox^ TextBox;
 
 
-	private: System::Windows::Forms::TextBox^ textBox2;
-	private: System::Windows::Forms::TextBox^ uc2_dirText;
-	private: System::Windows::Forms::Button^ button1;
+
+
+
+	private: System::Windows::Forms::Button^ Add_but;
+
 	private: System::Windows::Forms::PictureBox^ pictureBox3;
 	private: System::Windows::Forms::PictureBox^ pictureBox4;
 	private: System::Windows::Forms::Label^ Support_text;
@@ -63,6 +68,10 @@ namespace Pffff {
 	private: System::Windows::Forms::ImageList^ imageList;
 	private: System::Windows::Forms::Button^ checkJpg_but;
 	private: System::Windows::Forms::Button^ checkPng_but;
+	private: System::Windows::Forms::Button^ Remove_but;
+	private: System::Windows::Forms::ListBox^ NameTextBox;
+
+
 
 
 	private: System::ComponentModel::IContainer^ components;
@@ -87,9 +96,8 @@ namespace Pffff {
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->minSize_text = (gcnew System::Windows::Forms::TextBox());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->uc2_dirText = (gcnew System::Windows::Forms::TextBox());
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->TextBox = (gcnew System::Windows::Forms::TextBox());
+			this->Add_but = (gcnew System::Windows::Forms::Button());
 			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
 			this->pictureBox4 = (gcnew System::Windows::Forms::PictureBox());
 			this->Support_text = (gcnew System::Windows::Forms::Label());
@@ -98,6 +106,8 @@ namespace Pffff {
 			this->imageList = (gcnew System::Windows::Forms::ImageList(this->components));
 			this->checkJpg_but = (gcnew System::Windows::Forms::Button());
 			this->checkPng_but = (gcnew System::Windows::Forms::Button());
+			this->Remove_but = (gcnew System::Windows::Forms::Button());
+			this->NameTextBox = (gcnew System::Windows::Forms::ListBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->BeginInit();
@@ -143,37 +153,28 @@ namespace Pffff {
 			this->minSize_text->Text = L"8";
 			this->minSize_text->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
-			// textBox2
+			// TextBox
 			// 
-			this->textBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->TextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBox2->Location = System::Drawing::Point(397, 117);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(130, 20);
-			this->textBox2->TabIndex = 9;
-			this->textBox2->Text = L"Name must contain...";
+			this->TextBox->Location = System::Drawing::Point(292, 95);
+			this->TextBox->Name = L"TextBox";
+			this->TextBox->Size = System::Drawing::Size(130, 20);
+			this->TextBox->TabIndex = 9;
+			this->TextBox->Text = L"Name must contain...";
 			// 
-			// uc2_dirText
+			// Add_but
 			// 
-			this->uc2_dirText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Add_but->AutoSize = true;
+			this->Add_but->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->uc2_dirText->Location = System::Drawing::Point(43, 83);
-			this->uc2_dirText->Multiline = true;
-			this->uc2_dirText->Name = L"uc2_dirText";
-			this->uc2_dirText->ReadOnly = true;
-			this->uc2_dirText->Size = System::Drawing::Size(296, 96);
-			this->uc2_dirText->TabIndex = 10;
-			// 
-			// button1
-			// 
-			this->button1->AutoSize = true;
-			this->button1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button1.Image")));
-			this->button1->Location = System::Drawing::Point(345, 117);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(46, 46);
-			this->button1->TabIndex = 11;
-			this->button1->Text = L"Add";
-			this->button1->UseVisualStyleBackColor = true;
+			this->Add_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Add_but.Image")));
+			this->Add_but->Location = System::Drawing::Point(240, 83);
+			this->Add_but->Name = L"Add_but";
+			this->Add_but->Size = System::Drawing::Size(46, 46);
+			this->Add_but->TabIndex = 11;
+			this->Add_but->Text = L"Add";
+			this->Add_but->UseVisualStyleBackColor = true;
 			// 
 			// pictureBox3
 			// 
@@ -284,12 +285,40 @@ namespace Pffff {
 			this->checkPng_but->TabIndex = 31;
 			this->checkPng_but->UseVisualStyleBackColor = false;
 			// 
+			// Remove_but
+			// 
+			this->Remove_but->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->Remove_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Remove_but.Image")));
+			this->Remove_but->Location = System::Drawing::Point(240, 135);
+			this->Remove_but->Name = L"Remove_but";
+			this->Remove_but->Size = System::Drawing::Size(46, 46);
+			this->Remove_but->TabIndex = 32;
+			this->Remove_but->Text = L"Remove";
+			this->Remove_but->UseVisualStyleBackColor = true;
+			// 
+			// NameTextBox
+			// 
+			this->NameTextBox->Font = (gcnew System::Drawing::Font(L"Sitka Banner", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->NameTextBox->FormattingEnabled = true;
+			this->NameTextBox->HorizontalScrollbar = true;
+			this->NameTextBox->ItemHeight = 16;
+			this->NameTextBox->Location = System::Drawing::Point(19, 83);
+			this->NameTextBox->MultiColumn = true;
+			this->NameTextBox->Name = L"NameTextBox";
+			this->NameTextBox->ScrollAlwaysVisible = true;
+			this->NameTextBox->Size = System::Drawing::Size(215, 100);
+			this->NameTextBox->TabIndex = 33;
+			// 
 			// FileSpecificationFilter
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->Controls->Add(this->NameTextBox);
+			this->Controls->Add(this->Remove_but);
 			this->Controls->Add(this->checkPng_but);
 			this->Controls->Add(this->checkJpg_but);
 			this->Controls->Add(this->MinSize_but);
@@ -297,9 +326,8 @@ namespace Pffff {
 			this->Controls->Add(this->Support_text);
 			this->Controls->Add(this->pictureBox4);
 			this->Controls->Add(this->pictureBox3);
-			this->Controls->Add(this->button1);
-			this->Controls->Add(this->uc2_dirText);
-			this->Controls->Add(this->textBox2);
+			this->Controls->Add(this->Add_but);
+			this->Controls->Add(this->TextBox);
 			this->Controls->Add(this->minSize_text);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->pictureBox2);
@@ -336,6 +364,21 @@ namespace Pffff {
 		{
 			minSize_text->Text = setMinFileSize(minSize_text->Text);
 			Functions->addToConsole(Setting->minFileSize.ToString());
+		}
+
+		private: System::Void addButtClick(System::Object^ sender, System::EventArgs^ e)
+		{
+
+			NameTextBox->Items->Add(TextBox->Text);
+		}
+
+		private: System::Void removeButtClick(System::Object^ sender, System::EventArgs^ e)
+		{
+			if (NameTextBox->Items->Count != 0 )
+			{
+				if (NameTextBox->SelectedIndex == -1) NameTextBox->Items->RemoveAt(0);
+				else NameTextBox->Items->RemoveAt(NameTextBox->SelectedIndex);	
+			}
 		}
 
 		ProgramSettings^ Setting;
