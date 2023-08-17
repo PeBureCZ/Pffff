@@ -2,7 +2,6 @@
 #include "ProgramSettings.h"
 #include "ProgramFunctions.h"
 
-
 using namespace System;
 using namespace System::ComponentModel;
 using namespace System::Collections;
@@ -28,15 +27,27 @@ namespace Pffff
 		//ScanControl()
 		{
 			InitializeComponent();
-			ScanBut->Click += gcnew System::EventHandler(this, &ScanControl::ScanBut_Click);
 			initializeMain(settingObj, functionObj);
 
+			ScanBut->Click += gcnew System::EventHandler(this, &ScanControl::ScanBut_Click);
+			previousBut->Click += gcnew System::EventHandler(this, &ScanControl::previous_Click);
+			nextBut->Click += gcnew System::EventHandler(this, &ScanControl::next_Click);
+			ImgTextBox->TextChanged += gcnew System::EventHandler(this, &ScanControl::OnTextChanged);
+			FindBox->SelectedValueChanged += gcnew System::EventHandler(this, &ScanControl::selectIndexInFindBox);
+			ResetBut->Click += gcnew System::EventHandler(this, &ScanControl::reset_Click);
+	
+
+		
+
 			//console buttons
-			/*but_advancedFilter->Click += gcnew System::EventHandler(this, &basicForm::but_advancedFilter_Click);*/
-			console_upMax_but->Click += gcnew System::EventHandler(this, &Pffff::ScanControl::upMaxConsoleOnClick);
-			console_up_but->Click += gcnew System::EventHandler(this, &Pffff::ScanControl::upConsoleOnClick);
-			console_down_but->Click += gcnew System::EventHandler(this, &Pffff::ScanControl::downConsoleOnClick);
-			console_downMax_but->Click += gcnew System::EventHandler(this, &Pffff::ScanControl::downMaxConsoleOnClick);
+
+			console_upMax_but->Click += gcnew System::EventHandler(this, &ScanControl::upMaxConsoleOnClick);
+			console_up_but->Click += gcnew System::EventHandler(this, &ScanControl::upConsoleOnClick);
+			console_down_but->Click += gcnew System::EventHandler(this, &ScanControl::downConsoleOnClick);
+			console_downMax_but->Click += gcnew System::EventHandler(this, &ScanControl::downMaxConsoleOnClick);
+
+			
+			
 		}
 
 	protected:
@@ -55,12 +66,14 @@ namespace Pffff
 	protected:
 
 	private: System::Windows::Forms::TextBox^ console;
-	private: System::Windows::Forms::Button^ resetBut;
+	private: System::Windows::Forms::Button^ ResetBut;
+
 
 	private: System::Windows::Forms::Label^ findedItemsLabel;
 	private: System::Windows::Forms::Label^ findedItemsCount;
 	private: System::Windows::Forms::Label^ versionText;
-	private: System::Windows::Forms::PictureBox^ imageBox;
+	private: System::Windows::Forms::PictureBox^ ImageBox;
+
 	private: System::Windows::Forms::Button^ previousBut;
 	private: System::Windows::Forms::Button^ nextBut;
 
@@ -89,11 +102,11 @@ namespace Pffff
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ScanControl::typeid));
 			this->ScanBut = (gcnew System::Windows::Forms::Button());
 			this->console = (gcnew System::Windows::Forms::TextBox());
-			this->resetBut = (gcnew System::Windows::Forms::Button());
+			this->ResetBut = (gcnew System::Windows::Forms::Button());
 			this->findedItemsLabel = (gcnew System::Windows::Forms::Label());
 			this->findedItemsCount = (gcnew System::Windows::Forms::Label());
 			this->versionText = (gcnew System::Windows::Forms::Label());
-			this->imageBox = (gcnew System::Windows::Forms::PictureBox());
+			this->ImageBox = (gcnew System::Windows::Forms::PictureBox());
 			this->previousBut = (gcnew System::Windows::Forms::Button());
 			this->nextBut = (gcnew System::Windows::Forms::Button());
 			this->ImgTextBox = (gcnew System::Windows::Forms::TextBox());
@@ -102,7 +115,7 @@ namespace Pffff
 			this->console_downMax_but = (gcnew System::Windows::Forms::Button());
 			this->console_up_but = (gcnew System::Windows::Forms::Button());
 			this->console_down_but = (gcnew System::Windows::Forms::Button());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->imageBox))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ImageBox))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// ScanBut
@@ -130,17 +143,17 @@ namespace Pffff
 			this->console->TabIndex = 1;
 			this->console->Text = L"Console start...";
 			// 
-			// resetBut
+			// ResetBut
 			// 
-			this->resetBut->BackColor = System::Drawing::Color::Gray;
-			this->resetBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->ResetBut->BackColor = System::Drawing::Color::Gray;
+			this->ResetBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->resetBut->Location = System::Drawing::Point(24, 89);
-			this->resetBut->Name = L"resetBut";
-			this->resetBut->Size = System::Drawing::Size(345, 35);
-			this->resetBut->TabIndex = 2;
-			this->resetBut->Text = L"Reset all filters , finded files, and paths";
-			this->resetBut->UseVisualStyleBackColor = false;
+			this->ResetBut->Location = System::Drawing::Point(24, 89);
+			this->ResetBut->Name = L"ResetBut";
+			this->ResetBut->Size = System::Drawing::Size(345, 35);
+			this->ResetBut->TabIndex = 2;
+			this->ResetBut->Text = L"Reset all finded files, and paths";
+			this->ResetBut->UseVisualStyleBackColor = false;
 			// 
 			// findedItemsLabel
 			// 
@@ -175,18 +188,18 @@ namespace Pffff
 			this->versionText->Text = L"versionText";
 			this->versionText->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
 			// 
-			// imageBox
+			// ImageBox
 			// 
-			this->imageBox->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
-			this->imageBox->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
-			this->imageBox->Cursor = System::Windows::Forms::Cursors::PanEast;
-			this->imageBox->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"imageBox.Image")));
-			this->imageBox->Location = System::Drawing::Point(408, 38);
-			this->imageBox->Name = L"imageBox";
-			this->imageBox->Size = System::Drawing::Size(220, 184);
-			this->imageBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
-			this->imageBox->TabIndex = 6;
-			this->imageBox->TabStop = false;
+			this->ImageBox->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
+			this->ImageBox->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			this->ImageBox->Cursor = System::Windows::Forms::Cursors::PanEast;
+			this->ImageBox->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ImageBox.Image")));
+			this->ImageBox->Location = System::Drawing::Point(408, 38);
+			this->ImageBox->Name = L"ImageBox";
+			this->ImageBox->Size = System::Drawing::Size(220, 184);
+			this->ImageBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->ImageBox->TabIndex = 6;
+			this->ImageBox->TabStop = false;
 			// 
 			// previousBut
 			// 
@@ -222,10 +235,11 @@ namespace Pffff
 			// FindBox
 			// 
 			this->FindBox->BackColor = System::Drawing::SystemColors::MenuHighlight;
+			this->FindBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
 			this->FindBox->FormattingEnabled = true;
 			this->FindBox->Location = System::Drawing::Point(24, 130);
 			this->FindBox->Name = L"FindBox";
-			this->FindBox->ScrollAlwaysVisible = true;
 			this->FindBox->Size = System::Drawing::Size(345, 121);
 			this->FindBox->TabIndex = 10;
 			// 
@@ -292,18 +306,18 @@ namespace Pffff
 			this->Controls->Add(this->ImgTextBox);
 			this->Controls->Add(this->nextBut);
 			this->Controls->Add(this->previousBut);
-			this->Controls->Add(this->imageBox);
+			this->Controls->Add(this->ImageBox);
 			this->Controls->Add(this->versionText);
 			this->Controls->Add(this->findedItemsCount);
 			this->Controls->Add(this->findedItemsLabel);
-			this->Controls->Add(this->resetBut);
+			this->Controls->Add(this->ResetBut);
 			this->Controls->Add(this->console);
 			this->Controls->Add(this->ScanBut);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
 			this->Name = L"ScanControl";
 			this->Size = System::Drawing::Size(650, 415);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->imageBox))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ImageBox))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -314,17 +328,24 @@ namespace Pffff
 		
 	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		//Functions->FindDateFormat("C:/Users/Bureš/Desktop/Doèasné dokumenty/added_meta.jpg");
+		if (Functions->scanningNow || Functions->scanned)
+		{
+			Functions->addToConsole("Can¡t scan again now...");
+			printConsole();
+		}
+		else
+		{
+			Functions->runScan();
+			printConsole();
+			this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
+			List<String^>^ filesFindedCopy = Functions->getFindedItemsPaths();
+			FindBox->ClearSelected();
+			for (size_t i = 0; i < filesFindedCopy->Count; i++)
+			{
+				FindBox->Items->Add(filesFindedCopy[i]);
+			}
+		}
 
-		Functions->runScan();
-		printConsole();
-		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
-		//{
-		//	this->findedItemsCount->Text = "true";
-		//}
-		//else this->findedItemsCount->Text = "false";
-
-		//addToConsole();
 	}
 
 	private: System::Void upMaxConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
@@ -349,6 +370,72 @@ namespace Pffff
 		printConsole();
 	}
 
+	private: System::Void selectIndexInFindBox(System::Object^ sender, System::EventArgs^ e)
+	{
+		ImgTextBox->Text = (FindBox->SelectedIndex + 1).ToString();
+		//CHANGE TEXT -> CHANGE IMAGE IN FUNCTION "OnTextChanged"
+	}
+
+	private: System::Void previous_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		Int32 index = Int32::Parse(ImgTextBox->Text);
+		ImgTextBox->Text = (index -1).ToString();
+
+	}
+
+	private: System::Void next_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		Int32 index = Int32::Parse(ImgTextBox->Text);
+		ImgTextBox->Text = (index + 1).ToString();
+	}
+
+	private: System::Void OnTextChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		Int32 numTested;
+		if (Int32::TryParse(ImgTextBox->Text, numTested) && numTested <= FindBox->Items->Count && numTested > 0)
+		{
+			changeImgByIndex(numTested);
+		}
+		else
+		{
+			ImgTextBox->Text = "0";
+			setDeffaultImage();
+		}
+	}
+
+	private: System::Void reset_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		FindBox->Items->Clear();
+		ImgTextBox->Text = "0";
+		findedItemsCount->Text = "0";
+		Functions->resetScanInFunctions(); //need refresh console
+		printConsole();
+	}
+
+	void changeImgByIndex(Int32 index)
+	{
+		if (isValidImg(Functions->getFindedItemPath(index)))
+		{
+			try
+			{
+				ImageBox->Image = Image::FromFile(Functions->getFindedItemPath(static_cast<int>(index) - 1));
+			}
+			catch (Exception^ ex)
+			{
+				Functions->addToConsole("Can´t open selected file(E1)...");
+				printConsole();
+				setDeffaultImage();
+			}
+
+		}
+		else
+		{
+			Functions->addToConsole("Can´t open selected file(E2)...");
+			printConsole();
+			setDeffaultImage();
+		}
+	}
+
 	ProgramSettings^ Setting;
 	ProgramFunctions^ Functions;
 	void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
@@ -363,6 +450,33 @@ namespace Pffff
 	{
 		this->console->Text = Functions->getConsoleOutput();
 	}
+
+	bool isValidImg(String^ imgPath)
+	{
+		if (File::Exists(imgPath))
+		{
+			array<Byte>^ imageBytes = File::ReadAllBytes(imgPath);
+			MemoryStream^ stream = gcnew MemoryStream(imageBytes);
+			try
+			{
+				Bitmap^ image = gcnew Bitmap(stream);
+				return true;
+			}
+			catch (Exception^ e)
+			{
+				return false;
+			}
+		}
+		else return false;
+		
+	}
+
+	void setDeffaultImage()
+	{
+		System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ScanControl::typeid));
+		this->ImageBox->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ImageBox.Image")));
+	}
+
 
 };
 }

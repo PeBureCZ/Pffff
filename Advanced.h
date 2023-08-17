@@ -9,7 +9,6 @@ using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
 
-
 namespace Pffff {
 
 	/// <summary>
@@ -22,6 +21,9 @@ namespace Pffff {
 		{
 			InitializeComponent();
 			initializeMain(settingObj, functionObj);
+
+			exifByte_text->TextChanged += gcnew System::EventHandler(this, &Pffff::Advanced::OnExifTextChanged);
+			fileByte_text->TextChanged += gcnew System::EventHandler(this, &Pffff::Advanced::OnFileTextChanged);
 		}
 
 	protected:
@@ -35,17 +37,29 @@ namespace Pffff {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::PictureBox^ pictureBox1;
-	private: System::Windows::Forms::TextBox^ textBox1;
-	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::PictureBox^ pictureBox2;
+	private: System::Windows::Forms::TextBox^ exifByte_text;
+	private: System::Windows::Forms::Label^ exifByte_label;
+	private: System::Windows::Forms::PictureBox^ markImg1;
+	protected:
+
+
+
+
 	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::TextBox^ textBox2;
-	private: System::Windows::Forms::Label^ label3;
-	private: System::Windows::Forms::PictureBox^ pictureBox3;
+	private: System::Windows::Forms::TextBox^ fileByte_text;
+	private: System::Windows::Forms::Label^ fileByte_label;
+	private: System::Windows::Forms::PictureBox^ markImg2;
+
+
+
 	private: System::Windows::Forms::Label^ label4;
-	private: System::Windows::Forms::PictureBox^ pictureBox4;
+
 	private: System::Windows::Forms::Label^ versionText;
+
+
+	private: System::Windows::Forms::ImageList^ imageList;
+
+	private: System::ComponentModel::IContainer^ components;
 
 	protected:
 
@@ -53,7 +67,7 @@ namespace Pffff {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -62,123 +76,101 @@ namespace Pffff {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(Advanced::typeid));
-			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
+			this->exifByte_text = (gcnew System::Windows::Forms::TextBox());
+			this->exifByte_label = (gcnew System::Windows::Forms::Label());
+			this->markImg1 = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
+			this->fileByte_text = (gcnew System::Windows::Forms::TextBox());
+			this->fileByte_label = (gcnew System::Windows::Forms::Label());
+			this->markImg2 = (gcnew System::Windows::Forms::PictureBox());
 			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->pictureBox4 = (gcnew System::Windows::Forms::PictureBox());
 			this->versionText = (gcnew System::Windows::Forms::Label());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->BeginInit();
+			this->imageList = (gcnew System::Windows::Forms::ImageList(this->components));
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->markImg1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->markImg2))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// pictureBox1
+			// exifByte_text
 			// 
-			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
-			this->pictureBox1->Location = System::Drawing::Point(43, 30);
-			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(40, 40);
-			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->pictureBox1->TabIndex = 5;
-			this->pictureBox1->TabStop = false;
+			this->exifByte_text->Location = System::Drawing::Point(284, 42);
+			this->exifByte_text->Name = L"exifByte_text";
+			this->exifByte_text->Size = System::Drawing::Size(65, 20);
+			this->exifByte_text->TabIndex = 12;
+			this->exifByte_text->Text = L"120";
+			this->exifByte_text->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
-			// textBox1
+			// exifByte_label
 			// 
-			this->textBox1->Location = System::Drawing::Point(322, 42);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(65, 20);
-			this->textBox1->TabIndex = 12;
-			this->textBox1->Text = L"120";
-			this->textBox1->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			// 
-			// label2
-			// 
-			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
+			this->exifByte_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label2->Location = System::Drawing::Point(419, 42);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(195, 28);
-			this->label2->TabIndex = 11;
-			this->label2->Text = L"Determines how many bytes are scanned at most to find the Exif mark";
+			this->exifByte_label->Location = System::Drawing::Point(419, 42);
+			this->exifByte_label->Name = L"exifByte_label";
+			this->exifByte_label->Size = System::Drawing::Size(195, 28);
+			this->exifByte_label->TabIndex = 11;
+			this->exifByte_label->Text = L"Determines how many bytes are scanned at most to find the Exif mark";
 			// 
-			// pictureBox2
+			// markImg1
 			// 
-			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
-			this->pictureBox2->Location = System::Drawing::Point(393, 42);
-			this->pictureBox2->Name = L"pictureBox2";
-			this->pictureBox2->Size = System::Drawing::Size(20, 20);
-			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
-			this->pictureBox2->TabIndex = 10;
-			this->pictureBox2->TabStop = false;
+			this->markImg1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"markImg1.Image")));
+			this->markImg1->Location = System::Drawing::Point(393, 42);
+			this->markImg1->Name = L"markImg1";
+			this->markImg1->Size = System::Drawing::Size(20, 20);
+			this->markImg1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->markImg1->TabIndex = 10;
+			this->markImg1->TabStop = false;
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label1->Location = System::Drawing::Point(89, 40);
+			this->label1->Location = System::Drawing::Point(41, 40);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(227, 20);
 			this->label1->TabIndex = 9;
 			this->label1->Text = L"maxByteExifScan (jpg files)";
 			// 
-			// textBox2
+			// fileByte_text
 			// 
-			this->textBox2->Location = System::Drawing::Point(322, 103);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(65, 20);
-			this->textBox2->TabIndex = 17;
-			this->textBox2->Text = L"8388608";
-			this->textBox2->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->fileByte_text->Location = System::Drawing::Point(284, 103);
+			this->fileByte_text->Name = L"fileByte_text";
+			this->fileByte_text->Size = System::Drawing::Size(65, 20);
+			this->fileByte_text->TabIndex = 17;
+			this->fileByte_text->Text = L"22020608";
+			this->fileByte_text->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
-			// label3
+			// fileByte_label
 			// 
-			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
+			this->fileByte_label->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label3->Location = System::Drawing::Point(419, 103);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(195, 28);
-			this->label3->TabIndex = 16;
-			this->label3->Text = L"Determines how many bytes are scanned at most to find the creation date";
+			this->fileByte_label->Location = System::Drawing::Point(419, 103);
+			this->fileByte_label->Name = L"fileByte_label";
+			this->fileByte_label->Size = System::Drawing::Size(195, 28);
+			this->fileByte_label->TabIndex = 16;
+			this->fileByte_label->Text = L"Determines how many bytes are scanned at most to find the creation date";
 			// 
-			// pictureBox3
+			// markImg2
 			// 
-			this->pictureBox3->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox3.Image")));
-			this->pictureBox3->Location = System::Drawing::Point(393, 103);
-			this->pictureBox3->Name = L"pictureBox3";
-			this->pictureBox3->Size = System::Drawing::Size(20, 20);
-			this->pictureBox3->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
-			this->pictureBox3->TabIndex = 15;
-			this->pictureBox3->TabStop = false;
+			this->markImg2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"markImg2.Image")));
+			this->markImg2->Location = System::Drawing::Point(393, 103);
+			this->markImg2->Name = L"markImg2";
+			this->markImg2->Size = System::Drawing::Size(20, 20);
+			this->markImg2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->markImg2->TabIndex = 15;
+			this->markImg2->TabStop = false;
 			// 
 			// label4
 			// 
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label4->Location = System::Drawing::Point(89, 101);
+			this->label4->Location = System::Drawing::Point(41, 101);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(226, 20);
 			this->label4->TabIndex = 14;
 			this->label4->Text = L"maxByteFileScan (jpg files)";
-			// 
-			// pictureBox4
-			// 
-			this->pictureBox4->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox4.Image")));
-			this->pictureBox4->Location = System::Drawing::Point(43, 91);
-			this->pictureBox4->Name = L"pictureBox4";
-			this->pictureBox4->Size = System::Drawing::Size(40, 40);
-			this->pictureBox4->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->pictureBox4->TabIndex = 13;
-			this->pictureBox4->TabStop = false;
 			// 
 			// versionText
 			// 
@@ -191,6 +183,13 @@ namespace Pffff {
 			this->versionText->Text = L"versionText";
 			this->versionText->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
 			// 
+			// imageList
+			// 
+			this->imageList->ImageStream = (cli::safe_cast<System::Windows::Forms::ImageListStreamer^>(resources->GetObject(L"imageList.ImageStream")));
+			this->imageList->TransparentColor = System::Drawing::Color::IndianRed;
+			this->imageList->Images->SetKeyName(0, L"false_icon.png");
+			this->imageList->Images->SetKeyName(1, L"true_icon.png");
+			// 
 			// Advanced
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -198,29 +197,37 @@ namespace Pffff {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
 			this->Controls->Add(this->versionText);
-			this->Controls->Add(this->textBox2);
-			this->Controls->Add(this->label3);
-			this->Controls->Add(this->pictureBox3);
+			this->Controls->Add(this->fileByte_text);
+			this->Controls->Add(this->fileByte_label);
+			this->Controls->Add(this->markImg2);
 			this->Controls->Add(this->label4);
-			this->Controls->Add(this->pictureBox4);
-			this->Controls->Add(this->textBox1);
-			this->Controls->Add(this->label2);
-			this->Controls->Add(this->pictureBox2);
+			this->Controls->Add(this->exifByte_text);
+			this->Controls->Add(this->exifByte_label);
+			this->Controls->Add(this->markImg1);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->pictureBox1);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
 			this->Name = L"Advanced";
 			this->Size = System::Drawing::Size(650, 415);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->markImg1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->markImg2))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
+
+		private: System::Void OnExifTextChanged(System::Object^ sender, System::EventArgs^ e)
+		{
+			exifByte_text->Text = setMaxExifByteScan(exifByte_text->Text);
+		}
+
+		private: System::Void OnFileTextChanged(System::Object^ sender, System::EventArgs^ e)
+		{
+			fileByte_text->Text = setMaxFileByteScan(fileByte_text->Text);
+		}
+
+			   
 
 		ProgramSettings^ Setting;
 		ProgramFunctions^ Functions;
@@ -229,6 +236,47 @@ namespace Pffff {
 			Setting = setting;
 			Functions = functions;
 			this->versionText->Text = Setting->getProgramVersion();
+		}
+
+		String^ setMaxExifByteScan(String^ byteString)
+		{
+			Int32 numByte;
+			if (Int32::TryParse(byteString, numByte))
+			{
+				if (numByte > 99999999)
+				{
+					return "99999999";
+				}
+				else if (byteString->Length == 0 || numByte < 1)
+				{
+					return "1";
+				}
+				return byteString;
+			}
+			else
+			{
+				return "120";
+			}
+		}
+		String^ setMaxFileByteScan(String^ byteString)
+		{
+			Int32 numByte;
+			if (Int32::TryParse(byteString, numByte))
+			{
+				if (numByte > 99999999)
+				{
+					return "99999999";
+				}
+				else if (byteString->Length == 0 || numByte < 1)
+				{
+					return "1";
+				}
+				return byteString;
+			}
+			else
+			{
+				return "22020608";
+			}
 		}
 
 	};

@@ -12,12 +12,14 @@ public ref class ProgramSettings
 {
 public: 
     size_t maxByteExifScan = 120; //for advanced
-    size_t maxByteFileScan = 8388608; //for advanced
+    size_t maxByteFileScan = 22020608; //for advanced
+    long long minFileSize = 8;
 
     bool checkMinDate = false;
     bool checkMaxDate = false;
     bool checkExif = false;
-    String^ programVersion = L" Alfa v.0.1.230816a   ";
+    bool checkMinFileSize = false;
+    String^ programVersion = L" Alfa v.0.2.230817a   ";
 
     void testFunction()
     {
@@ -26,6 +28,11 @@ public:
     String^ getProgramVersion()
     {
         return programVersion;
+    }
+
+    void setMinFileSize(long long newSize)
+    {
+        minFileSize = newSize;
     }
 };
 

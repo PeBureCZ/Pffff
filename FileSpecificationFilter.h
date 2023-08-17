@@ -22,6 +22,9 @@ namespace Pffff {
 		{
 			InitializeComponent();
 			initializeMain(settingObj, functionObj);
+
+			MinSize_but->Click += gcnew System::EventHandler(this, &Pffff::FileSpecificationFilter::minSizeChecked);
+			minSize_text->TextChanged += gcnew System::EventHandler(this, &Pffff::FileSpecificationFilter::OnTextChanged);
 		}
 
 	protected:
@@ -39,26 +42,37 @@ namespace Pffff {
 	protected:
 	private: System::Windows::Forms::PictureBox^ pictureBox2;
 	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::PictureBox^ pictureBox1;
-	private: System::Windows::Forms::TextBox^ textBox1;
+	private: System::Windows::Forms::TextBox^ minSize_text;
+
+
 	private: System::Windows::Forms::TextBox^ textBox2;
 	private: System::Windows::Forms::TextBox^ uc2_dirText;
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::PictureBox^ pictureBox3;
 	private: System::Windows::Forms::PictureBox^ pictureBox4;
+	private: System::Windows::Forms::Label^ Support_text;
 
 
-	private: System::Windows::Forms::Label^ label3;
-	private: System::Windows::Forms::PictureBox^ pictureBox5;
-	private: System::Windows::Forms::PictureBox^ pictureBox6;
+
+
+
+
 	private: System::Windows::Forms::Label^ versionText;
+	private: System::Windows::Forms::Button^ MinSize_but;
+
+	private: System::Windows::Forms::ImageList^ imageList;
+	private: System::Windows::Forms::Button^ checkJpg_but;
+	private: System::Windows::Forms::Button^ checkPng_but;
+
+
+	private: System::ComponentModel::IContainer^ components;
 
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -67,27 +81,26 @@ namespace Pffff {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(FileSpecificationFilter::typeid));
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->minSize_text = (gcnew System::Windows::Forms::TextBox());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->uc2_dirText = (gcnew System::Windows::Forms::TextBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
 			this->pictureBox4 = (gcnew System::Windows::Forms::PictureBox());
-			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->pictureBox5 = (gcnew System::Windows::Forms::PictureBox());
-			this->pictureBox6 = (gcnew System::Windows::Forms::PictureBox());
+			this->Support_text = (gcnew System::Windows::Forms::Label());
 			this->versionText = (gcnew System::Windows::Forms::Label());
+			this->MinSize_but = (gcnew System::Windows::Forms::Button());
+			this->imageList = (gcnew System::Windows::Forms::ImageList(this->components));
+			this->checkJpg_but = (gcnew System::Windows::Forms::Button());
+			this->checkPng_but = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox6))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// label2
@@ -121,24 +134,14 @@ namespace Pffff {
 			this->label1->TabIndex = 5;
 			this->label1->Text = L"Min size";
 			// 
-			// pictureBox1
+			// minSize_text
 			// 
-			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
-			this->pictureBox1->Location = System::Drawing::Point(43, 30);
-			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(40, 40);
-			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->pictureBox1->TabIndex = 4;
-			this->pictureBox1->TabStop = false;
-			// 
-			// textBox1
-			// 
-			this->textBox1->Location = System::Drawing::Point(169, 41);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(65, 20);
-			this->textBox1->TabIndex = 8;
-			this->textBox1->Text = L"8";
-			this->textBox1->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->minSize_text->Location = System::Drawing::Point(169, 41);
+			this->minSize_text->Name = L"minSize_text";
+			this->minSize_text->Size = System::Drawing::Size(65, 20);
+			this->minSize_text->TabIndex = 8;
+			this->minSize_text->Text = L"8";
+			this->minSize_text->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// textBox2
 			// 
@@ -192,36 +195,16 @@ namespace Pffff {
 			this->pictureBox4->TabIndex = 13;
 			this->pictureBox4->TabStop = false;
 			// 
-			// label3
+			// Support_text
 			// 
-			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
+			this->Support_text->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label3->ForeColor = System::Drawing::Color::Red;
-			this->label3->Location = System::Drawing::Point(111, 356);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(52, 20);
-			this->label3->TabIndex = 16;
-			this->label3->Text = L"Not yet";
-			// 
-			// pictureBox5
-			// 
-			this->pictureBox5->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox5.Image")));
-			this->pictureBox5->Location = System::Drawing::Point(43, 205);
-			this->pictureBox5->Name = L"pictureBox5";
-			this->pictureBox5->Size = System::Drawing::Size(40, 39);
-			this->pictureBox5->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->pictureBox5->TabIndex = 17;
-			this->pictureBox5->TabStop = false;
-			// 
-			// pictureBox6
-			// 
-			this->pictureBox6->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox6.Image")));
-			this->pictureBox6->Location = System::Drawing::Point(43, 298);
-			this->pictureBox6->Name = L"pictureBox6";
-			this->pictureBox6->Size = System::Drawing::Size(40, 40);
-			this->pictureBox6->SizeMode = System::Windows::Forms::PictureBoxSizeMode::AutoSize;
-			this->pictureBox6->TabIndex = 18;
-			this->pictureBox6->TabStop = false;
+			this->Support_text->ForeColor = System::Drawing::Color::Red;
+			this->Support_text->Location = System::Drawing::Point(90, 356);
+			this->Support_text->Name = L"Support_text";
+			this->Support_text->Size = System::Drawing::Size(123, 20);
+			this->Support_text->TabIndex = 16;
+			this->Support_text->Text = L"not supported yet";
 			// 
 			// versionText
 			// 
@@ -234,41 +217,126 @@ namespace Pffff {
 			this->versionText->Text = L"versionText";
 			this->versionText->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
 			// 
+			// MinSize_but
+			// 
+			this->MinSize_but->AutoSize = true;
+			this->MinSize_but->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->MinSize_but->FlatAppearance->BorderSize = 0;
+			this->MinSize_but->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->MinSize_but->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->MinSize_but->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->MinSize_but->ImageIndex = 0;
+			this->MinSize_but->ImageList = this->imageList;
+			this->MinSize_but->Location = System::Drawing::Point(37, 27);
+			this->MinSize_but->Name = L"MinSize_but";
+			this->MinSize_but->Size = System::Drawing::Size(46, 46);
+			this->MinSize_but->TabIndex = 29;
+			this->MinSize_but->UseVisualStyleBackColor = false;
+			// 
+			// imageList
+			// 
+			this->imageList->ImageStream = (cli::safe_cast<System::Windows::Forms::ImageListStreamer^>(resources->GetObject(L"imageList.ImageStream")));
+			this->imageList->TransparentColor = System::Drawing::Color::IndianRed;
+			this->imageList->Images->SetKeyName(0, L"false_icon.png");
+			this->imageList->Images->SetKeyName(1, L"true_icon.png");
+			// 
+			// checkJpg_but
+			// 
+			this->checkJpg_but->AutoSize = true;
+			this->checkJpg_but->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->checkJpg_but->FlatAppearance->BorderSize = 0;
+			this->checkJpg_but->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->checkJpg_but->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->checkJpg_but->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->checkJpg_but->ImageIndex = 1;
+			this->checkJpg_but->ImageList = this->imageList;
+			this->checkJpg_but->Location = System::Drawing::Point(37, 208);
+			this->checkJpg_but->Name = L"checkJpg_but";
+			this->checkJpg_but->Size = System::Drawing::Size(46, 46);
+			this->checkJpg_but->TabIndex = 30;
+			this->checkJpg_but->UseVisualStyleBackColor = false;
+			// 
+			// checkPng_but
+			// 
+			this->checkPng_but->AutoSize = true;
+			this->checkPng_but->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->checkPng_but->FlatAppearance->BorderSize = 0;
+			this->checkPng_but->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->checkPng_but->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->checkPng_but->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->checkPng_but->ImageIndex = 0;
+			this->checkPng_but->ImageList = this->imageList;
+			this->checkPng_but->Location = System::Drawing::Point(37, 295);
+			this->checkPng_but->Name = L"checkPng_but";
+			this->checkPng_but->Size = System::Drawing::Size(46, 46);
+			this->checkPng_but->TabIndex = 31;
+			this->checkPng_but->UseVisualStyleBackColor = false;
+			// 
 			// FileSpecificationFilter
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->Controls->Add(this->checkPng_but);
+			this->Controls->Add(this->checkJpg_but);
+			this->Controls->Add(this->MinSize_but);
 			this->Controls->Add(this->versionText);
-			this->Controls->Add(this->pictureBox6);
-			this->Controls->Add(this->pictureBox5);
-			this->Controls->Add(this->label3);
+			this->Controls->Add(this->Support_text);
 			this->Controls->Add(this->pictureBox4);
 			this->Controls->Add(this->pictureBox3);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->uc2_dirText);
 			this->Controls->Add(this->textBox2);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->minSize_text);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->pictureBox2);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->pictureBox1);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
 			this->Name = L"FileSpecificationFilter";
 			this->Size = System::Drawing::Size(650, 415);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox6))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
+
+
+		private: System::Void minSizeChecked(System::Object^ sender, System::EventArgs^ e)
+		{
+			if (MinSize_but->ImageIndex == 0)
+			{
+				MinSize_but->ImageIndex = 1;
+				Setting->checkMinFileSize = true;
+			}
+			else
+			{
+				MinSize_but->ImageIndex = 0;
+				Setting->checkMinFileSize = false;
+			}
+		}
+
+		private: System::Void OnTextChanged(System::Object^ sender, System::EventArgs^ e)
+		{
+			minSize_text->Text = setMinFileSize(minSize_text->Text);
+			Functions->addToConsole(Setting->minFileSize.ToString());
+		}
 
 		ProgramSettings^ Setting;
 		ProgramFunctions^ Functions;
@@ -277,6 +345,31 @@ namespace Pffff {
 			Setting = setting;
 			Functions = functions;
 			this->versionText->Text = Setting->getProgramVersion();
+		}
+
+		String^ setMinFileSize(String^ byteString)
+		{
+			Int32 numByte;
+			if (Int32::TryParse(byteString, numByte))
+			{
+				if (numByte > 60000)
+				{
+					Setting->setMinFileSize(12);
+					return "60000";
+				}
+				else if (byteString->Length == 0 || numByte < 1)
+				{
+					Setting->setMinFileSize(1);
+					return "1";
+				}
+				Setting->setMinFileSize(numByte);
+				return byteString;
+			}
+			else
+			{
+				Setting->setMinFileSize(8);
+				return "8";
+			}
 		}
 
 	};
