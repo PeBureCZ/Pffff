@@ -19,7 +19,7 @@ public:
     bool checkMaxDate = false;
     bool checkExif = false;
     bool checkMinFileSize = false;
-    String^ programVersion = L" Alfa v.0.3.230817a   ";
+    String^ programVersion = L" Beta v.0.4.0   ";
 
     void testFunction()
     {

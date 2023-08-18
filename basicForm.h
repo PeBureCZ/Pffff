@@ -11,6 +11,7 @@
 //Custom Classes start
 #include "ProgramSettings.h"
 #include "ProgramFunctions.h"
+#include "CustomTimer.h"
 //Custom Classes end
 
 namespace Pffff {
@@ -29,17 +30,15 @@ namespace Pffff {
 	{
 
 	public:
-		basicForm(ProgramSettings^ setting, ProgramFunctions^ functions)
+		basicForm(ProgramSettings^ setting, ProgramFunctions^ functions, CustomTimer^ timer)
 		{
-			InitializeComponent(setting, functions);
+			InitializeComponent(setting, functions, timer);
 			but_scan->Click += gcnew System::EventHandler(this, &basicForm::but_scan_Click);
 			but_direcFilter->Click += gcnew System::EventHandler(this, &basicForm::but_direcFilter_Click);
 			but_metaFilter->Click += gcnew System::EventHandler(this, &basicForm::but_metaFilter_Click);
 			but_specFilter->Click += gcnew System::EventHandler(this, &basicForm::but_specFilter_Click);
 			but_advancedFilter->Click += gcnew System::EventHandler(this, &basicForm::but_advancedFilter_Click);
-
 		}			   
-
 
 	protected:
 		/// <summary>
@@ -80,7 +79,7 @@ namespace Pffff {
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		void InitializeComponent(ProgramSettings^ settingObject, ProgramFunctions^ functionObject)
+		void InitializeComponent(ProgramSettings^ settingObject, ProgramFunctions^ functionObject, CustomTimer^ timerObj)
 		{
 			this->leftPanel = (gcnew System::Windows::Forms::Panel());
 			this->but_advancedFilter = (gcnew System::Windows::Forms::Button());
@@ -89,7 +88,7 @@ namespace Pffff {
 			this->but_direcFilter = (gcnew System::Windows::Forms::Button());
 			this->but_scan = (gcnew System::Windows::Forms::Button());
 			//UserControls INTERFACES start
-			this->scanControl1 = (gcnew Pffff::ScanControl(settingObject, functionObject));
+			this->scanControl1 = (gcnew Pffff::ScanControl(settingObject, functionObject, timerObj));
 			this->directoryFilter1 = (gcnew Pffff::DirectoryFilter(settingObject, functionObject));
 			this->metadataFilter1 = (gcnew Pffff::MetadataFilter(settingObject, functionObject));
 			this->fileSpecificationFilter1 = (gcnew Pffff::FileSpecificationFilter(settingObject, functionObject));

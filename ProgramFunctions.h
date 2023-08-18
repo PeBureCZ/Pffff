@@ -11,6 +11,7 @@ using namespace System::Drawing;
 using namespace System::IO;
 using namespace System::Collections::Generic;
 
+
 public ref class ProgramFunctions
 {
 
@@ -46,40 +47,51 @@ public:
 
 	//SCAN-CONTROL FUNCTIONS START________________________________________________
 
-	void runScan()
+	bool runScan(bool repeated) //false = function Scan complete, true = function must be repeated
 	{
-			directories->AddRange(directoryInFilter);
-			clearConsole();
-			addToConsole("Filters applied...");
-			int lastIndex = directories->Count - 1;
-			if (directories->Count > 0)
+		if (repeated == false) directories->AddRange(directoryInFilter); //get all paths from DirectoryFilter (eg."C:\Users" ... )
+		int lastIndex = directories->Count - 1;
+		size_t maxScanLength = 0;
+		if (directories->Count > 0)
+		{
+			scanningNow = true;
+			do //from last to index 0 (not owerhelmed by new directories)
 			{
-				scanningNow = true;
-				addToConsole("New scan started...");
-				do
-				{
-					findNewFilesInDirectory(directories[lastIndex], lastIndex);
-					lastIndex = directories->Count - 1;
-				} while (!directories->Count == 0);
-			}
-			else addToConsole("No directory finded: try add new directory in Directory filter");
-			addToConsole("Directory scan end...");
-			if (filesForScan->Count > 0)
+				findNewFilesInDirectory(directories[lastIndex], lastIndex);
+				lastIndex = directories->Count - 1;
+				maxScanLength++;
+			} while (lastIndex >= 0 && maxScanLength < 50); 
+		}
+		else addToConsole("No directory finded: try add new directory in Directory filter");
+
+		if (maxScanLength == 50)
+		{
+			runScanimages();
+			return true; //repeat function
+		}
+		runScanimages();
+		return false;
+	}
+
+	void runScanimages()
+	{
+		if (filesForScan->Count > 0)
+		{
+			do
 			{
-				addToConsole("Start scan " + filesForScan->Count + " files...");
-				do
+				if (FindDateFormat(filesForScan[0]))
 				{
-					if (FindDateFormat(filesForScan[0]))
-					{
-						filesFinded->Add(filesForScan[0]);
-						addToConsole("Finded new file at directory: " + filesForScan[0]);
-					}
-					filesForScan->RemoveAt(0);
-				} while (filesForScan->Count > 0);
-				scanned = true;
-			}
+					filesFinded->Add(filesForScan[0]);
+					addToConsole("Finded new file at directory: " + filesForScan[0]);
+				}
+				filesForScan->RemoveAt(0);
+			} while (filesForScan->Count > 0);
+		}
+		if (filesForScan->Count == 0 && directories->Count == 0)
+		{
 			scanningNow = false;
-			addToConsole("Scan end...");		
+			scanned = true;
+		}
 	}
 
 	int getFilesFindedCount()
@@ -89,6 +101,7 @@ public:
 
 	void resetScanInFunctions()
 	{
+
 		if (scanningNow == false)
 		{
 			filesFinded->Clear();
@@ -107,6 +120,10 @@ public:
 	void addToConsole(String^ text)
 	{
 		consoleText->Add(text + "\r\n");
+		if (consoleText->Count > 7)
+		{
+			consoleActiveIndex = consoleText->Count - 8;
+		}
 	}
 
 	void clearConsole()
@@ -147,6 +164,12 @@ public:
 	size_t getConsoleLength()
 	{
 		return static_cast<size_t>(consoleText->Count);
+	}
+
+	bool scanAgain()
+	{
+		if (directories->Count == 0) return false;
+		return true;
 	}
 
 	//DIRECTORY FILTER FUNCTIONS START________________________________________________
@@ -192,6 +215,7 @@ public:
 		{
 			return filesFinded[index];
 		}
+
 	}
 
 	String^ setMinYYYY(String^ newYYYY)
@@ -366,17 +390,23 @@ public:
 
 	void findNewFilesInDirectory(String^ path, int lastIndexPath)
 	{
-
 		try
 		{
-			for each (String ^ file in Directory::GetFileSystemEntries(path))
+			for each (String ^ file in Directory::GetDirectories(path)) //.NET not contain search for files+directories?!?!
+				//recursive!!!!!
 			{
+				addToConsole(file);
 				if (Directory::Exists(file))
 				{
+					addToConsole("add scan file");
 					directories->Add(file);
 				}
-				else if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) || Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
-				{	
+			}
+			for each (String ^ file in Directory::GetFiles(path))
+			{
+				//fileInfo->Extension - REWORK??
+				if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) || Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
+				{
 					if (nameMustContain->Count > 0)
 					{
 						if (!containName(file)) continue; //The file does not contain the requested text in its name or in its directory path
@@ -399,7 +429,42 @@ public:
 				// next file formats?
 				//}
 			}
+
+			
+			//for each (String ^ file in Directory::GetFiles(path))
+			//{
+			//	if (Directory::Exists(file))
+			//	{
+
+			//		addToConsole("newFile");
+			//		directories->Add(file);
+			//	}
+			//	else if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) || Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
+			//	{	
+			//		if (nameMustContain->Count > 0)
+			//		{
+			//			if (!containName(file)) continue; //The file does not contain the requested text in its name or in its directory path
+			//		}
+			//		if (Settings->checkMinFileSize)
+			//		{
+			//			FileInfo^ fileInfo = gcnew FileInfo(file);
+			//			if (fileInfo->Length >= Settings->minFileSize * 1000)
+			//			{
+			//				filesForScan->Add(file);
+			//			}
+			//		}
+			//		else
+			//		{
+			//			filesForScan->Add(file);
+			//		}
+			//	}
+			//	//else if
+			//	//{
+			//	// next file formats?
+			//	//}
+			//}
 			directories->RemoveAt(lastIndexPath);
+			addToConsole("remove index, current Count = " + directories->Count.ToString());
 		}
 		catch (Exception^ e)
 		{

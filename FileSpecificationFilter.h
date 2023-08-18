@@ -41,8 +41,9 @@ namespace Pffff {
 			}
 		}
 	private: System::Windows::Forms::Label^ label2;
+	private: System::Windows::Forms::PictureBox^ helper1;
 	protected:
-	private: System::Windows::Forms::PictureBox^ pictureBox2;
+
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::TextBox^ minSize_text;
 	private: System::Windows::Forms::TextBox^ TextBox;
@@ -70,6 +71,8 @@ namespace Pffff {
 	private: System::Windows::Forms::Button^ checkPng_but;
 	private: System::Windows::Forms::Button^ Remove_but;
 	private: System::Windows::Forms::ListBox^ NameTextBox;
+	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::Label^ helper2;
 
 
 
@@ -93,7 +96,7 @@ namespace Pffff {
 			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(FileSpecificationFilter::typeid));
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
+			this->helper1 = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->minSize_text = (gcnew System::Windows::Forms::TextBox());
 			this->TextBox = (gcnew System::Windows::Forms::TextBox());
@@ -108,30 +111,33 @@ namespace Pffff {
 			this->checkPng_but = (gcnew System::Windows::Forms::Button());
 			this->Remove_but = (gcnew System::Windows::Forms::Button());
 			this->NameTextBox = (gcnew System::Windows::Forms::ListBox());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->helper2 = (gcnew System::Windows::Forms::Label());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->helper1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// label2
 			// 
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label2->Location = System::Drawing::Point(266, 41);
+			this->label2->Location = System::Drawing::Point(328, 39);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(195, 20);
 			this->label2->TabIndex = 7;
 			this->label2->Text = L"It scans only files larger than ... (kB)";
 			// 
-			// pictureBox2
+			// helper1
 			// 
-			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
-			this->pictureBox2->Location = System::Drawing::Point(240, 41);
-			this->pictureBox2->Name = L"pictureBox2";
-			this->pictureBox2->Size = System::Drawing::Size(20, 20);
-			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
-			this->pictureBox2->TabIndex = 6;
-			this->pictureBox2->TabStop = false;
+			this->helper1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"helper1.Image")));
+			this->helper1->Location = System::Drawing::Point(302, 41);
+			this->helper1->Name = L"helper1";
+			this->helper1->Size = System::Drawing::Size(20, 20);
+			this->helper1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->helper1->TabIndex = 6;
+			this->helper1->TabStop = false;
 			// 
 			// label1
 			// 
@@ -311,12 +317,35 @@ namespace Pffff {
 			this->NameTextBox->Size = System::Drawing::Size(215, 99);
 			this->NameTextBox->TabIndex = 33;
 			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
+			this->pictureBox1->Location = System::Drawing::Point(302, 135);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(20, 20);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBox1->TabIndex = 34;
+			this->pictureBox1->TabStop = false;
+			// 
+			// helper2
+			// 
+			this->helper2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->helper2->Location = System::Drawing::Point(328, 135);
+			this->helper2->Name = L"helper2";
+			this->helper2->Size = System::Drawing::Size(293, 28);
+			this->helper2->TabIndex = 35;
+			this->helper2->Text = L"It will scan only those files that contain the requested text in the name or in t"
+				L"he searched directory";
+			// 
 			// FileSpecificationFilter
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->Controls->Add(this->helper2);
+			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->NameTextBox);
 			this->Controls->Add(this->Remove_but);
 			this->Controls->Add(this->checkPng_but);
@@ -330,15 +359,16 @@ namespace Pffff {
 			this->Controls->Add(this->TextBox);
 			this->Controls->Add(this->minSize_text);
 			this->Controls->Add(this->label2);
-			this->Controls->Add(this->pictureBox2);
+			this->Controls->Add(this->helper1);
 			this->Controls->Add(this->label1);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
 			this->Name = L"FileSpecificationFilter";
 			this->Size = System::Drawing::Size(650, 415);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->helper1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 

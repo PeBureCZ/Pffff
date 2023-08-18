@@ -1,6 +1,7 @@
 #pragma once
 #include "ProgramSettings.h"
 #include "ProgramFunctions.h"
+#include "CustomTimer.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -8,7 +9,6 @@ using namespace System::Collections;
 using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
-
 
 
 
@@ -23,11 +23,11 @@ namespace Pffff
 	{
 
 	public:
-		ScanControl(ProgramSettings^ settingObj, ProgramFunctions^ functionObj)
+		ScanControl(ProgramSettings^ settingObj, ProgramFunctions^ functionObj, CustomTimer^ timer)
 		//ScanControl()
 		{
 			InitializeComponent();
-			initializeMain(settingObj, functionObj);
+			initializeMain(settingObj, functionObj, timer);
 
 			ScanBut->Click += gcnew System::EventHandler(this, &ScanControl::ScanBut_Click);
 			previousBut->Click += gcnew System::EventHandler(this, &ScanControl::previous_Click);
@@ -35,9 +35,6 @@ namespace Pffff
 			ImgTextBox->TextChanged += gcnew System::EventHandler(this, &ScanControl::OnTextChanged);
 			FindBox->SelectedValueChanged += gcnew System::EventHandler(this, &ScanControl::selectIndexInFindBox);
 			ResetBut->Click += gcnew System::EventHandler(this, &ScanControl::reset_Click);
-	
-
-		
 
 			//console buttons
 
@@ -47,7 +44,7 @@ namespace Pffff
 			console_downMax_but->Click += gcnew System::EventHandler(this, &ScanControl::downMaxConsoleOnClick);
 
 			
-			
+
 		}
 
 	protected:
@@ -120,12 +117,12 @@ namespace Pffff
 			// 
 			// ScanBut
 			// 
-			this->ScanBut->BackColor = System::Drawing::Color::Gray;
+			this->ScanBut->BackColor = System::Drawing::Color::DarkSeaGreen;
 			this->ScanBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->ScanBut->Location = System::Drawing::Point(24, 38);
+			this->ScanBut->Location = System::Drawing::Point(7, 38);
 			this->ScanBut->Name = L"ScanBut";
-			this->ScanBut->Size = System::Drawing::Size(345, 35);
+			this->ScanBut->Size = System::Drawing::Size(423, 45);
 			this->ScanBut->TabIndex = 0;
 			this->ScanBut->Text = L"Apply filter and scan";
 			this->ScanBut->UseVisualStyleBackColor = false;
@@ -135,45 +132,46 @@ namespace Pffff
 			this->console->BackColor = System::Drawing::SystemColors::ButtonFace;
 			this->console->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->console->Location = System::Drawing::Point(24, 294);
+			this->console->Location = System::Drawing::Point(7, 294);
 			this->console->Multiline = true;
 			this->console->Name = L"console";
 			this->console->ReadOnly = true;
-			this->console->Size = System::Drawing::Size(570, 101);
+			this->console->Size = System::Drawing::Size(587, 111);
 			this->console->TabIndex = 1;
 			this->console->Text = L"Console start...";
 			// 
 			// ResetBut
 			// 
-			this->ResetBut->BackColor = System::Drawing::Color::Gray;
+			this->ResetBut->BackColor = System::Drawing::Color::RosyBrown;
 			this->ResetBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->ResetBut->Location = System::Drawing::Point(24, 89);
+			this->ResetBut->Location = System::Drawing::Point(7, 89);
 			this->ResetBut->Name = L"ResetBut";
-			this->ResetBut->Size = System::Drawing::Size(345, 35);
+			this->ResetBut->Size = System::Drawing::Size(423, 35);
 			this->ResetBut->TabIndex = 2;
 			this->ResetBut->Text = L"Reset all finded files, and paths";
 			this->ResetBut->UseVisualStyleBackColor = false;
+			this->ResetBut->Visible = false;
 			// 
 			// findedItemsLabel
 			// 
 			this->findedItemsLabel->AutoSize = true;
-			this->findedItemsLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->findedItemsLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->findedItemsLabel->Location = System::Drawing::Point(404, 264);
+			this->findedItemsLabel->Location = System::Drawing::Point(436, 250);
 			this->findedItemsLabel->Name = L"findedItemsLabel";
-			this->findedItemsLabel->Size = System::Drawing::Size(101, 20);
+			this->findedItemsLabel->Size = System::Drawing::Size(116, 24);
 			this->findedItemsLabel->TabIndex = 3;
 			this->findedItemsLabel->Text = L"Items finded:";
 			// 
 			// findedItemsCount
 			// 
 			this->findedItemsCount->AutoSize = true;
-			this->findedItemsCount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->findedItemsCount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->findedItemsCount->Location = System::Drawing::Point(511, 264);
+			this->findedItemsCount->Location = System::Drawing::Point(558, 250);
 			this->findedItemsCount->Name = L"findedItemsCount";
-			this->findedItemsCount->Size = System::Drawing::Size(18, 20);
+			this->findedItemsCount->Size = System::Drawing::Size(20, 24);
 			this->findedItemsCount->TabIndex = 4;
 			this->findedItemsCount->Text = L"0";
 			// 
@@ -194,9 +192,9 @@ namespace Pffff
 			this->ImageBox->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 			this->ImageBox->Cursor = System::Windows::Forms::Cursors::PanEast;
 			this->ImageBox->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ImageBox.Image")));
-			this->ImageBox->Location = System::Drawing::Point(408, 38);
+			this->ImageBox->Location = System::Drawing::Point(436, 38);
 			this->ImageBox->Name = L"ImageBox";
-			this->ImageBox->Size = System::Drawing::Size(220, 184);
+			this->ImageBox->Size = System::Drawing::Size(194, 164);
 			this->ImageBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->ImageBox->TabIndex = 6;
 			this->ImageBox->TabStop = false;
@@ -205,9 +203,9 @@ namespace Pffff
 			// 
 			this->previousBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->previousBut->Location = System::Drawing::Point(408, 228);
+			this->previousBut->Location = System::Drawing::Point(436, 208);
 			this->previousBut->Name = L"previousBut";
-			this->previousBut->Size = System::Drawing::Size(75, 23);
+			this->previousBut->Size = System::Drawing::Size(54, 23);
 			this->previousBut->TabIndex = 7;
 			this->previousBut->Text = L"previous";
 			this->previousBut->UseVisualStyleBackColor = true;
@@ -216,31 +214,35 @@ namespace Pffff
 			// 
 			this->nextBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->nextBut->Location = System::Drawing::Point(489, 228);
+			this->nextBut->Location = System::Drawing::Point(496, 208);
 			this->nextBut->Name = L"nextBut";
-			this->nextBut->Size = System::Drawing::Size(75, 23);
+			this->nextBut->Size = System::Drawing::Size(64, 23);
 			this->nextBut->TabIndex = 8;
 			this->nextBut->Text = L"next";
 			this->nextBut->UseVisualStyleBackColor = true;
 			// 
 			// ImgTextBox
 			// 
-			this->ImgTextBox->Location = System::Drawing::Point(569, 229);
+			this->ImgTextBox->Location = System::Drawing::Point(566, 209);
 			this->ImgTextBox->Name = L"ImgTextBox";
 			this->ImgTextBox->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
-			this->ImgTextBox->Size = System::Drawing::Size(59, 20);
+			this->ImgTextBox->Size = System::Drawing::Size(64, 20);
 			this->ImgTextBox->TabIndex = 9;
 			this->ImgTextBox->Text = L"0";
 			// 
 			// FindBox
 			// 
+			this->FindBox->AccessibleRole = System::Windows::Forms::AccessibleRole::None;
 			this->FindBox->BackColor = System::Drawing::SystemColors::MenuHighlight;
-			this->FindBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->FindBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 6.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->FindBox->FormattingEnabled = true;
-			this->FindBox->Location = System::Drawing::Point(24, 130);
+			this->FindBox->HorizontalScrollbar = true;
+			this->FindBox->ItemHeight = 12;
+			this->FindBox->Location = System::Drawing::Point(7, 130);
 			this->FindBox->Name = L"FindBox";
-			this->FindBox->Size = System::Drawing::Size(345, 121);
+			this->FindBox->ScrollAlwaysVisible = true;
+			this->FindBox->Size = System::Drawing::Size(423, 160);
 			this->FindBox->TabIndex = 10;
 			// 
 			// console_upMax_but
@@ -335,17 +337,29 @@ namespace Pffff
 		}
 		else
 		{
-			Functions->runScan();
-			printConsole();
-			this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
-			List<String^>^ filesFindedCopy = Functions->getFindedItemsPaths();
-			FindBox->ClearSelected();
-			for (size_t i = 0; i < filesFindedCopy->Count; i++)
+			Functions->addToConsole("delayed Scan");
+			ScanBut->Text = "Scanning...";
+			printConsole(); //new console lines in runScan
+			if (Functions->runScan(false)) //false = first time, if return false = no continue -> stopScan();
 			{
-				FindBox->Items->Add(filesFindedCopy[i]);
+				startDelayedScan(); //delayed = with chunk scan
+			}
+			else
+			{
+				stopScan();
 			}
 		}
+	}
 
+	private: System::Void reset_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		FindBox->Items->Clear();
+		ResetBut->Visible = false;
+		ImgTextBox->Text = "0";
+		findedItemsCount->Text = "0";
+		Functions->resetScanInFunctions(); //need refresh console (CLEAR)
+		printConsole();
+		ScanBut->Text = "Apply filter and scan";
 	}
 
 	private: System::Void upMaxConsoleOnClick(System::Object^ sender, System::EventArgs^ e)
@@ -394,7 +408,9 @@ namespace Pffff
 		Int32 numTested;
 		if (Int32::TryParse(ImgTextBox->Text, numTested) && numTested <= FindBox->Items->Count && numTested > 0)
 		{
-			changeImgByIndex(numTested);
+			changeImgByIndex(numTested-1);
+			Functions->addToConsole(numTested.ToString());
+			printConsole();
 		}
 		else
 		{
@@ -403,22 +419,13 @@ namespace Pffff
 		}
 	}
 
-	private: System::Void reset_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-		FindBox->Items->Clear();
-		ImgTextBox->Text = "0";
-		findedItemsCount->Text = "0";
-		Functions->resetScanInFunctions(); //need refresh console
-		printConsole();
-	}
-
 	void changeImgByIndex(Int32 index)
 	{
 		if (isValidImg(Functions->getFindedItemPath(index)))
 		{
 			try
 			{
-				ImageBox->Image = Image::FromFile(Functions->getFindedItemPath(static_cast<int>(index) - 1));
+				ImageBox->Image = Image::FromFile(Functions->getFindedItemPath(static_cast<int>(index)));
 			}
 			catch (Exception^ ex)
 			{
@@ -438,10 +445,13 @@ namespace Pffff
 
 	ProgramSettings^ Setting;
 	ProgramFunctions^ Functions;
-	void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
+	CustomTimer^ MyTimer;
+
+	void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions, CustomTimer^ timer)
 	{
 		Setting = setting;
 		Functions = functions;
+		MyTimer = timer;
 		this->versionText->Text = Setting->getProgramVersion();
 	}
 
@@ -478,8 +488,49 @@ namespace Pffff
 	}
 
 
+	void waitForNextScan()
+	{
+		Task::Delay(TimeSpan::FromMilliseconds(200))->Wait();
+		startDelayedScan();
+	}
+
+	void startDelayedScan()
+	{
+		if (Functions->scanAgain())
+		{
+			BeginInvoke(gcnew Action(this, &ScanControl::runScan));
+			Task^ timerTask = Task::Run(gcnew Action(this, &ScanControl::waitForNextScan));
+		}
+		else BeginInvoke(gcnew Action(this, &ScanControl::stopScan));
+	}
+
+	void runScan()
+	{
+		Functions->runScan(true); //true = repeated
+		printConsole();
+	}
+
+	void stopScan()
+	{
+		Functions->addToConsole("Scan end...");
+
+		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
+		List<String^>^ filesFindedCopy = Functions->getFindedItemsPaths();
+		FindBox->ClearSelected();
+		for (size_t i = 0; i < filesFindedCopy->Count; i++)
+		{
+			FindBox->Items->Add(filesFindedCopy[i]);
+		}
+		if (filesFindedCopy->Count > 0)
+		{
+			ScanBut->Text = "Scan again from already searched files";
+			ResetBut->Visible = true;
+		}
+		else
+		{
+			ScanBut->Text = "Apply filter and scan";
+		}
+		printConsole(); //new console lines in runScan
+	}
 };
 }
-
-
-
