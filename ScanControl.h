@@ -337,11 +337,11 @@ namespace Pffff
 		}
 		else
 		{
-			Functions->addToConsole("delayed Scan");
 			ScanBut->Text = "Scanning...";
 			printConsole(); //new console lines in runScan
 			if (Functions->runScan(false)) //false = first time, if return false = no continue -> stopScan();
 			{
+				printConsole();
 				startDelayedScan(); //delayed = with chunk scan
 			}
 			else
@@ -446,6 +446,7 @@ namespace Pffff
 	ProgramSettings^ Setting;
 	ProgramFunctions^ Functions;
 	CustomTimer^ MyTimer;
+	bool testScan = false;
 
 	void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions, CustomTimer^ timer)
 	{
@@ -490,7 +491,8 @@ namespace Pffff
 
 	void waitForNextScan()
 	{
-		Task::Delay(TimeSpan::FromMilliseconds(200))->Wait();
+		Task::Delay(TimeSpan::FromMilliseconds(20))->Wait();
+		BeginInvoke(gcnew Action(this, &ScanControl::runScan));
 		startDelayedScan();
 	}
 
@@ -498,7 +500,7 @@ namespace Pffff
 	{
 		if (Functions->scanAgain())
 		{
-			BeginInvoke(gcnew Action(this, &ScanControl::runScan));
+			/*BeginInvoke(gcnew Action(this, &ScanControl::runScan));*/
 			Task^ timerTask = Task::Run(gcnew Action(this, &ScanControl::waitForNextScan));
 		}
 		else BeginInvoke(gcnew Action(this, &ScanControl::stopScan));

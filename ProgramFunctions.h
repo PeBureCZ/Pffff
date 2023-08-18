@@ -49,6 +49,7 @@ public:
 
 	bool runScan(bool repeated) //false = function Scan complete, true = function must be repeated
 	{
+		addToConsole("scan start in Functions");
 		if (repeated == false) directories->AddRange(directoryInFilter); //get all paths from DirectoryFilter (eg."C:\Users" ... )
 		int lastIndex = directories->Count - 1;
 		size_t maxScanLength = 0;
@@ -60,11 +61,11 @@ public:
 				findNewFilesInDirectory(directories[lastIndex], lastIndex);
 				lastIndex = directories->Count - 1;
 				maxScanLength++;
-			} while (lastIndex >= 0 && maxScanLength < 50); 
+			} while (lastIndex >= 0 && maxScanLength < 20); 
 		}
 		else addToConsole("No directory finded: try add new directory in Directory filter");
 
-		if (maxScanLength == 50)
+		if (maxScanLength == 20)
 		{
 			runScanimages();
 			return true; //repeat function
@@ -392,13 +393,26 @@ public:
 	{
 		try
 		{
+			//VERSION 2
+
+			//for each (String^ file in Directory::GetDirectories(path))
+			//{
+			//	addToConsole(file->ToString() + " = DIRECTORY");
+			//}
+
+			//for each (String ^ file in Directory::GetFiles(path))
+			//{
+			//	addToConsole(file->ToString() + " = FILE");
+			//}
+		
+			
 			for each (String ^ file in Directory::GetDirectories(path)) //.NET not contain search for files+directories?!?!
 				//recursive!!!!!
 			{
-				addToConsole(file);
+				addToConsole("NEW SCAN RUN = ");
 				if (Directory::Exists(file))
 				{
-					addToConsole("add scan file");
+					addToConsole(file->ToString() + " = DIRECTORY");
 					directories->Add(file);
 				}
 			}
@@ -416,11 +430,13 @@ public:
 						FileInfo^ fileInfo = gcnew FileInfo(file);
 						if (fileInfo->Length >= Settings->minFileSize * 1000)
 						{
+							addToConsole(file->ToString() + " = FILE");
 							filesForScan->Add(file);
 						}
 					}
 					else
 					{
+						addToConsole(file->ToString() + " = FILE");
 						filesForScan->Add(file);
 					}
 				}
@@ -430,9 +446,11 @@ public:
 				//}
 			}
 
-			
+			//VERSION 1
+
 			//for each (String ^ file in Directory::GetFiles(path))
 			//{
+			//	addToConsole("File: " + file->ToString());
 			//	if (Directory::Exists(file))
 			//	{
 
@@ -463,6 +481,7 @@ public:
 			//	// next file formats?
 			//	//}
 			//}
+
 			directories->RemoveAt(lastIndexPath);
 			addToConsole("remove index, current Count = " + directories->Count.ToString());
 		}
