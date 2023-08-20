@@ -164,6 +164,7 @@ namespace Pffff {
 			this->DirectoryBox->Location = System::Drawing::Point(20, 142);
 			this->DirectoryBox->MultiColumn = true;
 			this->DirectoryBox->Name = L"DirectoryBox";
+
 			this->DirectoryBox->Size = System::Drawing::Size(612, 260);
 			this->DirectoryBox->TabIndex = 9;
 			this->DirectoryBox->SelectedIndexChanged += gcnew System::EventHandler(this, &DirectoryFilter::DirectoryListBox_SelectedIndexChanged);
@@ -252,7 +253,11 @@ namespace Pffff {
 			}
 			else if (DirectoryBox->SelectedIndex != -1)
 			{
-				DirectoryBox->Items->RemoveAt(this->DirectoryBox->SelectedIndex);
+				Functions->addToConsole(DirectoryBox->SelectedIndex.ToString());
+				Functions->removeDirectory(DirectoryBox->SelectedIndex);
+				DirectoryBox->Items->RemoveAt(DirectoryBox->SelectedIndex);
+
+		
 			}
 		}
 

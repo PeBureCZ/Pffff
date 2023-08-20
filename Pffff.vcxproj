@@ -136,7 +136,6 @@
     <ClCompile Include="MetadataFilter.cpp" />
     <ClCompile Include="FileSpecificationFilter.cpp" />
     <ClCompile Include="Advanced.cpp" />
-    <ClCompile Include="CustomTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basicForm.h">
@@ -160,7 +159,6 @@
     <ClInclude Include="Advanced.h">
       <FileType>CppControl</FileType>
     </ClInclude>
-    <ClInclude Include="CustomTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="basicForm.resx">

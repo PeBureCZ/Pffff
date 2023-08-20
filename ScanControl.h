@@ -1,7 +1,7 @@
 #pragma once
 #include "ProgramSettings.h"
 #include "ProgramFunctions.h"
-#include "CustomTimer.h"
+
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -9,6 +9,8 @@ using namespace System::Collections;
 using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
+
+using namespace System::Threading::Tasks;
 
 
 
@@ -23,11 +25,11 @@ namespace Pffff
 	{
 
 	public:
-		ScanControl(ProgramSettings^ settingObj, ProgramFunctions^ functionObj, CustomTimer^ timer)
+		ScanControl(ProgramSettings^ settingObj, ProgramFunctions^ functionObj)
 		//ScanControl()
 		{
 			InitializeComponent();
-			initializeMain(settingObj, functionObj, timer);
+			initializeMain(settingObj, functionObj);
 
 			ScanBut->Click += gcnew System::EventHandler(this, &ScanControl::ScanBut_Click);
 			previousBut->Click += gcnew System::EventHandler(this, &ScanControl::previous_Click);
@@ -332,12 +334,14 @@ namespace Pffff
 	{
 		if (Functions->scanningNow || Functions->scanned)
 		{
-			Functions->addToConsole("Can¡t scan again now...");
+			Functions->addToConsole("Can´t scan again now...");
 			printConsole();
 		}
 		else
 		{
+			Functions->clearConsole();
 			ScanBut->Text = "Scanning...";
+			Functions->addToConsole("Scan start...");
 			printConsole(); //new console lines in runScan
 			if (Functions->runScan(false)) //false = first time, if return false = no continue -> stopScan();
 			{
@@ -409,8 +413,6 @@ namespace Pffff
 		if (Int32::TryParse(ImgTextBox->Text, numTested) && numTested <= FindBox->Items->Count && numTested > 0)
 		{
 			changeImgByIndex(numTested-1);
-			Functions->addToConsole(numTested.ToString());
-			printConsole();
 		}
 		else
 		{
@@ -445,14 +447,12 @@ namespace Pffff
 
 	ProgramSettings^ Setting;
 	ProgramFunctions^ Functions;
-	CustomTimer^ MyTimer;
 	bool testScan = false;
 
-	void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions, CustomTimer^ timer)
+	void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
 	{
 		Setting = setting;
 		Functions = functions;
-		MyTimer = timer;
 		this->versionText->Text = Setting->getProgramVersion();
 	}
 
@@ -491,7 +491,7 @@ namespace Pffff
 
 	void waitForNextScan()
 	{
-		Task::Delay(TimeSpan::FromMilliseconds(20))->Wait();
+		Task::Delay(TimeSpan::FromMilliseconds(Functions->getDelay()))->Wait();
 		BeginInvoke(gcnew Action(this, &ScanControl::runScan));
 		startDelayedScan();
 	}
@@ -500,7 +500,7 @@ namespace Pffff
 	{
 		if (Functions->scanAgain())
 		{
-			/*BeginInvoke(gcnew Action(this, &ScanControl::runScan));*/
+			BeginInvoke(gcnew Action(this, &ScanControl::runScan));
 			Task^ timerTask = Task::Run(gcnew Action(this, &ScanControl::waitForNextScan));
 		}
 		else BeginInvoke(gcnew Action(this, &ScanControl::stopScan));
@@ -508,7 +508,9 @@ namespace Pffff
 
 	void runScan()
 	{
+		Functions->clearConsole();
 		Functions->runScan(true); //true = repeated
+		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
 		printConsole();
 	}
 
@@ -531,6 +533,8 @@ namespace Pffff
 		else
 		{
 			ScanBut->Text = "Apply filter and scan";
+			Functions->addToConsole("no files finded, try change filters...");
+			Functions->scanned = false; //no files finded -> can scan again
 		}
 		printConsole(); //new console lines in runScan
 	}

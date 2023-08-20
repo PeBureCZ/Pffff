@@ -24,9 +24,12 @@ private:
 	List<String^>^ consoleText = gcnew List<String^>();
 	List<String^>^ directoryInFilter = gcnew List<String^>();
 	List<String^>^ nameMustContain = gcnew List<String^>();
+	UInt32 scannedDirectories = 0;
 
 	Int64 minDate = 19000101000000; //date format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
 	Int64 maxDate = 23001231000000; // 2300:12:31 00:00:00
+
+	int delayResended = 200;
 
 	int consoleActiveIndex = 0;
 	ProgramSettings^ Settings;
@@ -49,11 +52,11 @@ public:
 
 	bool runScan(bool repeated) //false = function Scan complete, true = function must be repeated
 	{
-		addToConsole("scan start in Functions");
+		addConsoleOutputs();
 		if (repeated == false) directories->AddRange(directoryInFilter); //get all paths from DirectoryFilter (eg."C:\Users" ... )
 		int lastIndex = directories->Count - 1;
 		size_t maxScanLength = 0;
-		if (directories->Count > 0)
+		if (directories->Count > 0 ) //NEED REWORK -> "&& scanned == false"
 		{
 			scanningNow = true;
 			do //from last to index 0 (not owerhelmed by new directories)
@@ -61,43 +64,53 @@ public:
 				findNewFilesInDirectory(directories[lastIndex], lastIndex);
 				lastIndex = directories->Count - 1;
 				maxScanLength++;
-			} while (lastIndex >= 0 && maxScanLength < 20); 
+			} while (lastIndex >= 0 && maxScanLength < 51); 
 		}
-		else addToConsole("No directory finded: try add new directory in Directory filter");
+		//else addToConsole("No directory finded: try add new directory in Directory filter");
 
-		if (maxScanLength == 20)
+		if (maxScanLength == 51)
 		{
-			runScanimages();
+			scannedDirectories += 51;
+
 			return true; //repeat function
 		}
-		runScanimages();
+		scannedDirectories += maxScanLength;
+		if (runScanimages()) return true;
 		return false;
 	}
 
-	void runScanimages()
+	bool runScanimages()
 	{
 		if (filesForScan->Count > 0)
 		{
-			do
+			if (FindDateFormat(filesForScan[0]))
 			{
-				if (FindDateFormat(filesForScan[0]))
-				{
-					filesFinded->Add(filesForScan[0]);
-					addToConsole("Finded new file at directory: " + filesForScan[0]);
-				}
+				filesFinded->Add(filesForScan[0]);
 				filesForScan->RemoveAt(0);
-			} while (filesForScan->Count > 0);
+				return true;
+			}
+			filesForScan->RemoveAt(0);
 		}
-		if (filesForScan->Count == 0 && directories->Count == 0)
+		else
 		{
-			scanningNow = false;
-			scanned = true;
+			if (filesForScan->Count == 0 && directories->Count == 0)
+			{
+				scanningNow = false;
+				scanned = true;
+			}
+			return false;
 		}
+
 	}
 
 	int getFilesFindedCount()
 	{
 		return filesFinded->Count;
+	}
+
+	int getDelay()
+	{
+		return delayResended;
 	}
 
 	void resetScanInFunctions()
@@ -169,7 +182,7 @@ public:
 
 	bool scanAgain()
 	{
-		if (directories->Count == 0) return false;
+		if (directories->Count == 0 && filesForScan->Count == 0) return false;
 		return true;
 	}
 
@@ -380,6 +393,7 @@ public:
 			{
 				return false;
 			}
+			delayResended = static_cast<int>(scanSize) / 20000+80;
 			if (Settings->checkExif) return scanJpgExif(bytesVec, scanSize);
 			else return scanJpgNoExif(bytesVec, scanSize);
 		}
@@ -394,26 +408,13 @@ public:
 		try
 		{
 			//VERSION 2
-
-			//for each (String^ file in Directory::GetDirectories(path))
-			//{
-			//	addToConsole(file->ToString() + " = DIRECTORY");
-			//}
-
-			//for each (String ^ file in Directory::GetFiles(path))
-			//{
-			//	addToConsole(file->ToString() + " = FILE");
-			//}
-		
-			
 			for each (String ^ file in Directory::GetDirectories(path)) //.NET not contain search for files+directories?!?!
 				//recursive!!!!!
 			{
-				addToConsole("NEW SCAN RUN = ");
 				if (Directory::Exists(file))
 				{
-					addToConsole(file->ToString() + " = DIRECTORY");
 					directories->Add(file);
+
 				}
 			}
 			for each (String ^ file in Directory::GetFiles(path))
@@ -430,13 +431,11 @@ public:
 						FileInfo^ fileInfo = gcnew FileInfo(file);
 						if (fileInfo->Length >= Settings->minFileSize * 1000)
 						{
-							addToConsole(file->ToString() + " = FILE");
 							filesForScan->Add(file);
 						}
 					}
 					else
 					{
-						addToConsole(file->ToString() + " = FILE");
 						filesForScan->Add(file);
 					}
 				}
@@ -445,45 +444,7 @@ public:
 				// next file formats?
 				//}
 			}
-
-			//VERSION 1
-
-			//for each (String ^ file in Directory::GetFiles(path))
-			//{
-			//	addToConsole("File: " + file->ToString());
-			//	if (Directory::Exists(file))
-			//	{
-
-			//		addToConsole("newFile");
-			//		directories->Add(file);
-			//	}
-			//	else if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) || Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
-			//	{	
-			//		if (nameMustContain->Count > 0)
-			//		{
-			//			if (!containName(file)) continue; //The file does not contain the requested text in its name or in its directory path
-			//		}
-			//		if (Settings->checkMinFileSize)
-			//		{
-			//			FileInfo^ fileInfo = gcnew FileInfo(file);
-			//			if (fileInfo->Length >= Settings->minFileSize * 1000)
-			//			{
-			//				filesForScan->Add(file);
-			//			}
-			//		}
-			//		else
-			//		{
-			//			filesForScan->Add(file);
-			//		}
-			//	}
-			//	//else if
-			//	//{
-			//	// next file formats?
-			//	//}
-			//}
-
 			directories->RemoveAt(lastIndexPath);
-			addToConsole("remove index, current Count = " + directories->Count.ToString());
 		}
 		catch (Exception^ e)
 		{
@@ -532,7 +493,7 @@ public:
 					//returned format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
 					return true;
 				}
-				else return false;
+				else return false; 
 			}
 		}
 		return false;
@@ -574,6 +535,13 @@ public:
 		}
 		return false;
 
+	}
+
+	void addConsoleOutputs()
+	{
+	addToConsole("directories scanned: " + scannedDirectories.ToString());
+	addToConsole("directories for scan remaining: " + directories->Count.ToString());
+	addToConsole("files for scan scan remaining: " + filesForScan->Count.ToString());
 	}
 	
 };
