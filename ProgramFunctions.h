@@ -11,6 +11,9 @@ using namespace System::Drawing;
 using namespace System::IO;
 using namespace System::Collections::Generic;
 
+#define MAX_DIRECTORIES_SCAN_PER_CHUNK 231
+#define SCAN_OPTIMALIZATION 400000//greater = faster but....
+
 
 public ref class ProgramFunctions
 {
@@ -25,11 +28,14 @@ private:
 	List<String^>^ directoryInFilter = gcnew List<String^>();
 	List<String^>^ nameMustContain = gcnew List<String^>();
 	UInt32 scannedDirectories = 0;
+	UInt32 filesCanotBeScaned = 0;
 
 	Int64 minDate = 19000101000000; //date format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
 	Int64 maxDate = 23001231000000; // 2300:12:31 00:00:00
 
 	int delayResended = 200;
+
+
 
 	int consoleActiveIndex = 0;
 	ProgramSettings^ Settings;
@@ -64,13 +70,13 @@ public:
 				findNewFilesInDirectory(directories[lastIndex], lastIndex);
 				lastIndex = directories->Count - 1;
 				maxScanLength++;
-			} while (lastIndex >= 0 && maxScanLength < 51); 
+			} while (lastIndex >= 0 && maxScanLength < MAX_DIRECTORIES_SCAN_PER_CHUNK);
 		}
 		//else addToConsole("No directory finded: try add new directory in Directory filter");
 
-		if (maxScanLength == 51)
+		if (maxScanLength == MAX_DIRECTORIES_SCAN_PER_CHUNK)
 		{
-			scannedDirectories += 51;
+			scannedDirectories += MAX_DIRECTORIES_SCAN_PER_CHUNK;
 
 			return true; //repeat function
 		}
@@ -124,6 +130,8 @@ public:
 			addToConsole("reset applied...");
 			//need refresh console by function "printConsole();"
 			scanned = false;
+			filesCanotBeScaned = 0;
+			scannedDirectories = 0;
 		}
 		else addToConsole("Scan still running...");
 
@@ -393,7 +401,7 @@ public:
 			{
 				return false;
 			}
-			delayResended = static_cast<int>(scanSize) / 20000+80;
+			delayResended = static_cast<int>(scanSize) / SCAN_OPTIMALIZATION +20;
 			if (Settings->checkExif) return scanJpgExif(bytesVec, scanSize);
 			else return scanJpgNoExif(bytesVec, scanSize);
 		}
@@ -449,6 +457,8 @@ public:
 		catch (Exception^ e)
 		{
 			//errors - nothing impl.
+			filesCanotBeScaned++;
+			directories->RemoveAt(lastIndexPath);
 		}
 	}
 
@@ -542,6 +552,7 @@ public:
 	addToConsole("directories scanned: " + scannedDirectories.ToString());
 	addToConsole("directories for scan remaining: " + directories->Count.ToString());
 	addToConsole("files for scan scan remaining: " + filesForScan->Count.ToString());
+	addToConsole("files can´t be opened (with error): " + filesCanotBeScaned.ToString());
 	}
 	
 };
