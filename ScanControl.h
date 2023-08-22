@@ -44,9 +44,6 @@ namespace Pffff
 			console_up_but->Click += gcnew System::EventHandler(this, &ScanControl::upConsoleOnClick);
 			console_down_but->Click += gcnew System::EventHandler(this, &ScanControl::downConsoleOnClick);
 			console_downMax_but->Click += gcnew System::EventHandler(this, &ScanControl::downMaxConsoleOnClick);
-
-			
-
 		}
 
 	protected:
@@ -332,28 +329,100 @@ namespace Pffff
 		
 	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
 	{
+
 		if (Functions->scanningNow || Functions->scanned)
 		{
 			Functions->addToConsole("Can´t scan again now...");
 			printConsole();
 		}
 		else
+			{
+				Functions->clearConsole();
+				ScanBut->Text = "Scanning...";
+				Functions->addToConsole("Scan start...");
+				printConsole(); //new console lines in runScan
+				if (Functions->runScan(false))
+				{
+					runRepeatedTest();
+				}
+				else
+				{
+					Functions->clearConsole();
+					Functions->addConsoleOutputs();
+					stopScan(); //with printConsole();
+				}
+			}
+
+	}		
+	void runRepeatedTest()
+	{
+			   
+		if (Functions->scanAgain())
+		{
+			Task^ timerTask = Task::Run(gcnew Action(this, &ScanControl::checkRepeat));
+		}
+		else
 		{
 			Functions->clearConsole();
-			ScanBut->Text = "Scanning...";
-			Functions->addToConsole("Scan start...");
-			printConsole(); //new console lines in runScan
-			if (Functions->runScan(false)) //false = first time, if return false = no continue -> stopScan();
+			Functions->addConsoleOutputs();
+			printConsole();
+			stopScan();
+		}
+	}
+
+	void checkRepeat()
+	{
+		while (true)
+		{
+			if (Functions->readyToScan == true)
 			{
-				printConsole();
-				startDelayedScan(); //delayed = with chunk scan
+				Task::Delay(TimeSpan::FromMilliseconds(10))->Wait(); //BETTER OPTIMALIZATION (smoother on weak computers)
+				BeginInvoke(gcnew Action(this, &ScanControl::scanAgain)); 
+				Task::Delay(TimeSpan::FromMilliseconds(10))->Wait(); //BETTER OPTIMALIZATION  (smoother on weak computers)
+				BeginInvoke(gcnew Action(this, &ScanControl::runRepeatedTest));
+				break;
 			}
 			else
 			{
-				stopScan();
+				Task::Delay(TimeSpan::FromMilliseconds(20))->Wait();
 			}
-		}
+		}		  
 	}
+
+	void scanAgain()
+	{
+		Functions->clearConsole();
+		Functions->addConsoleOutputs();
+		Functions->runScan(true); //true = repeated
+		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
+		printConsole();
+	}
+
+	void stopScan()
+	{
+		Functions->addToConsole("Scan end...");
+
+		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
+		List<String^>^ filesFindedCopy = Functions->getFindedItemsPaths();
+		FindBox->ClearSelected();
+		for (size_t i = 0; i < filesFindedCopy->Count; i++)
+		{
+			FindBox->Items->Add(filesFindedCopy[i]);
+		}
+		if (filesFindedCopy->Count > 0)
+		{
+			ScanBut->Text = "Scan again from already searched files";
+			ResetBut->Visible = true;
+		}
+		else
+		{
+			ScanBut->Text = "Apply filter and scan";
+			Functions->addToConsole("no files finded, try change filters...");
+			Functions->scanned = false; //no files finded -> can scan again
+		}
+		printConsole(); //new console lines in runScan
+	}
+
 
 	private: System::Void reset_Click(System::Object^ sender, System::EventArgs^ e)
 	{
@@ -488,55 +557,32 @@ namespace Pffff
 		this->ImageBox->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ImageBox.Image")));
 	}
 
+	//PREVIOUS VERSION
+	
+	//void runNewScan()
+	//{
+	//	startDelayedScan();
+	//}
 
-	void waitForNextScan()
-	{
-		Task::Delay(TimeSpan::FromMilliseconds(Functions->getDelay()))->Wait();
-		BeginInvoke(gcnew Action(this, &ScanControl::runScan));
-		startDelayedScan();
-	}
+	//void startDelayedScan()
+	//{
+	//	Task::Delay(TimeSpan::FromMilliseconds(Functions->getDelay()))->Wait();
+	//	if (Functions->scanAgain())
+	//	{
+	//		BeginInvoke(gcnew Action(this, &ScanControl::runScan));
+	//		Task^ timerTask = Task::Run(gcnew Action(this, &ScanControl::runNewScan));
+	//	}
+	//	else BeginInvoke(gcnew Action(this, &ScanControl::stopScan));
+	//}
 
-	void startDelayedScan()
-	{
-		if (Functions->scanAgain())
-		{
-			BeginInvoke(gcnew Action(this, &ScanControl::runScan));
-			Task^ timerTask = Task::Run(gcnew Action(this, &ScanControl::waitForNextScan));
-		}
-		else BeginInvoke(gcnew Action(this, &ScanControl::stopScan));
-	}
+	//void runScan()
+	//{
+	//	Functions->clearConsole();
+	//	Functions->runScan(true); //true = repeated
+	//	this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
+	//	printConsole();
+	//}
 
-	void runScan()
-	{
-		Functions->clearConsole();
-		Functions->runScan(true); //true = repeated
-		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
-		printConsole();
-	}
-
-	void stopScan()
-	{
-		Functions->addToConsole("Scan end...");
-
-		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
-		List<String^>^ filesFindedCopy = Functions->getFindedItemsPaths();
-		FindBox->ClearSelected();
-		for (size_t i = 0; i < filesFindedCopy->Count; i++)
-		{
-			FindBox->Items->Add(filesFindedCopy[i]);
-		}
-		if (filesFindedCopy->Count > 0)
-		{
-			ScanBut->Text = "Scan again from already searched files";
-			ResetBut->Visible = true;
-		}
-		else
-		{
-			ScanBut->Text = "Apply filter and scan";
-			Functions->addToConsole("no files finded, try change filters...");
-			Functions->scanned = false; //no files finded -> can scan again
-		}
-		printConsole(); //new console lines in runScan
-	}
+	
 };
 }

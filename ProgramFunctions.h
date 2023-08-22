@@ -11,8 +11,7 @@ using namespace System::Drawing;
 using namespace System::IO;
 using namespace System::Collections::Generic;
 
-#define MAX_DIRECTORIES_SCAN_PER_CHUNK 231
-#define SCAN_OPTIMALIZATION 400000//greater = faster but....
+#define MAX_DIRECTORIES_SCAN_PER_CHUNK 131
 
 
 public ref class ProgramFunctions
@@ -33,15 +32,12 @@ private:
 	Int64 minDate = 19000101000000; //date format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
 	Int64 maxDate = 23001231000000; // 2300:12:31 00:00:00
 
-	int delayResended = 200;
-
-
-
 	int consoleActiveIndex = 0;
 	ProgramSettings^ Settings;
 public:
 	bool scanningNow = false;
 	bool scanned = false;
+	bool readyToScan = true;
 
 public: 
 	String^ functionTesting()
@@ -58,7 +54,7 @@ public:
 
 	bool runScan(bool repeated) //false = function Scan complete, true = function must be repeated
 	{
-		addConsoleOutputs();
+		readyToScan = false;
 		if (repeated == false) directories->AddRange(directoryInFilter); //get all paths from DirectoryFilter (eg."C:\Users" ... )
 		int lastIndex = directories->Count - 1;
 		size_t maxScanLength = 0;
@@ -77,11 +73,12 @@ public:
 		if (maxScanLength == MAX_DIRECTORIES_SCAN_PER_CHUNK)
 		{
 			scannedDirectories += MAX_DIRECTORIES_SCAN_PER_CHUNK;
-
+			readyToScan = true;
 			return true; //repeat function
 		}
 		scannedDirectories += maxScanLength;
 		if (runScanimages()) return true;
+		readyToScan = true;
 		return false;
 	}
 
@@ -93,9 +90,10 @@ public:
 			{
 				filesFinded->Add(filesForScan[0]);
 				filesForScan->RemoveAt(0);
-				return true;
 			}
 			filesForScan->RemoveAt(0);
+			readyToScan = true;
+			return true;
 		}
 		else
 		{
@@ -104,6 +102,7 @@ public:
 				scanningNow = false;
 				scanned = true;
 			}
+			readyToScan = true;
 			return false;
 		}
 
@@ -114,10 +113,6 @@ public:
 		return filesFinded->Count;
 	}
 
-	int getDelay()
-	{
-		return delayResended;
-	}
 
 	void resetScanInFunctions()
 	{
@@ -181,6 +176,14 @@ public:
 			}
 		}
 		return outputStr;
+	}
+
+	void addConsoleOutputs()
+	{
+		addToConsole("directories scanned: " + scannedDirectories.ToString());
+		addToConsole("directories for scan remaining: " + directories->Count.ToString());
+		addToConsole("files for scan scan remaining: " + filesForScan->Count.ToString());
+		addToConsole("files can´t be opened (with error): " + filesCanotBeScaned.ToString());
 	}
 
 	size_t getConsoleLength()
@@ -401,7 +404,6 @@ public:
 			{
 				return false;
 			}
-			delayResended = static_cast<int>(scanSize) / SCAN_OPTIMALIZATION +20;
 			if (Settings->checkExif) return scanJpgExif(bytesVec, scanSize);
 			else return scanJpgNoExif(bytesVec, scanSize);
 		}
@@ -545,16 +547,7 @@ public:
 		}
 		return false;
 
-	}
-
-	void addConsoleOutputs()
-	{
-	addToConsole("directories scanned: " + scannedDirectories.ToString());
-	addToConsole("directories for scan remaining: " + directories->Count.ToString());
-	addToConsole("files for scan scan remaining: " + filesForScan->Count.ToString());
-	addToConsole("files can´t be opened (with error): " + filesCanotBeScaned.ToString());
-	}
-	
+	}	
 };
 
 
