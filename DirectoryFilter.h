@@ -230,17 +230,21 @@ namespace Pffff {
 		
 		private: System::Void addButtClick(System::Object^ sender, System::EventArgs^ e)
 		{
-			if (Directory::Exists(this->NameTextBox->Text))
+			String^ checkAlternativePath = NameTextBox->Text;
+			String^ updatedPath = "";
+			for each (Char character in checkAlternativePath)
 			{
-				this->DirectoryBox->Items->Add(this->NameTextBox->Text);
-				Functions->addDirectoryPath(this->NameTextBox->Text);
-				this->NameTextBox->Text = L"Add directory here...";
+				if (character == L'\\') updatedPath += "/";
+				else updatedPath += character.ToString();
 			}
-			else
+			if (Directory::Exists(updatedPath))
 			{
-				this->NameTextBox->Text = L"Incorrectly entered or nonexistent directory...";
+				DirectoryBox->Items->Add(updatedPath);
+				Functions->addDirectoryPath(updatedPath);
+				NameTextBox->Text = L"Add directory here...";
 			}
-
+			/*else NameTextBox->Text = L"Incorrectly entered or nonexistent directory...";*/
+			else NameTextBox->Text = updatedPath;
 		}
 
 		private: System::Void removeButtClick(System::Object^ sender, System::EventArgs^ e)
