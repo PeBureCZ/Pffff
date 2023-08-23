@@ -11,7 +11,7 @@ using namespace System::Drawing;
 using namespace System::IO;
 using namespace System::Collections::Generic;
 
-#define MAX_DIRECTORIES_SCAN_PER_CHUNK 131
+#define MAX_DIRECTORIES_SCAN_PER_CHUNK 51
 
 
 public ref class ProgramFunctions
@@ -29,21 +29,20 @@ private:
 	UInt32 scannedDirectories = 0;
 	UInt32 filesCanotBeScaned = 0;
 
+	int bonusDirectoriesScan = 0;
+
+	bool scanningNow = false;
+	bool scanned = false;
+	bool readyToScan = true;
+
 	Int64 minDate = 19000101000000; //date format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
 	Int64 maxDate = 23001231000000; // 2300:12:31 00:00:00
 
 	int consoleActiveIndex = 0;
 	ProgramSettings^ Settings;
-public:
-	bool scanningNow = false;
-	bool scanned = false;
-	bool readyToScan = true;
+
 
 public: 
-	String^ functionTesting()
-	{
-		return "";
-	}
 
 	void initializeSettings(ProgramSettings^ SettingObj)
 	{
@@ -66,13 +65,13 @@ public:
 				findNewFilesInDirectory(directories[lastIndex], lastIndex);
 				lastIndex = directories->Count - 1;
 				maxScanLength++;
-			} while (lastIndex >= 0 && maxScanLength < MAX_DIRECTORIES_SCAN_PER_CHUNK);
+			} while (lastIndex >= 0 && maxScanLength < (MAX_DIRECTORIES_SCAN_PER_CHUNK+bonusDirectoriesScan));
 		}
 		//else addToConsole("No directory finded: try add new directory in Directory filter");
 
-		if (maxScanLength == MAX_DIRECTORIES_SCAN_PER_CHUNK)
+		if (maxScanLength == (MAX_DIRECTORIES_SCAN_PER_CHUNK + bonusDirectoriesScan))
 		{
-			scannedDirectories += MAX_DIRECTORIES_SCAN_PER_CHUNK;
+			scannedDirectories += (MAX_DIRECTORIES_SCAN_PER_CHUNK + bonusDirectoriesScan);
 			readyToScan = true;
 			return true; //repeat function
 		}
@@ -89,7 +88,6 @@ public:
 			if (FindDateFormat(filesForScan[0]))
 			{
 				filesFinded->Add(filesForScan[0]);
-				filesForScan->RemoveAt(0);
 			}
 			filesForScan->RemoveAt(0);
 			readyToScan = true;
@@ -100,7 +98,6 @@ public:
 			if (filesForScan->Count == 0 && directories->Count == 0)
 			{
 				scanningNow = false;
-				scanned = true;
 			}
 			readyToScan = true;
 			return false;
@@ -113,23 +110,49 @@ public:
 		return filesFinded->Count;
 	}
 
+	bool getScanningNow()
+	{
+		return scanningNow;
+	}
+
+	bool getScanned()
+	{
+		return scanned;
+	}
+
+	bool getReadyToScan()
+	{
+		return readyToScan;
+	}
+
+	void setScanningNow(bool newBool)
+	{
+		scanningNow = newBool;
+	}
+
+	void setScanned(bool newBool)
+	{
+		scanned = newBool;
+	}
+
+	void setReadyToScan(bool newBool)
+	{
+		readyToScan = newBool;
+	}
+
 
 	void resetScanInFunctions()
 	{
-
-		if (scanningNow == false)
-		{
-			filesFinded->Clear();
-			datesFinded->Clear();
-			clearConsole();
-			addToConsole("reset applied...");
-			//need refresh console by function "printConsole();"
-			scanned = false;
-			filesCanotBeScaned = 0;
-			scannedDirectories = 0;
-		}
-		else addToConsole("Scan still running...");
-
+		filesFinded->Clear();
+		datesFinded->Clear();
+		directories->Clear();
+		filesForScan->Clear();
+		clearConsole();
+		addToConsole("reset applied...");
+		//need refresh console by function "printConsole();"
+		scanned = false;
+		filesCanotBeScaned = 0;
+		scannedDirectories = 0;
 	}
 
 	//CONSOLE START
@@ -178,7 +201,7 @@ public:
 		return outputStr;
 	}
 
-	void addConsoleOutputs()
+	void addOutputToConsole()
 	{
 		addToConsole("directories scanned: " + scannedDirectories.ToString());
 		addToConsole("directories for scan remaining: " + directories->Count.ToString());
@@ -381,7 +404,20 @@ public:
 		nameMustContain->RemoveAt(index);
 	}
 
-	private: //PRIVATE FUNCTIONS START________________________________________________
+	//ADVANCED FUNCTIONS START________________________________________________
+
+	void setBonusDirectoriesScan(int bonus)
+	{
+		if (bonus + MAX_DIRECTORIES_SCAN_PER_CHUNK <= 0) //cannot be negative or zero!
+		{
+			bonusDirectoriesScan = ( - 1 * MAX_DIRECTORIES_SCAN_PER_CHUNK) + 1;
+		}
+		else bonusDirectoriesScan = bonus;
+		
+	}
+
+	//PRIVATE FUNCTIONS START________________________________________________
+	private: 
 	
 
 	bool FindDateFormat(String^ path)
@@ -432,21 +468,20 @@ public:
 				//fileInfo->Extension - REWORK??
 				if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) || Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
 				{
-					if (nameMustContain->Count > 0)
+					if (containName(file))
 					{
-						if (!containName(file)) continue; //The file does not contain the requested text in its name or in its directory path
-					}
-					if (Settings->checkMinFileSize)
-					{
-						FileInfo^ fileInfo = gcnew FileInfo(file);
-						if (fileInfo->Length >= Settings->minFileSize * 1000)
+						if (Settings->checkMinFileSize)
+						{
+							FileInfo^ fileInfo = gcnew FileInfo(file);
+							if (fileInfo->Length >= Settings->minFileSize * 1000)
+							{
+								filesForScan->Add(file);
+							}
+						}
+						else
 						{
 							filesForScan->Add(file);
 						}
-					}
-					else
-					{
-						filesForScan->Add(file);
 					}
 				}
 				//else if
@@ -541,12 +576,14 @@ public:
 	bool containName(String^ pathAndName)
 	{
 		int count = nameMustContain->Count;
-		for (int i = 0; i < count; i++)
+		if (count > 0)
 		{
-			if (pathAndName->Contains(nameMustContain[i])) return true;
+			for (int i = 0; i < count; i++)
+			{
+				if (!(pathAndName->Contains(nameMustContain[i]))) return false;
+			}
 		}
-		return false;
-
+		return true;
 	}	
 };
 

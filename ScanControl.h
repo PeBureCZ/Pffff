@@ -116,7 +116,7 @@ namespace Pffff
 			// 
 			// ScanBut
 			// 
-			this->ScanBut->BackColor = System::Drawing::Color::DarkSeaGreen;
+			this->ScanBut->BackColor = System::Drawing::Color::Green;
 			this->ScanBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->ScanBut->Location = System::Drawing::Point(7, 38);
@@ -325,74 +325,76 @@ namespace Pffff
 		}
 
 #pragma endregion
-		
+		bool stopScanning = false;
 		
 	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-
-		if (Functions->scanningNow || Functions->scanned)
+		if (!Functions->getScanningNow() && !Functions->getScanned())
 		{
-			Functions->addToConsole("Can´t scan again now...");
-			printConsole();
-		}
-		else
+			Functions->clearConsole();
+			ScanBut->Text = "STOP (scanning...)";
+			ScanBut->BackColor = System::Drawing::Color::Crimson;
+			Functions->addToConsole("Scan start...");
+			printConsole(); //new console lines in runScan
+			if (Functions->runScan(false))
+			{
+				printConsole();
+				runRepeatedScan();
+			}
+			else
 			{
 				Functions->clearConsole();
-				ScanBut->Text = "Scanning...";
-				Functions->addToConsole("Scan start...");
-				printConsole(); //new console lines in runScan
-				if (Functions->runScan(false))
-				{
-					runRepeatedTest();
-				}
-				else
-				{
-					Functions->clearConsole();
-					Functions->addConsoleOutputs();
-					stopScan(); //with printConsole();
-				}
+				Functions->addOutputToConsole();
+				stopScan(); //with printConsole();
 			}
+		}
+		else if (!Functions->getScanned())
+		{
+		stopScanning = true; // click on STOP SCAN
+		ScanBut->Text = "ABORTED (unsupported for now)";
+		}
+
+
 
 	}		
-	void runRepeatedTest()
+	void runRepeatedScan()
 	{
 			   
-		if (Functions->scanAgain())
+		if (Functions->scanAgain() && !stopScanning)
 		{
+			Functions->addToConsole("scan again");
+			printConsole();
 			Task^ timerTask = Task::Run(gcnew Action(this, &ScanControl::checkRepeat));
 		}
 		else
 		{
-			Functions->clearConsole();
-			Functions->addConsoleOutputs();
-			printConsole();
 			stopScan();
 		}
 	}
 
-	void checkRepeat()
+	void checkRepeat() //without delegate
 	{
-		while (true)
+		while (!stopScanning)
 		{
-			if (Functions->readyToScan == true)
+			if (Functions->getReadyToScan())
 			{
 				Task::Delay(TimeSpan::FromMilliseconds(10))->Wait(); //BETTER OPTIMALIZATION (smoother on weak computers)
-				BeginInvoke(gcnew Action(this, &ScanControl::scanAgain)); 
+				BeginInvoke(gcnew Action(this, &ScanControl::scanContinue)); 
 				Task::Delay(TimeSpan::FromMilliseconds(10))->Wait(); //BETTER OPTIMALIZATION  (smoother on weak computers)
-				BeginInvoke(gcnew Action(this, &ScanControl::runRepeatedTest));
+				BeginInvoke(gcnew Action(this, &ScanControl::runRepeatedScan));
 				break;
 			}
 			else
 			{
-				Task::Delay(TimeSpan::FromMilliseconds(20))->Wait();
+				Task::Delay(TimeSpan::FromMilliseconds(15))->Wait();
 			}
-		}		  
+		}
 	}
 
-	void scanAgain()
+	void scanContinue()
 	{
 		Functions->clearConsole();
-		Functions->addConsoleOutputs();
+		Functions->addOutputToConsole();
 		Functions->runScan(true); //true = repeated
 		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
 		printConsole();
@@ -400,8 +402,15 @@ namespace Pffff
 
 	void stopScan()
 	{
+		Functions->clearConsole();
+		Functions->addOutputToConsole();
+		Functions->getConsoleOutput();
+		stopScanning = false;
+		Functions->setScanned(true);
+		Functions->setReadyToScan(true);
+		Functions->setScanningNow(false); //due to button: STOP SCAN
 		Functions->addToConsole("Scan end...");
-
+		ScanBut->BackColor = System::Drawing::Color::Green;
 		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
 		List<String^>^ filesFindedCopy = Functions->getFindedItemsPaths();
 		FindBox->ClearSelected();
@@ -409,17 +418,15 @@ namespace Pffff
 		{
 			FindBox->Items->Add(filesFindedCopy[i]);
 		}
-		if (filesFindedCopy->Count > 0)
-		{
-			ScanBut->Text = "Scan again from already searched files";
-			ResetBut->Visible = true;
-		}
-		else
-		{
-			ScanBut->Text = "Apply filter and scan";
-			Functions->addToConsole("no files finded, try change filters...");
-			Functions->scanned = false; //no files finded -> can scan again
-		}
+		ResetBut->Visible = true;
+		ScanBut->BackColor = System::Drawing::Color::Green;
+		ScanBut->Text = "Re-scan unsupported for now...";
+		//if (filesFindedCopy->Count > 0)
+		//{
+		//	ScanBut->Text = "Scan again from already searched files";
+		//	ResetBut->Visible = true;
+		//	ScanBut->BackColor = System::Drawing::Color::Green;
+		//}
 		printConsole(); //new console lines in runScan
 	}
 
@@ -430,7 +437,7 @@ namespace Pffff
 		ResetBut->Visible = false;
 		ImgTextBox->Text = "0";
 		findedItemsCount->Text = "0";
-		Functions->resetScanInFunctions(); //need refresh console (CLEAR)
+		Functions->resetScanInFunctions(); //need refresh console
 		printConsole();
 		ScanBut->Text = "Apply filter and scan";
 	}
@@ -516,7 +523,6 @@ namespace Pffff
 
 	ProgramSettings^ Setting;
 	ProgramFunctions^ Functions;
-	bool testScan = false;
 
 	void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
 	{

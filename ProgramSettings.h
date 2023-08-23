@@ -19,12 +19,25 @@ public:
     bool checkMaxDate = false;
     bool checkExif = false;
     bool checkMinFileSize = false;
-    String^ programVersion = L" Beta v.0.6.0   ";
+    String^ programVersion = L" Beta v.0.7.0   ";
+    
+   /* 
+   Beta v.0.8.0
+    changelist:
+    -add "MAX_DIRECTORIES_SCAN_PER_CHUNK changer" to Advanced(filter)
 
-    void testFunction()
-    {
+    Beta v.0.9.0
+    changelist:
+    -Add a function for scanning from already found files
 
-    }
+    v 1.0.0
+    changelist:
+    - repair warnings (posible loss of data, atc.)
+    - clear code
+    
+    :*/
+
+
     String^ getProgramVersion()
     {
         return programVersion;
@@ -34,6 +47,7 @@ public:
     {
         minFileSize = newSize;
     }
+
 };
 
 

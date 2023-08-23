@@ -245,7 +245,7 @@ namespace Pffff {
 			this->MaximumSize = System::Drawing::Size(860, 450);
 			this->MinimumSize = System::Drawing::Size(860, 450);
 			this->Name = L"basicForm";
-			this->Text = L"Pffff (Personal filter for file)";
+			this->Text = L"Pffff (Personal filter for file find)";
 			this->leftPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
