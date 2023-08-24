@@ -353,6 +353,41 @@ namespace Pffff
 		stopScanning = true; // click on STOP SCAN
 		ScanBut->Text = "ABORTED (unsupported for now)";
 		}
+		else
+		{
+			Functions->clearConsole();
+			ScanBut->Text = "STOP (scanning...)";
+			ScanBut->BackColor = System::Drawing::Color::Crimson;
+			Functions->addToConsole("Re-scan start...");
+			List<String^>^ copyDirectories = gcnew List<String^>(Functions->getFilesFinded());
+			Functions->addToConsole(copyDirectories->Count.ToString());
+			//Functions->addToConsole("TEST: " + copyDirectories[0]);
+			Functions->resetScanInFunctions();
+			//Functions->removeAllDirectories();
+			FindBox->Items->Clear();
+			Functions->setScanned(true); // due to re-scan!
+			for (size_t i = 0; i < copyDirectories->Count; i++)
+			{
+				Functions->addFileForScan(copyDirectories[i]);
+			}
+			//for each (String ^ pathImport in copyDirectories)
+			//{
+			//	Functions->addToConsole("TEST - add path in scan");
+			//	Functions->addFileForScan(pathImport);
+			//}
+			if (Functions->runScan(true))
+			{
+				printConsole();
+				runRepeatedScan();
+			}
+			else
+			{
+				Functions->clearConsole();
+				Functions->addOutputToConsole();
+				stopScan(); //with printConsole();
+			}
+		}
+		
 
 
 
@@ -362,7 +397,6 @@ namespace Pffff
 			   
 		if (Functions->scanAgain() && !stopScanning)
 		{
-			Functions->addToConsole("scan again");
 			printConsole();
 			Task^ timerTask = Task::Run(gcnew Action(this, &ScanControl::checkRepeat));
 		}
@@ -420,7 +454,7 @@ namespace Pffff
 		}
 		ResetBut->Visible = true;
 		ScanBut->BackColor = System::Drawing::Color::Green;
-		ScanBut->Text = "Re-scan unsupported for now...";
+		ScanBut->Text = "Re-scan from already finded files";
 		//if (filesFindedCopy->Count > 0)
 		//{
 		//	ScanBut->Text = "Scan again from already searched files";
@@ -563,32 +597,5 @@ namespace Pffff
 		this->ImageBox->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ImageBox.Image")));
 	}
 
-	//PREVIOUS VERSION
-	
-	//void runNewScan()
-	//{
-	//	startDelayedScan();
-	//}
-
-	//void startDelayedScan()
-	//{
-	//	Task::Delay(TimeSpan::FromMilliseconds(Functions->getDelay()))->Wait();
-	//	if (Functions->scanAgain())
-	//	{
-	//		BeginInvoke(gcnew Action(this, &ScanControl::runScan));
-	//		Task^ timerTask = Task::Run(gcnew Action(this, &ScanControl::runNewScan));
-	//	}
-	//	else BeginInvoke(gcnew Action(this, &ScanControl::stopScan));
-	//}
-
-	//void runScan()
-	//{
-	//	Functions->clearConsole();
-	//	Functions->runScan(true); //true = repeated
-	//	this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
-	//	printConsole();
-	//}
-
-	
 };
 }

@@ -19,26 +19,27 @@ public ref class ProgramFunctions
 
 private:
 
-	List<String^>^ directories = gcnew List<String^>();
-	List<String^>^ filesForScan = gcnew List<String^>();
-	List<String^>^ datesFinded = gcnew List<String^>(); //indexed
-	List<String^>^ filesFinded = gcnew List<String^>(); //indexed
-	List<String^>^ consoleText = gcnew List<String^>();
-	List<String^>^ directoryInFilter = gcnew List<String^>();
-	List<String^>^ nameMustContain = gcnew List<String^>();
-	UInt32 scannedDirectories = 0;
-	UInt32 filesCanotBeScaned = 0;
+	List<String^>^ directories = gcnew List<String^>(); //remaining directories for scan
+	List<String^>^ filesForScan = gcnew List<String^>(); //remaining files for scan 
+	List<String^>^ datesFinded = gcnew List<String^>(); //INDEXED - custom date format (finded items/files)
+	List<String^>^ filesFinded = gcnew List<String^>(); //INDEXED paths (finded items/files)
+	List<String^>^ consoleText = gcnew List<String^>(); //console text
+	List<String^>^ directoryInFilter = gcnew List<String^>(); //directories added (from directory filter)
+	List<String^>^ nameMustContain = gcnew List<String^>(); //names list (condition)
+	UInt32 scannedDirectories = 0; //console output
+	UInt32 filesCanotBeScaned = 0; //console output
 
-	int bonusDirectoriesScan = 0;
+	int bonusDirectoriesScan = 0;//advanced scan option
 
 	bool scanningNow = false;
 	bool scanned = false;
-	bool readyToScan = true;
+	bool readyToScan = true; //output - "wait or can scan again"
+	bool optimizationMode = false; //true = not clear console after chunk scan, run scan, stop scan, atc.
 
 	Int64 minDate = 19000101000000; //date format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
 	Int64 maxDate = 23001231000000; // 2300:12:31 00:00:00
 
-	int consoleActiveIndex = 0;
+	int consoleActiveIndex = 0; //console line to show (manual)
 	ProgramSettings^ Settings;
 
 
@@ -53,13 +54,14 @@ public:
 
 	bool runScan(bool repeated) //false = function Scan complete, true = function must be repeated
 	{
+		addToConsole("scan running...");
 		readyToScan = false;
 		if (repeated == false) directories->AddRange(directoryInFilter); //get all paths from DirectoryFilter (eg."C:\Users" ... )
 		int lastIndex = directories->Count - 1;
 		size_t maxScanLength = 0;
-		if (directories->Count > 0 ) //NEED REWORK -> "&& scanned == false"
+		scanningNow = true;
+		if (directories->Count > 0 )
 		{
-			scanningNow = true;
 			do //from last to index 0 (not owerhelmed by new directories)
 			{
 				findNewFilesInDirectory(directories[lastIndex], lastIndex);
@@ -85,9 +87,26 @@ public:
 	{
 		if (filesForScan->Count > 0)
 		{
-			if (FindDateFormat(filesForScan[0]))
+			if (containName(filesForScan[0]))
 			{
-				filesFinded->Add(filesForScan[0]);
+				if (Settings->checkMinFileSize)
+				{
+					FileInfo^ fileInfo = gcnew FileInfo(filesForScan[0]);
+					if (fileInfo->Length >= Settings->minFileSize * 1000)
+					{
+						if (FindDateFormat(filesForScan[0]))
+						{
+							filesFinded->Add(filesForScan[0]);
+						}
+					}
+				}
+				else
+				{
+					if (FindDateFormat(filesForScan[0]))
+					{
+						filesFinded->Add(filesForScan[0]);
+					}
+				}
 			}
 			filesForScan->RemoveAt(0);
 			readyToScan = true;
@@ -103,6 +122,11 @@ public:
 			return false;
 		}
 
+	}
+
+	void addFileForScan(String^ path)
+	{
+		filesForScan->Add(path);
 	}
 
 	int getFilesFindedCount()
@@ -155,6 +179,11 @@ public:
 		scannedDirectories = 0;
 	}
 
+	List<String^>^ getFilesFinded()
+	{
+		return filesFinded;
+	}
+
 	//CONSOLE START
 
 	void addToConsole(String^ text)
@@ -168,7 +197,7 @@ public:
 
 	void clearConsole()
 	{
-		consoleText->Clear();
+		if (optimizationMode == false) consoleText->Clear();
 	}
 
 	void addToConsoleIndex(int addToIndex)
@@ -230,6 +259,11 @@ public:
 	void removeDirectory(int index)
 	{
 		directoryInFilter->RemoveAt(index);
+	}
+
+	void removeAllDirectories()
+	{
+		directoryInFilter->Clear();
 	}
 
 	//METADATA FILTER FUNCTIONS START________________________________________________
@@ -468,21 +502,8 @@ public:
 				//fileInfo->Extension - REWORK??
 				if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) || Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
 				{
-					if (containName(file))
-					{
-						if (Settings->checkMinFileSize)
-						{
-							FileInfo^ fileInfo = gcnew FileInfo(file);
-							if (fileInfo->Length >= Settings->minFileSize * 1000)
-							{
-								filesForScan->Add(file);
-							}
-						}
-						else
-						{
-							filesForScan->Add(file);
-						}
-					}
+					filesForScan->Add(file);
+					
 				}
 				//else if
 				//{

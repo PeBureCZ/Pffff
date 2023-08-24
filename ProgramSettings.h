@@ -11,31 +11,30 @@ using namespace System::Drawing;
 public ref class ProgramSettings
 {
 public: 
-    size_t maxByteExifScan = 120; //for advanced
-    size_t maxByteFileScan = 22020608; //for advanced
-    long long minFileSize = 8;
+    long long maxByteExifScan = 120; //advanced setting
+    long long maxByteFileScan = 22020608; //advanced setting
+    long long minFileSize = 8; //fileSpecificationFilter setting
 
     bool checkMinDate = false; //metaFilter
     bool checkMaxDate = false; //metaFilter
     bool checkExif = false; //metaFilter
 
     bool checkMinFileSize = false;
-    String^ programVersion = L" Beta v.0.8.0   ";
+    String^ programVersion = L" Beta v.0.9.0   ";
     
    /* 
-      Beta v.0.9.0
-    -Add a function for scanning from already found files
-
     v 1.0.0
     - repair warnings (posible loss of data, atc.)
     - clear code
 
 
     v 1.1.0
+    - add optimization mode in advance
     - add foto rotation (buttons) and auto foto dimension 
 
     v 1.2.0
     - add "open folder" button in directory filter
+    - ability to remove finded files from selected (finded list box)
   
     
     :*/
