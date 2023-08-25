@@ -323,6 +323,7 @@ namespace Pffff {
 				Functions->setBonusDirectoriesScan(0);
 				if (newText != "-") return "0";
 			}
+			return "0";
 		}
 
 		String^ setMaxExifByteScan(String^ byteString)

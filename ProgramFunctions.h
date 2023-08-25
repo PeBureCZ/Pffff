@@ -58,7 +58,7 @@ public:
 		readyToScan = false;
 		if (repeated == false) directories->AddRange(directoryInFilter); //get all paths from DirectoryFilter (eg."C:\Users" ... )
 		int lastIndex = directories->Count - 1;
-		size_t maxScanLength = 0;
+		unsigned int maxScanLength = 0;
 		scanningNow = true;
 		if (directories->Count > 0 )
 		{
@@ -67,7 +67,7 @@ public:
 				findNewFilesInDirectory(directories[lastIndex], lastIndex);
 				lastIndex = directories->Count - 1;
 				maxScanLength++;
-			} while (lastIndex >= 0 && maxScanLength < (MAX_DIRECTORIES_SCAN_PER_CHUNK+bonusDirectoriesScan));
+			} while (lastIndex >= 0 && static_cast<int>(maxScanLength) < (MAX_DIRECTORIES_SCAN_PER_CHUNK+bonusDirectoriesScan));
 		}
 		//else addToConsole("No directory finded: try add new directory in Directory filter");
 
@@ -215,14 +215,14 @@ public:
 		String^ outputStr;
 		if (consoleActiveIndex + 7 >= consoleText->Count) //CONSOLE LENGTH = 8 LINES
 		{
-			for (size_t i = consoleActiveIndex; i < consoleText->Count; i++)
+			for (int i = consoleActiveIndex; i < consoleText->Count; i++)
 			{
 				outputStr += consoleText[i];
 			}
 		}
 		else
 		{
-			for (size_t i = consoleActiveIndex; i <= consoleActiveIndex + 7; i++)
+			for (int i = consoleActiveIndex; i <= consoleActiveIndex + 7; i++)
 			{
 				outputStr += consoleText[i];
 			}
@@ -238,9 +238,9 @@ public:
 		addToConsole("files can´t be opened (with error): " + filesCanotBeScaned.ToString());
 	}
 
-	size_t getConsoleLength()
+	int getConsoleLength()
 	{
-		return static_cast<size_t>(consoleText->Count);
+		return consoleText->Count;
 	}
 
 	bool scanAgain()
@@ -297,7 +297,8 @@ public:
 		{
 			return filesFinded[index];
 		}
-
+		addToConsole("error in console line!");
+		return "";
 	}
 
 	String^ setMinYYYY(String^ newYYYY)
@@ -477,7 +478,7 @@ public:
 			if (Settings->checkExif) return scanJpgExif(bytesVec, scanSize);
 			else return scanJpgNoExif(bytesVec, scanSize);
 		}
-		catch (Exception^ ex)
+		catch (Exception^)
 		{
 			return false;
 		}
@@ -512,7 +513,7 @@ public:
 			}
 			directories->RemoveAt(lastIndexPath);
 		}
-		catch (Exception^ e)
+		catch (Exception^)
 		{
 			//errors - nothing impl.
 			filesCanotBeScaned++;
@@ -549,7 +550,7 @@ public:
 				testNumChar[13] = fileOpened[index + 14];
 
 				// test numbers format
-				for (size_t l = 0; l < testNumChar->Length; l++)
+				for (int l = 0; l < testNumChar->Length; l++)
 				{
 					//addToConsole(testNumChar[l].ToString());
 					if (!Char::IsDigit(testNumChar[l])) return false;
@@ -569,7 +570,7 @@ public:
 
 	bool scanJpgNoExif(List<Byte>^ fileOpened, size_t maxScanSize)
 	{
-		for (size_t i = 0; i < maxScanSize; i++)
+		for (int i = 0; i < maxScanSize; i++)
 		{
 			if (scanDateFormatOfJpg(fileOpened, i))
 			{
@@ -582,7 +583,7 @@ public:
 	bool scanJpgExif(List<Byte>^ fileOpened, size_t maxScanSize)
 	{
 		bool exifChecked = false;
-		for (size_t i = 0; i < maxScanSize; i++)
+		for (int i = 0; i < maxScanSize; i++)
 		{
 			if (static_cast<unsigned char>(fileOpened[i]) == 0xFF && static_cast<unsigned char>(fileOpened[i + 1]) == 0XE1)
 			{

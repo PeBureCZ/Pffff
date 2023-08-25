@@ -20,11 +20,10 @@ public:
     bool checkExif = false; //metaFilter
 
     bool checkMinFileSize = false;
-    String^ programVersion = L" Beta v.0.9.0   ";
+    String^ programVersion = " " + "Beta v.0.9.1" + "   ";
     
    /* 
     v 1.0.0
-    - repair warnings (posible loss of data, atc.)
     - clear code
 
 

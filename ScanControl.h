@@ -366,7 +366,7 @@ namespace Pffff
 			//Functions->removeAllDirectories();
 			FindBox->Items->Clear();
 			Functions->setScanned(true); // due to re-scan!
-			for (size_t i = 0; i < copyDirectories->Count; i++)
+			for (int i = 0; i < copyDirectories->Count; i++)
 			{
 				Functions->addFileForScan(copyDirectories[i]);
 			}
@@ -448,7 +448,7 @@ namespace Pffff
 		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
 		List<String^>^ filesFindedCopy = Functions->getFindedItemsPaths();
 		FindBox->ClearSelected();
-		for (size_t i = 0; i < filesFindedCopy->Count; i++)
+		for (int i = 0; i < filesFindedCopy->Count; i++)
 		{
 			FindBox->Items->Add(filesFindedCopy[i]);
 		}
@@ -539,7 +539,7 @@ namespace Pffff
 			{
 				ImageBox->Image = Image::FromFile(Functions->getFindedItemPath(static_cast<int>(index)));
 			}
-			catch (Exception^ ex)
+			catch (Exception^)
 			{
 				Functions->addToConsole("Can´t open selected file(E1)...");
 				printConsole();
@@ -582,7 +582,7 @@ namespace Pffff
 				Bitmap^ image = gcnew Bitmap(stream);
 				return true;
 			}
-			catch (Exception^ e)
+			catch (Exception^)
 			{
 				return false;
 			}
