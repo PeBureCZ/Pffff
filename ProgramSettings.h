@@ -26,14 +26,15 @@ public:
     v 1.0.0
     - clear code
 
-
     v 1.1.0
-    - add optimization mode in advance
     - add foto rotation (buttons) and auto foto dimension 
 
     v 1.2.0
     - add "open folder" button in directory filter
     - ability to remove finded files from selected (finded list box)
+
+    v 1.3.0
+    - add "filter summary" in "SCAN" 
   
     
     :*/
