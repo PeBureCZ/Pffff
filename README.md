@@ -1,7 +1,7 @@
 # Pffff (Personal filter for file find)
 # .NET Framework (4.7.2, full C++)
 ## 1) ENG
-## 2) CZECH
+## 2) ČESKY
 ## 3) SCREENSHOTS
 
 
