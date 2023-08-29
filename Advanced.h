@@ -11,9 +11,6 @@ using namespace System::Drawing;
 
 namespace Pffff {
 
-	/// <summary>
-	/// Summary for UserControl5
-	/// </summary>
 	public ref class Advanced : public System::Windows::Forms::UserControl
 	{
 	public:
@@ -28,9 +25,6 @@ namespace Pffff {
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		~Advanced()
 		{
 			if (components)
@@ -41,45 +35,20 @@ namespace Pffff {
 	private: System::Windows::Forms::TextBox^ exifByte_text;
 	private: System::Windows::Forms::Label^ exifByte_label;
 	private: System::Windows::Forms::PictureBox^ markImg1;
-	protected:
-
-
-
-
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::TextBox^ fileByte_text;
 	private: System::Windows::Forms::Label^ fileByte_label;
 	private: System::Windows::Forms::PictureBox^ markImg2;
-
-
-
 	private: System::Windows::Forms::Label^ label4;
-
 	private: System::Windows::Forms::Label^ versionText;
-
-
 	private: System::Windows::Forms::ImageList^ imageList;
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::TextBox^ Bonus_text;
-
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	private: System::Windows::Forms::Label^ label3;
-
 	private: System::ComponentModel::IContainer^ components;
 
-	protected:
-
-	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-
-
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
@@ -286,20 +255,18 @@ namespace Pffff {
 		private: System::Void OnBonusTextChanged(System::Object^ sender, System::EventArgs^ e)
 		{
 			Bonus_text->Text = setBonusScan(Bonus_text->Text);
-		}
-
-			   
+		}	   
 
 		ProgramSettings^ Setting;
 		ProgramFunctions^ Functions;
+
 		void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
 		{
 			Setting = setting;
 			Functions = functions;
 			this->versionText->Text = Setting->getProgramVersion();
 		}
-
-		
+	
 		String^ setBonusScan(String^ newText)
 		{
 			Int32 numBonus;

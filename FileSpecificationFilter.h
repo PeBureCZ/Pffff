@@ -12,9 +12,6 @@ using namespace System::Drawing;
 
 namespace Pffff {
 
-	/// <summary>
-	/// Summary for UserControl4
-	/// </summary>
 	public ref class FileSpecificationFilter : public System::Windows::Forms::UserControl
 	{
 	public:
@@ -30,9 +27,6 @@ namespace Pffff {
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		~FileSpecificationFilter()
 		{
 			if (components)
@@ -42,30 +36,15 @@ namespace Pffff {
 		}
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::PictureBox^ helper1;
-	protected:
-
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::TextBox^ minSize_text;
 	private: System::Windows::Forms::TextBox^ TextBox;
-
-
-
-
-
 	private: System::Windows::Forms::Button^ Add_but;
-
 	private: System::Windows::Forms::PictureBox^ pictureBox3;
 	private: System::Windows::Forms::PictureBox^ pictureBox4;
 	private: System::Windows::Forms::Label^ Support_text;
-
-
-
-
-
-
 	private: System::Windows::Forms::Label^ versionText;
 	private: System::Windows::Forms::Button^ MinSize_but;
-
 	private: System::Windows::Forms::ImageList^ imageList;
 	private: System::Windows::Forms::Button^ checkJpg_but;
 	private: System::Windows::Forms::Button^ checkPng_but;
@@ -73,24 +52,11 @@ namespace Pffff {
 	private: System::Windows::Forms::ListBox^ NameTextBox;
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	private: System::Windows::Forms::Label^ helper2;
-
-
-
-
 	private: System::ComponentModel::IContainer^ components;
-
-
 	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
+
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
@@ -375,7 +341,6 @@ namespace Pffff {
 		}
 #pragma endregion
 
-
 		private: System::Void minSizeChecked(System::Object^ sender, System::EventArgs^ e)
 		{
 			if (MinSize_but->ImageIndex == 0)
@@ -410,25 +375,24 @@ namespace Pffff {
 				if (NameTextBox->SelectedIndex == -1)
 				{
 					Functions->removeNameFromFilter(0); //remove in Functions (list)
-					NameTextBox->Items->RemoveAt(0); //remove in this->NameTextBox
+					NameTextBox->Items->RemoveAt(0); 
 				}
 				else
 				{
 					Functions->removeNameFromFilter(NameTextBox->SelectedIndex); //remove in Functions (list)
-					NameTextBox->Items->RemoveAt(NameTextBox->SelectedIndex);	//remove in this->NameTextBox
+					NameTextBox->Items->RemoveAt(NameTextBox->SelectedIndex);	
 				}
-					
-
 			}
 		}
 
 		ProgramSettings^ Setting;
 		ProgramFunctions^ Functions;
+
 		void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
 		{
 			Setting = setting;
 			Functions = functions;
-			this->versionText->Text = Setting->getProgramVersion();
+			versionText->Text = Setting->getProgramVersion();
 		}
 
 		String^ setMinFileSize(String^ byteString)
@@ -455,6 +419,5 @@ namespace Pffff {
 				return "8";
 			}
 		}
-
 	};
 }

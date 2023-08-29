@@ -7,18 +7,14 @@ using namespace System::Collections;
 using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
-
 using namespace System::IO;
 using namespace System::Collections::Generic;
 
 #define MAX_DIRECTORIES_SCAN_PER_CHUNK 51
 
-
 public ref class ProgramFunctions
 {
-
 private:
-
 	List<String^>^ directories = gcnew List<String^>(); //remaining directories for scan
 	List<String^>^ filesForScan = gcnew List<String^>(); //remaining files for scan 
 	List<String^>^ datesFinded = gcnew List<String^>(); //INDEXED - custom date format (finded items/files)
@@ -30,6 +26,7 @@ private:
 	UInt32 filesCanotBeScaned = 0; //console output
 
 	int bonusDirectoriesScan = 0;//advanced scan option
+	int consoleActiveIndex = 0; //console line to show (manual)
 
 	bool scanningNow = false;
 	bool scanned = false;
@@ -39,9 +36,7 @@ private:
 	Int64 minDate = 19000101000000; //date format eg.: "20130622081147" extract from "2013:06:22 08:11:47" (colon,colon,space,colon,colon)
 	Int64 maxDate = 23001231000000; // 2300:12:31 00:00:00
 
-	int consoleActiveIndex = 0; //console line to show (manual)
 	ProgramSettings^ Settings;
-
 
 public: 
 
@@ -50,7 +45,7 @@ public:
 		Settings = SettingObj;
 	}
 
-	//SCAN-CONTROL FUNCTIONS START________________________________________________
+	//SCAN-CONTROL FUNCTIONS START (PUBLIC) ________________________________________________
 
 	bool runScan(bool repeated) //false = function Scan complete, true = function must be repeated
 	{
@@ -69,7 +64,6 @@ public:
 				maxScanLength++;
 			} while (lastIndex >= 0 && static_cast<int>(maxScanLength) < (MAX_DIRECTORIES_SCAN_PER_CHUNK+bonusDirectoriesScan));
 		}
-		//else addToConsole("No directory finded: try add new directory in Directory filter");
 
 		if (maxScanLength == (MAX_DIRECTORIES_SCAN_PER_CHUNK + bonusDirectoriesScan))
 		{
@@ -92,12 +86,9 @@ public:
 				if (Settings->checkMinFileSize)
 				{
 					FileInfo^ fileInfo = gcnew FileInfo(filesForScan[0]);
-					if (fileInfo->Length >= Settings->minFileSize * 1000)
+					if (fileInfo->Length >= Settings->minFileSize * 1000 && FindDateFormat(filesForScan[0]))
 					{
-						if (FindDateFormat(filesForScan[0]))
-						{
-							filesFinded->Add(filesForScan[0]);
-						}
+						filesFinded->Add(filesForScan[0]);
 					}
 				}
 				else
@@ -164,7 +155,6 @@ public:
 		readyToScan = newBool;
 	}
 
-
 	void resetScanInFunctions()
 	{
 		filesFinded->Clear();
@@ -202,9 +192,9 @@ public:
 
 	void addToConsoleIndex(int addToIndex)
 	{
-		if (consoleActiveIndex + addToIndex > consoleText->Count - 7)
+		if (consoleActiveIndex + addToIndex > consoleText->Count - 7 && addToIndex > 0)
 		{
-			if (addToIndex > 0) consoleActiveIndex = consoleText->Count - 7;
+			consoleActiveIndex = consoleText->Count - 7;
 		}
 		consoleActiveIndex += addToIndex;
 		if (consoleActiveIndex < 0) consoleActiveIndex = 0;
@@ -298,7 +288,7 @@ public:
 			return filesFinded[index];
 		}
 		addToConsole("error in console line!");
-		return "";
+		return ""; //empty return
 	}
 
 	String^ setMinYYYY(String^ newYYYY)
@@ -306,20 +296,11 @@ public:
 		Int32 numDate;
 		if (Int32::TryParse(newYYYY, numDate))
 		{
-			if (numDate > 9999)
-			{
-				return "1900";
-			}
-			else if (newYYYY->Length == 0)
-			{
-				return "0001";
-			}
+			if (numDate > 9999) return "1900";
+			else if (newYYYY->Length == 0) return "0001";
 			return newYYYY;
 		}
-		else
-		{
-			return "1900";
-		}
+		else return "1900";
 	}
 
 	String^ setMinMM(String^ newMM)
@@ -327,20 +308,11 @@ public:
 		Int32 numDate;
 		if (Int32::TryParse(newMM, numDate))
 		{
-			if (numDate > 12)
-			{
-				return "12";
-			}
-			else if (newMM->Length == 0)
-			{
-				return "01";
-			}
+			if (numDate > 12) return "12";
+			else if (newMM->Length == 0) return "01";
 			return newMM;
 		}
-		else
-		{
-			return "01";
-		}
+		else return "01";
 	}
 
 	String^ setMinDD(String^ newDD)
@@ -348,20 +320,11 @@ public:
 		Int32 numDate;
 		if (Int32::TryParse(newDD, numDate))
 		{
-			if (numDate > 31)
-			{
-				return "31";
-			}
-			else if (newDD->Length == 0)
-			{
-				return "01";
-			}
+			if (numDate > 31) return "31";
+			else if (newDD->Length == 0) return "01";
 			return newDD;
 		}
-		else
-		{
-			return "01";
-		}
+		else return "01";
 	}
 
 	String^ setMaxYYYY(String^ newYYYY)
@@ -369,20 +332,11 @@ public:
 		Int32 numDate;
 		if (Int32::TryParse(newYYYY, numDate))
 		{
-			if (numDate > 9999)
-			{
-				return "9999";
-			}
-			else if (newYYYY->Length == 0)
-			{
-				return "0001";
-			}
+			if (numDate > 9999) return "9999";
+			else if (newYYYY->Length == 0) return "0001";
 			return newYYYY;
 		}
-		else
-		{
-			return "2300";
-		}
+		else return "2300";
 	}
 
 	String^ setMaxMM(String^ newMM)
@@ -390,20 +344,11 @@ public:
 		Int32 numDate;
 		if (Int32::TryParse(newMM, numDate))
 		{
-			if (numDate > 12)
-			{
-				return "12";
-			}
-			else if (newMM->Length == 0)
-			{
-				return "01";
-			}
+			if (numDate > 12) return "12";
+			else if (newMM->Length == 0) return "01";
 			return newMM;
 		}
-		else
-		{
-			return "01";
-		}
+		else return "01";
 	}
 
 	String^ setMaxDD(String^ newDD)
@@ -411,20 +356,11 @@ public:
 		Int32 numDate;
 		if (Int32::TryParse(newDD, numDate))
 		{
-			if (numDate > 31)
-			{
-				return "31";
-			}
-			else if (newDD->Length == 0)
-			{
-				return "01";
-			}
+			if (numDate > 31) return "31";
+			else if (newDD->Length == 0) return "01";
 			return newDD;
 		}
-		else
-		{
-			return "01";
-		}
+		else return "01";
 	}
 
 	//FILE SPECIFICATION FILTER FUNCTIONS START________________________________________________
@@ -443,17 +379,12 @@ public:
 
 	void setBonusDirectoriesScan(int bonus)
 	{
-		if (bonus + MAX_DIRECTORIES_SCAN_PER_CHUNK <= 0) //cannot be negative or zero!
-		{
-			bonusDirectoriesScan = ( - 1 * MAX_DIRECTORIES_SCAN_PER_CHUNK) + 1;
-		}
-		else bonusDirectoriesScan = bonus;
-		
+		if (bonus + MAX_DIRECTORIES_SCAN_PER_CHUNK <= 0) bonusDirectoriesScan = (-1 * MAX_DIRECTORIES_SCAN_PER_CHUNK) + 1; //cannot be negative or zero!
+		else bonusDirectoriesScan = bonus;		
 	}
 
 	//PRIVATE FUNCTIONS START________________________________________________
 	private: 
-	
 
 	bool FindDateFormat(String^ path)
 	{
@@ -462,19 +393,9 @@ public:
 			array<Byte>^ byteArray = File::ReadAllBytes(path);
 			List<Byte>^ bytesVec = gcnew List<Byte>(byteArray);
 			size_t scanSize = 0;
-			if (Settings->maxByteFileScan < bytesVec->Count)
-			{
-				scanSize = Settings->maxByteFileScan;
-			}
-			else
-			{
-				scanSize = bytesVec->Count;
-			}
-
-			if (Settings->maxByteFileScan < 18 && bytesVec->Count < 18)
-			{
-				return false;
-			}
+			if (Settings->maxByteFileScan < bytesVec->Count) scanSize = Settings->maxByteFileScan;
+			else scanSize = bytesVec->Count;
+			if (Settings->maxByteFileScan < 18 && bytesVec->Count < 18) return false;
 			if (Settings->checkExif) return scanJpgExif(bytesVec, scanSize);
 			else return scanJpgNoExif(bytesVec, scanSize);
 		}
@@ -488,19 +409,15 @@ public:
 	{
 		try
 		{
-			//VERSION 2
-			for each (String ^ file in Directory::GetDirectories(path)) //.NET not contain search for files+directories?!?!
-				//recursive!!!!!
+			for each (String ^ file in Directory::GetDirectories(path)) 
 			{
 				if (Directory::Exists(file))
 				{
 					directories->Add(file);
-
 				}
 			}
 			for each (String ^ file in Directory::GetFiles(path))
 			{
-				//fileInfo->Extension - REWORK??
 				if (Path::GetExtension(file)->Equals(".jpg", StringComparison::InvariantCultureIgnoreCase) || Path::GetExtension(file)->Equals(".JPG", StringComparison::InvariantCultureIgnoreCase))
 				{
 					filesForScan->Add(file);
@@ -508,7 +425,7 @@ public:
 				}
 				//else if
 				//{
-				// next file formats?
+				// next file formats? (png?)
 				//}
 			}
 			directories->RemoveAt(lastIndexPath);
@@ -528,12 +445,12 @@ public:
 			// test colon char
 			if (fileOpened[index + 3] == ':' && fileOpened[index + 9] == ':' && fileOpened[index + 12] == ':')
 			{
-				array<Char>^ testNumChar = gcnew array<Char>(14);
+				array<Char>^ testNumChar = gcnew array<Char>(14); //THIS IS DATE FORMAT (DATE CTEATED - .jpg)
 				testNumChar[0] = fileOpened[index - 4];
 				testNumChar[1] = fileOpened[index - 3];
 				testNumChar[2] = fileOpened[index - 2];
 				testNumChar[3] = fileOpened[index - 1];
-				// start index
+				// start index = 0
 				testNumChar[4] = fileOpened[index + 1];
 				testNumChar[5] = fileOpened[index + 2];
 				// colon
@@ -549,10 +466,9 @@ public:
 				testNumChar[12] = fileOpened[index + 13];
 				testNumChar[13] = fileOpened[index + 14];
 
-				// test numbers format
+				// test numbers format, not digit = return (false) = invalid date format
 				for (int l = 0; l < testNumChar->Length; l++)
 				{
-					//addToConsole(testNumChar[l].ToString());
 					if (!Char::IsDigit(testNumChar[l])) return false;
 				}
 				String^ returnDate = gcnew String(testNumChar);
@@ -572,10 +488,7 @@ public:
 	{
 		for (int i = 0; i < maxScanSize; i++)
 		{
-			if (scanDateFormatOfJpg(fileOpened, i))
-			{
-				return true;
-			}
+			if (scanDateFormatOfJpg(fileOpened, i)) return true;
 		}
 		return false;
 	}

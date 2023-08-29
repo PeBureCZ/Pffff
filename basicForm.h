@@ -1,17 +1,13 @@
 #pragma once
 
-//Deff Classes start
 #include "DirectoryFilter.h"
 #include "MetadataFilter.h"
 #include "FileSpecificationFilter.h"
 #include "Advanced.h"
 #include "ScanControl.h"
-//Deff Classes end
 
-//Custom Classes start
 #include "ProgramSettings.h"
 #include "ProgramFunctions.h"
-//Custom Classes end
 
 namespace Pffff {
 
@@ -22,9 +18,6 @@ namespace Pffff {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
-	/// Summary for basicForm
-	/// </summary>
 	public ref class basicForm : public System::Windows::Forms::Form
 	{
 
@@ -40,9 +33,6 @@ namespace Pffff {
 		}			   
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		~basicForm()
 		{
 			if (components)
@@ -62,22 +52,10 @@ namespace Pffff {
 	private: Pffff::FileSpecificationFilter^ fileSpecificationFilter1;
 	private: Pffff::Advanced^ advanced1;
 	private: Pffff::ScanControl^ scanControl1;
-
-
-
-	protected:
-
-	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		System::ComponentModel::Container ^components;
+	private: System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
+
 		void InitializeComponent(ProgramSettings^ settingObject, ProgramFunctions^ functionObject)
 		{
 			this->leftPanel = (gcnew System::Windows::Forms::Panel());
@@ -86,6 +64,7 @@ namespace Pffff {
 			this->but_metaFilter = (gcnew System::Windows::Forms::Button());
 			this->but_direcFilter = (gcnew System::Windows::Forms::Button());
 			this->but_scan = (gcnew System::Windows::Forms::Button());
+
 			//UserControls INTERFACES start
 			this->scanControl1 = (gcnew Pffff::ScanControl(settingObject, functionObject));
 			this->directoryFilter1 = (gcnew Pffff::DirectoryFilter(settingObject, functionObject));
@@ -249,7 +228,6 @@ namespace Pffff {
 			this->leftPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
-
 		}
 #pragma endregion
 	
@@ -271,6 +249,7 @@ namespace Pffff {
 			this->fileSpecificationFilter1->Visible = false;
 			this->advanced1->Visible = false;
 		}
+
 		private: System::Void but_metaFilter_Click(System::Object^ sender, System::EventArgs^ e)
 		{
 			this->scanControl1->Visible = false;
@@ -279,6 +258,7 @@ namespace Pffff {
 			this->fileSpecificationFilter1->Visible = false;
 			this->advanced1->Visible = false;
 		}
+
 		private: System::Void but_specFilter_Click(System::Object^ sender, System::EventArgs^ e)
 		{
 			this->scanControl1->Visible = false;
@@ -287,6 +267,7 @@ namespace Pffff {
 			this->fileSpecificationFilter1->Visible = true;
 			this->advanced1->Visible = false;
 		}
+
 		private: System::Void but_advancedFilter_Click(System::Object^ sender, System::EventArgs^ e)
 		{
 			this->scanControl1->Visible = false;

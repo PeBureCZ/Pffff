@@ -11,9 +11,7 @@ using namespace System::Drawing;
 
 
 namespace Pffff {
-	/// <summary>
-	/// Summary for UserControl2
-	/// </summary>
+
 	public ref class DirectoryFilter : public System::Windows::Forms::UserControl
 	{
 	public:
@@ -26,9 +24,6 @@ namespace Pffff {
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		~DirectoryFilter()
 		{
 			if (components)
@@ -39,33 +34,18 @@ namespace Pffff {
 
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	private: System::Windows::Forms::TextBox^ NameTextBox;
-
-
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Button^ Add_but;
 	private: System::Windows::Forms::ListBox^ DirectoryBox;
-
 	private: System::Windows::Forms::Button^ Remove_but;
 	private: System::Windows::Forms::Label^ versionText;
-
-
-
-	protected:
-
-	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		System::ComponentModel::Container ^components;
+	private: System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
+
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(DirectoryFilter::typeid));
@@ -167,7 +147,6 @@ namespace Pffff {
 
 			this->DirectoryBox->Size = System::Drawing::Size(612, 260);
 			this->DirectoryBox->TabIndex = 9;
-			this->DirectoryBox->SelectedIndexChanged += gcnew System::EventHandler(this, &DirectoryFilter::DirectoryListBox_SelectedIndexChanged);
 			// 
 			// Remove_but
 			// 
@@ -217,6 +196,7 @@ namespace Pffff {
 
 		}
 #pragma endregion
+
 		ProgramSettings^ Setting;
 		ProgramFunctions^ Functions;
 		int selectedDirecoryIndex = -1;
@@ -225,7 +205,7 @@ namespace Pffff {
 		{
 			Setting = setting;
 			Functions = functions;
-			this->versionText->Text = Setting->getProgramVersion();
+			versionText->Text = Setting->getProgramVersion();
 		}
 		
 		private: System::Void addButtClick(System::Object^ sender, System::EventArgs^ e)
@@ -243,34 +223,16 @@ namespace Pffff {
 				Functions->addDirectoryPath(updatedPath);
 				NameTextBox->Text = L"Add directory here...";
 			}
-			/*else NameTextBox->Text = L"Incorrectly entered or nonexistent directory...";*/
 			else NameTextBox->Text = updatedPath;
 		}
 
 		private: System::Void removeButtClick(System::Object^ sender, System::EventArgs^ e)
 		{
-			if (DirectoryBox->Items->Count == 0)
+			if (DirectoryBox->SelectedIndex != -1 && DirectoryBox->Items->Count != 0)
 			{
-				Functions->addToConsole("NO INDEX TO DELETE");
-				Functions->addToConsole(DirectoryBox->SelectedIndex.ToString());
-
-			}
-			else if (DirectoryBox->SelectedIndex != -1)
-			{
-				Functions->addToConsole(DirectoryBox->SelectedIndex.ToString());
 				Functions->removeDirectory(DirectoryBox->SelectedIndex);
-				DirectoryBox->Items->RemoveAt(DirectoryBox->SelectedIndex);
-
-		
+				DirectoryBox->Items->RemoveAt(DirectoryBox->SelectedIndex);		
 			}
 		}
-
-/*		private: System::Void directoryIndexSelected(System::Object^ sender, System::EventArgs^ e)
-		{
-			Functions->addToConsole("index selected");
-		}	  */ 
-
-	private: System::Void DirectoryListBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-	}
-};
+	};
 }

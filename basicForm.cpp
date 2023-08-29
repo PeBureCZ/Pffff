@@ -14,6 +14,5 @@ int main(array<String^>^ argh)
 	Functions->initializeSettings(Settings);
 	Pffff::basicForm^ form = gcnew Pffff::basicForm(Settings, Functions);
 	Application::Run(form);
-
 }
 

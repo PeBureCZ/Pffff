@@ -11,6 +11,7 @@ using namespace System::Drawing;
 public ref class ProgramSettings
 {
 public: 
+
     long long maxByteExifScan = 120; //advanced setting
     long long maxByteFileScan = 22020608; //advanced setting
     long long minFileSize = 8; //fileSpecificationFilter setting
@@ -19,13 +20,12 @@ public:
     bool checkMaxDate = false; //metaFilter
     bool checkExif = false; //metaFilter
 
-    bool checkMinFileSize = false;
-    String^ programVersion = " " + "Beta v.0.9.1" + "   ";
+    bool checkMinFileSize = false; //file specification filter
+
+    String^ programVersion = " " + "v.1.0.0" + "   "; //all
     
    /* 
-    v 1.0.0
-    - clear code
-
+   *FUTURE UPDATES PLAN
     v 1.1.0
     - add foto rotation (buttons) and auto foto dimension 
 

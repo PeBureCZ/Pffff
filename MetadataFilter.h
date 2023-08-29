@@ -8,16 +8,11 @@ using namespace System::Collections;
 using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
-
 using namespace System::IO;
 using namespace System::Reflection;
 
-
 namespace Pffff {
 
-	/// <summary>
-	/// Summary for UserControl3
-	/// </summary>
 	public ref class MetadataFilter : public System::Windows::Forms::UserControl
 	{
 	public:
@@ -40,9 +35,6 @@ namespace Pffff {
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		~MetadataFilter()
 		{
 			if (components)
@@ -51,69 +43,35 @@ namespace Pffff {
 			}
 		}
 
-	protected:
-
-	protected:
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::PictureBox^ helperImg;
-
 	private: System::Windows::Forms::Label^ label2;
-
-
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::TextBox^ minDateYYYY;
 	private: System::Windows::Forms::TextBox^ minDateMM;
-
-
-
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Label^ label5;
 	private: System::Windows::Forms::TextBox^ minDateDD;
-
 	private: System::Windows::Forms::Label^ label6;
-
-
 	private: System::Windows::Forms::Label^ label7;
 	private: System::Windows::Forms::TextBox^ maxDateYYYY;
 	private: System::Windows::Forms::TextBox^ maxDateMM;
 	private: System::Windows::Forms::TextBox^ maxDateDD;
-
-
-
-
 	private: System::Windows::Forms::Label^ label8;
 	private: System::Windows::Forms::Label^ label9;
 	private: System::Windows::Forms::Label^ label10;
 	private: System::Windows::Forms::Label^ versionText;
-
 	private: System::Windows::Forms::ImageList^ imageList1;
-
 	private: System::Windows::Forms::Button^ maxDate_But;
 	private: System::Windows::Forms::Button^ exif_but;
 	private: System::Windows::Forms::Button^ minDate_But;
 	private: System::Windows::Forms::Label^ minDateValidText;
 	private: System::Windows::Forms::Label^ maxDateValidText;
-
-
-
-
 	private: System::ComponentModel::IContainer^ components;
-
-
-
-	protected:
-
 	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
+
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
@@ -456,43 +414,43 @@ namespace Pffff {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->helperImg))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
-
 		}
 #pragma endregion
 
 		ProgramSettings^ Setting;
 		ProgramFunctions^ Functions;
+
 		void initializeMain(ProgramSettings^ setting, ProgramFunctions^ functions)
 		{
 			Setting = setting;
 			Functions = functions;
-			this->versionText->Text = Setting->getProgramVersion();
+			versionText->Text = Setting->getProgramVersion();
 		}
 
 		private: System::Void minDate_click(System::Object^ sender, System::EventArgs^ e)
 		{
-			if (this->minDate_But->ImageIndex == 0)
+			if (minDate_But->ImageIndex == 0)
 			{
-				this->minDate_But->ImageIndex = 1;
+				minDate_But->ImageIndex = 1;
 				Setting->checkMinDate = true;
 			}
 			else
 			{
-				this->minDate_But->ImageIndex = 0;
+				minDate_But->ImageIndex = 0;
 				Setting->checkMinDate = false;
 			}
 		}
 
 		private: System::Void maxDate_click(System::Object^ sender, System::EventArgs^ e)
 		{
-			if (this->maxDate_But->ImageIndex == 0)
+			if (maxDate_But->ImageIndex == 0)
 			{
-				this->maxDate_But->ImageIndex = 1;
+				maxDate_But->ImageIndex = 1;
 				Setting->checkMaxDate = true;
 			}
 			else
 			{
-				this->maxDate_But->ImageIndex = 0;
+				maxDate_But->ImageIndex = 0;
 				Setting->checkMaxDate = false;
 
 			}	
@@ -500,94 +458,88 @@ namespace Pffff {
 
 		private: System::Void exif_click(System::Object^ sender, System::EventArgs^ e)
 		{
-			if (this->exif_but->ImageIndex == 0)
+			if (exif_but->ImageIndex == 0)
 			{
-				this->exif_but->ImageIndex = 1;
+				exif_but->ImageIndex = 1;
 				Setting->checkExif = true;
 			}
 			else
 			{
-				this->exif_but->ImageIndex = 0;
+				exif_but->ImageIndex = 0;
 				Setting->checkExif = false;
 			}
 		}
 
 		private: System::Void onChangeMinYYYY(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->minDateYYYY->Text = Functions->setMinYYYY(this->minDateYYYY->Text); //return corected value
+			minDateYYYY->Text = Functions->setMinYYYY(minDateYYYY->Text); //return corected value
 			checkLenghtOfMinDateString(); //set min date to Functions!
 		}
 
 		private: System::Void onChangeMinMM(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->minDateMM->Text = Functions->setMinMM(this->minDateMM->Text); //return corected value
+			minDateMM->Text = Functions->setMinMM(minDateMM->Text); //return corected value
 			checkLenghtOfMinDateString(); //set min date to Functions!
 		}
 
 		private: System::Void onChangeMinDD(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->minDateDD->Text = Functions->setMinDD(this->minDateDD->Text); //return corected value
+			this->minDateDD->Text = Functions->setMinDD(minDateDD->Text); //return corected value
 			checkLenghtOfMinDateString(); //set min date to Functions!
 		}
 
 		private: System::Void onChangeMaxYYYY(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->maxDateYYYY->Text = Functions->setMaxYYYY(this->maxDateYYYY->Text); //return corected value
+			maxDateYYYY->Text = Functions->setMaxYYYY(maxDateYYYY->Text); //return corected value
 			checkLenghtOfMaxDateString(); //set max date to Functions!
 		}
 
 		private: System::Void onChangeMaxMM(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->maxDateMM->Text = Functions->setMaxMM(this->maxDateMM->Text); //return corected value
+			maxDateMM->Text = Functions->setMaxMM(maxDateMM->Text); //return corected value
 			checkLenghtOfMaxDateString(); //set max date to Functions!
 		}
 
 		private: System::Void onChangeMaxDD(System::Object^ sender, System::EventArgs^ e)
 		{
-			this->maxDateDD->Text = Functions->setMaxDD(this->maxDateDD->Text); //return corected value
+			maxDateDD->Text = Functions->setMaxDD(maxDateDD->Text); //return corected value
 			checkLenghtOfMaxDateString(); //set max date to Functions!
 		}
 
 		void checkLenghtOfMinDateString()
 		{
-			String^ checkedLength = this->minDateYYYY->Text + this->minDateMM->Text + this->minDateDD->Text;
+			String^ checkedLength = minDateYYYY->Text + minDateMM->Text + minDateDD->Text;
 			if (checkedLength->Length == 8)
 			{
-				this->minDateValidText->Visible = false;
+				minDateValidText->Visible = false;
 				Int64 num64;
-				String^ newDate = this->minDateYYYY->Text + this->minDateMM->Text + this->minDateDD->Text + "000000"; //6x zero for hours, mins, secs
-				if (Int64::TryParse(newDate, num64)) //convert newDate <String^> to Int64 (custom dateformat)
-				{
-					Functions->setMinDate(num64);
-				}
-				else
-				{
-					this->minDateValidText->Visible = true;
-				}
+				String^ newDate = minDateYYYY->Text + minDateMM->Text + minDateDD->Text + "000000"; //6x zero for hours, mins, secs
+				if (Int64::TryParse(newDate, num64)) Functions->setMinDate(num64); //convert newDate <String^> to Int64 (custom dateformat)
+				else minDateValidText->Visible = true;
 				return;
 			}
-			this->minDateValidText->Visible = true;
+			minDateValidText->Visible = true;
 		}
 
 		void checkLenghtOfMaxDateString()
 		{
-			String^ checkedLength = this->maxDateYYYY->Text + this->maxDateMM->Text + this->maxDateDD->Text;
+			String^ checkedLength = maxDateYYYY->Text + maxDateMM->Text + maxDateDD->Text;
 			if (checkedLength->Length == 8)
 			{
-				this->maxDateValidText->Visible = false;
+				maxDateValidText->Visible = false;
 				Int64 num64;
-				String^ newDate = this->maxDateYYYY->Text + this->maxDateMM->Text + this->maxDateDD->Text + "000000"; //6x zero for hours, mins, secs
+				String^ newDate = maxDateYYYY->Text + maxDateMM->Text + maxDateDD->Text + "000000"; //6x zero for hours, mins, secs
 				if (Int64::TryParse(newDate, num64)) //convert newDate <String^> to Int64 (custom dateformat)
 				{
 					Functions->setMaxDate(num64);
 				}
 				else
 				{
-					this->maxDateValidText->Visible = true;
+					maxDateValidText->Visible = true;
 				}
 				return;
 			}
-			this->maxDateValidText->Visible = true;
+			maxDateValidText->Visible = true;
 		}
 
 			   
