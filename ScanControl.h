@@ -79,6 +79,8 @@ namespace Pffff
 	private: System::Windows::Forms::Button^ console_downMax_but;
 	private: System::Windows::Forms::Button^ console_up_but;
 	private: System::Windows::Forms::Button^ console_down_but;
+	private: System::Windows::Forms::Label^ FindedDateLabel;
+	private: System::Windows::Forms::Label^ DateText;
 
 	private:
 		/// <summary>
@@ -111,6 +113,8 @@ namespace Pffff
 			this->console_downMax_but = (gcnew System::Windows::Forms::Button());
 			this->console_up_but = (gcnew System::Windows::Forms::Button());
 			this->console_down_but = (gcnew System::Windows::Forms::Button());
+			this->FindedDateLabel = (gcnew System::Windows::Forms::Label());
+			this->DateText = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ImageBox))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -121,7 +125,7 @@ namespace Pffff
 				static_cast<System::Byte>(0)));
 			this->ScanBut->Location = System::Drawing::Point(7, 38);
 			this->ScanBut->Name = L"ScanBut";
-			this->ScanBut->Size = System::Drawing::Size(423, 45);
+			this->ScanBut->Size = System::Drawing::Size(369, 45);
 			this->ScanBut->TabIndex = 0;
 			this->ScanBut->Text = L"Apply filter and scan";
 			this->ScanBut->UseVisualStyleBackColor = false;
@@ -146,7 +150,7 @@ namespace Pffff
 				static_cast<System::Byte>(0)));
 			this->ResetBut->Location = System::Drawing::Point(7, 89);
 			this->ResetBut->Name = L"ResetBut";
-			this->ResetBut->Size = System::Drawing::Size(423, 35);
+			this->ResetBut->Size = System::Drawing::Size(369, 35);
 			this->ResetBut->TabIndex = 2;
 			this->ResetBut->Text = L"Reset all finded files, and paths";
 			this->ResetBut->UseVisualStyleBackColor = false;
@@ -157,18 +161,19 @@ namespace Pffff
 			this->findedItemsLabel->AutoSize = true;
 			this->findedItemsLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->findedItemsLabel->Location = System::Drawing::Point(436, 250);
+			this->findedItemsLabel->Location = System::Drawing::Point(382, 234);
 			this->findedItemsLabel->Name = L"findedItemsLabel";
 			this->findedItemsLabel->Size = System::Drawing::Size(116, 24);
 			this->findedItemsLabel->TabIndex = 3;
 			this->findedItemsLabel->Text = L"Items finded:";
+			this->findedItemsLabel->Click += gcnew System::EventHandler(this, &ScanControl::findedItemsLabel_Click);
 			// 
 			// findedItemsCount
 			// 
 			this->findedItemsCount->AutoSize = true;
 			this->findedItemsCount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->findedItemsCount->Location = System::Drawing::Point(558, 250);
+			this->findedItemsCount->Location = System::Drawing::Point(497, 234);
 			this->findedItemsCount->Name = L"findedItemsCount";
 			this->findedItemsCount->Size = System::Drawing::Size(20, 24);
 			this->findedItemsCount->TabIndex = 4;
@@ -191,9 +196,9 @@ namespace Pffff
 			this->ImageBox->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 			this->ImageBox->Cursor = System::Windows::Forms::Cursors::PanEast;
 			this->ImageBox->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ImageBox.Image")));
-			this->ImageBox->Location = System::Drawing::Point(436, 38);
+			this->ImageBox->Location = System::Drawing::Point(400, 38);
 			this->ImageBox->Name = L"ImageBox";
-			this->ImageBox->Size = System::Drawing::Size(194, 164);
+			this->ImageBox->Size = System::Drawing::Size(194, 162);
 			this->ImageBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->ImageBox->TabIndex = 6;
 			this->ImageBox->TabStop = false;
@@ -202,7 +207,7 @@ namespace Pffff
 			// 
 			this->previousBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->previousBut->Location = System::Drawing::Point(436, 208);
+			this->previousBut->Location = System::Drawing::Point(400, 206);
 			this->previousBut->Name = L"previousBut";
 			this->previousBut->Size = System::Drawing::Size(54, 23);
 			this->previousBut->TabIndex = 7;
@@ -213,7 +218,7 @@ namespace Pffff
 			// 
 			this->nextBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->nextBut->Location = System::Drawing::Point(496, 208);
+			this->nextBut->Location = System::Drawing::Point(460, 206);
 			this->nextBut->Name = L"nextBut";
 			this->nextBut->Size = System::Drawing::Size(64, 23);
 			this->nextBut->TabIndex = 8;
@@ -222,7 +227,7 @@ namespace Pffff
 			// 
 			// ImgTextBox
 			// 
-			this->ImgTextBox->Location = System::Drawing::Point(566, 209);
+			this->ImgTextBox->Location = System::Drawing::Point(530, 209);
 			this->ImgTextBox->Name = L"ImgTextBox";
 			this->ImgTextBox->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
 			this->ImgTextBox->Size = System::Drawing::Size(64, 20);
@@ -241,7 +246,7 @@ namespace Pffff
 			this->FindBox->Location = System::Drawing::Point(7, 130);
 			this->FindBox->Name = L"FindBox";
 			this->FindBox->ScrollAlwaysVisible = true;
-			this->FindBox->Size = System::Drawing::Size(423, 160);
+			this->FindBox->Size = System::Drawing::Size(369, 160);
 			this->FindBox->TabIndex = 10;
 			// 
 			// console_upMax_but
@@ -292,6 +297,29 @@ namespace Pffff
 			this->console_down_but->TabIndex = 14;
 			this->console_down_but->UseVisualStyleBackColor = true;
 			// 
+			// FindedDateLabel
+			// 
+			this->FindedDateLabel->AutoSize = true;
+			this->FindedDateLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->FindedDateLabel->Location = System::Drawing::Point(382, 263);
+			this->FindedDateLabel->Name = L"FindedDateLabel";
+			this->FindedDateLabel->Size = System::Drawing::Size(109, 20);
+			this->FindedDateLabel->TabIndex = 15;
+			this->FindedDateLabel->Text = L"Creation date:";
+			// 
+			// DateText
+			// 
+			this->DateText->AutoSize = true;
+			this->DateText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->DateText->Location = System::Drawing::Point(485, 264);
+			this->DateText->Name = L"DateText";
+			this->DateText->Size = System::Drawing::Size(131, 18);
+			this->DateText->TabIndex = 16;
+			this->DateText->Text = L"\"deleted after start\"";
+			this->DateText->Click += gcnew System::EventHandler(this, &ScanControl::DateText_Click);
+			// 
 			// ScanControl
 			// 
 			this->AccessibleName = L"";
@@ -299,6 +327,8 @@ namespace Pffff
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->Controls->Add(this->DateText);
+			this->Controls->Add(this->FindedDateLabel);
 			this->Controls->Add(this->console_down_but);
 			this->Controls->Add(this->console_up_but);
 			this->Controls->Add(this->console_downMax_but);
@@ -327,6 +357,7 @@ namespace Pffff
 #pragma endregion
 		bool stopScanning = false;
 		
+		
 	private: System::Void ScanBut_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		if (!Functions->getScanningNow() && !Functions->getScanned())
@@ -335,6 +366,7 @@ namespace Pffff
 			ScanBut->Text = "STOP (scanning...)";
 			ScanBut->BackColor = System::Drawing::Color::Crimson;
 			Functions->addToConsole("Scan start...");
+			DateText->Text = "";
 			printConsole(); //new console lines in runScan
 			if (Functions->runScan(false))
 			{
@@ -351,7 +383,6 @@ namespace Pffff
 		else if (!Functions->getScanned())
 		{
 		stopScanning = true; // click on STOP SCAN
-		ScanBut->Text = "ABORTED (unsupported for now)";
 		}
 		else
 		{
@@ -359,22 +390,16 @@ namespace Pffff
 			ScanBut->Text = "STOP (scanning...)";
 			ScanBut->BackColor = System::Drawing::Color::Crimson;
 			Functions->addToConsole("Re-scan start...");
+			DateText->Text = "";
 			List<String^>^ copyDirectories = gcnew List<String^>(Functions->getFilesFinded());
 			Functions->addToConsole(copyDirectories->Count.ToString());
-			//Functions->addToConsole("TEST: " + copyDirectories[0]);
 			Functions->resetScanInFunctions();
-			//Functions->removeAllDirectories();
 			FindBox->Items->Clear();
 			Functions->setScanned(true); // due to re-scan!
 			for (int i = 0; i < copyDirectories->Count; i++)
 			{
 				Functions->addFileForScan(copyDirectories[i]);
 			}
-			//for each (String ^ pathImport in copyDirectories)
-			//{
-			//	Functions->addToConsole("TEST - add path in scan");
-			//	Functions->addFileForScan(pathImport);
-			//}
 			if (Functions->runScan(true))
 			{
 				printConsole();
@@ -387,10 +412,6 @@ namespace Pffff
 				stopScan(); //with printConsole();
 			}
 		}
-		
-
-
-
 	}		
 	void runRepeatedScan()
 	{
@@ -501,14 +522,14 @@ namespace Pffff
 	private: System::Void selectIndexInFindBox(System::Object^ sender, System::EventArgs^ e)
 	{
 		ImgTextBox->Text = (FindBox->SelectedIndex + 1).ToString();
-		//CHANGE TEXT -> CHANGE IMAGE IN FUNCTION "OnTextChanged"
+		DateText->Text = Functions->getDateFinded(FindBox->SelectedIndex);
+		//CHANGE TEXT -> CHANGE IMAGE IN "OnTextChanged"
 	}
 
 	private: System::Void previous_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		Int32 index = Int32::Parse(ImgTextBox->Text);
 		ImgTextBox->Text = (index -1).ToString();
-
 	}
 
 	private: System::Void next_Click(System::Object^ sender, System::EventArgs^ e)
@@ -527,6 +548,7 @@ namespace Pffff
 		else
 		{
 			ImgTextBox->Text = "0";
+			DateText->Text = "";
 			setDeffaultImage();
 		}
 	}
@@ -562,7 +584,8 @@ namespace Pffff
 	{
 		Setting = setting;
 		Functions = functions;
-		this->versionText->Text = Setting->getProgramVersion();
+		versionText->Text = Setting->getProgramVersion();
+		DateText->Text = ""; //clear text: "deleted after start"
 	}
 
 	public:
@@ -597,5 +620,9 @@ namespace Pffff
 		this->ImageBox->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ImageBox.Image")));
 	}
 
+private: System::Void findedItemsLabel_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void DateText_Click(System::Object^ sender, System::EventArgs^ e) {
+}
 };
 }

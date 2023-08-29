@@ -145,13 +145,13 @@ namespace Pffff {
 			// but_scan
 			// 
 			this->but_scan->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->but_scan->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 30, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->but_scan->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->but_scan->Location = System::Drawing::Point(0, 0);
 			this->but_scan->Name = L"but_scan";
 			this->but_scan->Size = System::Drawing::Size(200, 77);
 			this->but_scan->TabIndex = 0;
-			this->but_scan->Text = L"SCAN";
+			this->but_scan->Text = L"Scan control";
 			this->but_scan->UseVisualStyleBackColor = false;
 			// 
 			// scanControl1

@@ -140,6 +140,28 @@ public:
 		return readyToScan;
 	}
 
+	String^ getDateFinded(int index)
+	{
+
+		if (index > -1 && datesFinded->Count - 1 >= index)
+		{
+			String^ dateString = datesFinded[index];
+			String^ returnString = dateString->Substring(0,4); //year
+			returnString += ":";
+			returnString += dateString->Substring(4, 2); //month
+			returnString += ":";
+			returnString += dateString->Substring(6, 2); //date
+			returnString += " ";
+			returnString += dateString->Substring(8, 2); //hours
+			returnString += ":";
+			returnString += dateString->Substring(10, 2); //min
+			returnString += ":";
+			returnString += dateString->Substring(12, 2); //sec
+			return returnString;
+		}
+		return "invalid index";
+	}
+
 	void setScanningNow(bool newBool)
 	{
 		scanningNow = newBool;

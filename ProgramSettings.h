@@ -22,7 +22,7 @@ public:
 
     bool checkMinFileSize = false; //file specification filter
 
-    String^ programVersion = " " + "v.1.0.0" + "   "; //all
+    String^ programVersion = " " + "v.1.0.1" + "   "; //all
     
    /* 
    *FUTURE UPDATES PLAN
