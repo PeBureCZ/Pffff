@@ -429,44 +429,46 @@ namespace Pffff
 		}
 	}	
 
-	private: System::Void sort_Click(System::Object^ sender, System::EventArgs^ e)
+	//int CompareTuples(Tuple<Int64, String^>^ a, Tuple<Int64, String^>^ b) //NOT COMPLETED!!!!!!!!!!!!!!!
+	//{
+	//	return a->Item1.CompareTo(b->Item1);
+	//}
+
+	private: System::Void sort_Click(System::Object^ sender, System::EventArgs^ e) //NOT COMPLETED!!!!!!!!!!!!!!!
 	{
-		//PREPARE FOR NEW FUNCTION - SORT
+		//List<Tuple<Int64, String^>^>^ sortedData = gcnew List<Tuple<Int64, String^>^>();
+		//List<String^>^ filesFindedCopy = gcnew List<String^>(Functions->getFilesFinded());
+		//List<String^>^ datesFindedCopy = gcnew List<String^>(Functions->getDatesFinded());
+		//List<Int64>^ datesFindedLong = gcnew List<Int64>();
 
-		List<Tuple<Int64, String^>^>^ sortedData = gcnew List<Tuple<Int64, String^>^>();
-		List<String^>^ filesFindedCopy = gcnew List<String^>(Functions->getFilesFinded());
-		List<String^>^ datesFindedCopy = gcnew List<String^>(Functions->getDatesFinded());
-		List<Int64>^ datesFindedLong;
+		//for (int i = 0; i < filesFindedCopy->Count; i++) //change dates from string to long long
+		//{
+		//	datesFindedLong->Add(Int64::Parse(datesFindedCopy[i]));
+		//}
+		//for (int i = 0; i < filesFindedCopy->Count; i++) 
+		//{
+		//	sortedData->Add(gcnew Tuple<Int64, String^>(datesFindedLong[i], filesFindedCopy[i]));
+		//}
 
-		for (int i = 0; i < filesFindedCopy->Count; i++) //change dates from string to long long
-		{
-			datesFindedLong->Add(Int64::Parse(datesFindedCopy[i]));
-		}
+		//Sort!!!
 
+		//datesFindedLong->Sort();
 
-		for (int i = 0; i < filesFindedCopy->Count; i++) 
-		{
-			sortedData->Add(gcnew Tuple<Int64, String^>(datesFindedLong[i], filesFindedCopy[i]));
-		}
+		//for (size_t i = 0; i < datesFindedLong->Count; i++)
+		//{
+		//	Functions->addToConsole(datesFindedCopy[i]);
+		//}
 
-		//sortedData->Sort(gcnew Comparison<Tuple<Int64, String^>^>([](Tuple<Int64, String^>^ a, Tuple<Int64, String^>^ b) {
-		//	return a->Item1.CompareTo(b->Item1);
-		//	}));
+		//sortedData->Sort(gcnew  CompareTuples());
+		/*sortedData->Sort(gcnew Comparison<Tuple<Int64, String^>^>(CompareTuples));*/
+		//sortedData->Sort(Generic::Comparer<Tuple<Int64, String^>^>);
+		//sortedData->Sort()
 
-
-	/*	;*/
-
-		/*
-		
-
-
-		for (int i = 0; i < pairs->Count; i++) {
-			List1[i] = pairs[i]->Item1;
-			List2[i] = pairs[i]->Item2;
-		}*/
 		Functions->addToConsole("Sort not include yet");
 		printConsole();
 	}
+
+	
 	
 	void runRepeatedScan()
 	{
