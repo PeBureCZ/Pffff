@@ -162,6 +162,11 @@ public:
 		return "invalid index";
 	}
 
+	List<String^>^ getDatesFinded()
+	{
+		return datesFinded;
+	}
+
 	void setScanningNow(bool newBool)
 	{
 		scanningNow = newBool;

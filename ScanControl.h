@@ -34,6 +34,7 @@ namespace Pffff
 			ScanBut->Click += gcnew System::EventHandler(this, &ScanControl::ScanBut_Click);
 			previousBut->Click += gcnew System::EventHandler(this, &ScanControl::previous_Click);
 			nextBut->Click += gcnew System::EventHandler(this, &ScanControl::next_Click);
+			Sort_but->Click += gcnew System::EventHandler(this, &ScanControl::sort_Click);
 			ImgTextBox->TextChanged += gcnew System::EventHandler(this, &ScanControl::OnTextChanged);
 			FindBox->SelectedValueChanged += gcnew System::EventHandler(this, &ScanControl::selectIndexInFindBox);
 			ResetBut->Click += gcnew System::EventHandler(this, &ScanControl::reset_Click);
@@ -81,6 +82,7 @@ namespace Pffff
 	private: System::Windows::Forms::Button^ console_down_but;
 	private: System::Windows::Forms::Label^ FindedDateLabel;
 	private: System::Windows::Forms::Label^ DateText;
+	private: System::Windows::Forms::Button^ Sort_but;
 
 	private:
 		/// <summary>
@@ -115,6 +117,7 @@ namespace Pffff
 			this->console_down_but = (gcnew System::Windows::Forms::Button());
 			this->FindedDateLabel = (gcnew System::Windows::Forms::Label());
 			this->DateText = (gcnew System::Windows::Forms::Label());
+			this->Sort_but = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ImageBox))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -125,7 +128,7 @@ namespace Pffff
 				static_cast<System::Byte>(0)));
 			this->ScanBut->Location = System::Drawing::Point(7, 38);
 			this->ScanBut->Name = L"ScanBut";
-			this->ScanBut->Size = System::Drawing::Size(369, 45);
+			this->ScanBut->Size = System::Drawing::Size(407, 45);
 			this->ScanBut->TabIndex = 0;
 			this->ScanBut->Text = L"Apply filter and scan";
 			this->ScanBut->UseVisualStyleBackColor = false;
@@ -150,7 +153,7 @@ namespace Pffff
 				static_cast<System::Byte>(0)));
 			this->ResetBut->Location = System::Drawing::Point(7, 89);
 			this->ResetBut->Name = L"ResetBut";
-			this->ResetBut->Size = System::Drawing::Size(369, 35);
+			this->ResetBut->Size = System::Drawing::Size(407, 35);
 			this->ResetBut->TabIndex = 2;
 			this->ResetBut->Text = L"Reset all finded files, and paths";
 			this->ResetBut->UseVisualStyleBackColor = false;
@@ -173,7 +176,7 @@ namespace Pffff
 			this->findedItemsCount->AutoSize = true;
 			this->findedItemsCount->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->findedItemsCount->Location = System::Drawing::Point(497, 234);
+			this->findedItemsCount->Location = System::Drawing::Point(504, 234);
 			this->findedItemsCount->Name = L"findedItemsCount";
 			this->findedItemsCount->Size = System::Drawing::Size(20, 24);
 			this->findedItemsCount->TabIndex = 4;
@@ -196,7 +199,7 @@ namespace Pffff
 			this->ImageBox->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 			this->ImageBox->Cursor = System::Windows::Forms::Cursors::PanEast;
 			this->ImageBox->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ImageBox.Image")));
-			this->ImageBox->Location = System::Drawing::Point(400, 38);
+			this->ImageBox->Location = System::Drawing::Point(422, 38);
 			this->ImageBox->Name = L"ImageBox";
 			this->ImageBox->Size = System::Drawing::Size(194, 162);
 			this->ImageBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
@@ -207,7 +210,7 @@ namespace Pffff
 			// 
 			this->previousBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->previousBut->Location = System::Drawing::Point(400, 206);
+			this->previousBut->Location = System::Drawing::Point(422, 206);
 			this->previousBut->Name = L"previousBut";
 			this->previousBut->Size = System::Drawing::Size(54, 23);
 			this->previousBut->TabIndex = 7;
@@ -218,7 +221,7 @@ namespace Pffff
 			// 
 			this->nextBut->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->nextBut->Location = System::Drawing::Point(460, 206);
+			this->nextBut->Location = System::Drawing::Point(482, 206);
 			this->nextBut->Name = L"nextBut";
 			this->nextBut->Size = System::Drawing::Size(64, 23);
 			this->nextBut->TabIndex = 8;
@@ -227,7 +230,7 @@ namespace Pffff
 			// 
 			// ImgTextBox
 			// 
-			this->ImgTextBox->Location = System::Drawing::Point(530, 209);
+			this->ImgTextBox->Location = System::Drawing::Point(552, 206);
 			this->ImgTextBox->Name = L"ImgTextBox";
 			this->ImgTextBox->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
 			this->ImgTextBox->Size = System::Drawing::Size(64, 20);
@@ -320,6 +323,17 @@ namespace Pffff
 			this->DateText->Text = L"\"deleted after start\"";
 			this->DateText->Click += gcnew System::EventHandler(this, &ScanControl::DateText_Click);
 			// 
+			// Sort_but
+			// 
+			this->Sort_but->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->Sort_but->Location = System::Drawing::Point(386, 130);
+			this->Sort_but->Name = L"Sort_but";
+			this->Sort_but->Size = System::Drawing::Size(28, 99);
+			this->Sort_but->TabIndex = 17;
+			this->Sort_but->Text = L"SORT";
+			this->Sort_but->UseVisualStyleBackColor = true;
+			// 
 			// ScanControl
 			// 
 			this->AccessibleName = L"";
@@ -327,6 +341,7 @@ namespace Pffff
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->Controls->Add(this->Sort_but);
 			this->Controls->Add(this->DateText);
 			this->Controls->Add(this->FindedDateLabel);
 			this->Controls->Add(this->console_down_but);
@@ -412,7 +427,47 @@ namespace Pffff
 				stopScan(); //with printConsole();
 			}
 		}
-	}		
+	}	
+
+	private: System::Void sort_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		//PREPARE FOR NEW FUNCTION - SORT
+
+		List<Tuple<Int64, String^>^>^ sortedData = gcnew List<Tuple<Int64, String^>^>();
+		List<String^>^ filesFindedCopy = gcnew List<String^>(Functions->getFilesFinded());
+		List<String^>^ datesFindedCopy = gcnew List<String^>(Functions->getDatesFinded());
+		List<Int64>^ datesFindedLong;
+
+		for (int i = 0; i < filesFindedCopy->Count; i++) //change dates from string to long long
+		{
+			datesFindedLong->Add(Int64::Parse(datesFindedCopy[i]));
+		}
+
+
+		for (int i = 0; i < filesFindedCopy->Count; i++) 
+		{
+			sortedData->Add(gcnew Tuple<Int64, String^>(datesFindedLong[i], filesFindedCopy[i]));
+		}
+
+		//sortedData->Sort(gcnew Comparison<Tuple<Int64, String^>^>([](Tuple<Int64, String^>^ a, Tuple<Int64, String^>^ b) {
+		//	return a->Item1.CompareTo(b->Item1);
+		//	}));
+
+
+	/*	;*/
+
+		/*
+		
+
+
+		for (int i = 0; i < pairs->Count; i++) {
+			List1[i] = pairs[i]->Item1;
+			List2[i] = pairs[i]->Item2;
+		}*/
+		Functions->addToConsole("Sort not include yet");
+		printConsole();
+	}
+	
 	void runRepeatedScan()
 	{
 			   
