@@ -42,7 +42,10 @@ namespace Pffff {
 	private: System::Windows::Forms::ListBox^ DirectoryBox;
 	private: System::Windows::Forms::Button^ Remove_but;
 	private: System::Windows::Forms::Label^ versionText;
-	private: System::ComponentModel::Container ^components;
+	private: System::Windows::Forms::Button^ Find_but;
+	private: System::Windows::Forms::Label^ label5;
+	private: System::Windows::Forms::Label^ label6;
+	private: System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 
@@ -59,6 +62,9 @@ namespace Pffff {
 			this->DirectoryBox = (gcnew System::Windows::Forms::ListBox());
 			this->Remove_but = (gcnew System::Windows::Forms::Button());
 			this->versionText = (gcnew System::Windows::Forms::Label());
+			this->Find_but = (gcnew System::Windows::Forms::Button());
+			this->label5 = (gcnew System::Windows::Forms::Label());
+			this->label6 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -66,7 +72,7 @@ namespace Pffff {
 			// 
 			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
 			this->pictureBox1->InitialImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.InitialImage")));
-			this->pictureBox1->Location = System::Drawing::Point(31, 28);
+			this->pictureBox1->Location = System::Drawing::Point(31, 40);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(49, 83);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
@@ -77,8 +83,8 @@ namespace Pffff {
 			// 
 			this->NameTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->NameTextBox->Location = System::Drawing::Point(151, 66);
-			this->NameTextBox->Name = L"DirectoryTextBox";
+			this->NameTextBox->Location = System::Drawing::Point(141, 40);
+			this->NameTextBox->Name = L"NameTextBox";
 			this->NameTextBox->Size = System::Drawing::Size(257, 20);
 			this->NameTextBox->TabIndex = 3;
 			this->NameTextBox->Text = L"Add directory here...";
@@ -86,7 +92,7 @@ namespace Pffff {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(151, 50);
+			this->label1->Location = System::Drawing::Point(138, 20);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(104, 13);
 			this->label1->TabIndex = 4;
@@ -97,7 +103,7 @@ namespace Pffff {
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label2->Location = System::Drawing::Point(261, 50);
+			this->label2->Location = System::Drawing::Point(248, 20);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(122, 13);
 			this->label2->TabIndex = 5;
@@ -106,7 +112,7 @@ namespace Pffff {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(412, 50);
+			this->label3->Location = System::Drawing::Point(376, 20);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(16, 13);
 			this->label3->TabIndex = 6;
@@ -117,7 +123,7 @@ namespace Pffff {
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->label4->Location = System::Drawing::Point(468, 50);
+			this->label4->Location = System::Drawing::Point(398, 20);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(122, 13);
 			this->label4->TabIndex = 7;
@@ -128,11 +134,10 @@ namespace Pffff {
 			this->Add_but->AutoSize = true;
 			this->Add_but->BackColor = System::Drawing::Color::White;
 			this->Add_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Add_but.Image")));
-			this->Add_but->Location = System::Drawing::Point(86, 18);
+			this->Add_but->Location = System::Drawing::Point(86, 14);
 			this->Add_but->Name = L"Add_but";
-			this->Add_but->Size = System::Drawing::Size(59, 57);
+			this->Add_but->Size = System::Drawing::Size(46, 46);
 			this->Add_but->TabIndex = 8;
-			this->Add_but->Text = L"Add";
 			this->Add_but->UseVisualStyleBackColor = false;
 			// 
 			// DirectoryBox
@@ -141,22 +146,20 @@ namespace Pffff {
 				static_cast<System::Byte>(238)));
 			this->DirectoryBox->FormattingEnabled = true;
 			this->DirectoryBox->ItemHeight = 16;
-			this->DirectoryBox->Location = System::Drawing::Point(20, 142);
+			this->DirectoryBox->Location = System::Drawing::Point(20, 174);
 			this->DirectoryBox->MultiColumn = true;
 			this->DirectoryBox->Name = L"DirectoryBox";
-
-			this->DirectoryBox->Size = System::Drawing::Size(612, 260);
+			this->DirectoryBox->Size = System::Drawing::Size(612, 228);
 			this->DirectoryBox->TabIndex = 9;
 			// 
 			// Remove_but
 			// 
 			this->Remove_but->BackColor = System::Drawing::Color::White;
 			this->Remove_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Remove_but.Image")));
-			this->Remove_but->Location = System::Drawing::Point(86, 79);
+			this->Remove_but->Location = System::Drawing::Point(86, 66);
 			this->Remove_but->Name = L"Remove_but";
-			this->Remove_but->Size = System::Drawing::Size(59, 57);
+			this->Remove_but->Size = System::Drawing::Size(46, 44);
 			this->Remove_but->TabIndex = 10;
-			this->Remove_but->Text = L"Remove";
 			this->Remove_but->UseVisualStyleBackColor = false;
 			// 
 			// versionText
@@ -170,12 +173,46 @@ namespace Pffff {
 			this->versionText->Text = L"versionText";
 			this->versionText->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
 			// 
+			// Find_but
+			// 
+			this->Find_but->AutoSize = true;
+			this->Find_but->BackColor = System::Drawing::Color::White;
+			this->Find_but->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"Find_but.Image")));
+			this->Find_but->Location = System::Drawing::Point(86, 116);
+			this->Find_but->Name = L"Find_but";
+			this->Find_but->Size = System::Drawing::Size(46, 46);
+			this->Find_but->TabIndex = 12;
+			this->Find_but->UseVisualStyleBackColor = false;
+			// 
+			// label5
+			// 
+			this->label5->AutoSize = true;
+			this->label5->ForeColor = System::Drawing::Color::Red;
+			this->label5->Location = System::Drawing::Point(138, 133);
+			this->label5->Name = L"label5";
+			this->label5->Size = System::Drawing::Size(169, 13);
+			this->label5->TabIndex = 13;
+			this->label5->Text = L"Find directory (Not supported now)";
+			// 
+			// label6
+			// 
+			this->label6->AutoSize = true;
+			this->label6->Location = System::Drawing::Point(138, 82);
+			this->label6->Name = L"label6";
+			this->label6->Size = System::Drawing::Size(404, 13);
+			this->label6->TabIndex = 14;
+			this->label6->Text = L"To remove a directory, it is necessary to have the directory selected as shown be"
+				L"low";
+			// 
 			// DirectoryFilter
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			this->Controls->Add(this->label6);
+			this->Controls->Add(this->label5);
+			this->Controls->Add(this->Find_but);
 			this->Controls->Add(this->versionText);
 			this->Controls->Add(this->Remove_but);
 			this->Controls->Add(this->DirectoryBox);
