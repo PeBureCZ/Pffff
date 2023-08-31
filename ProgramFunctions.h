@@ -167,6 +167,19 @@ public:
 		return datesFinded;
 	}
 
+	void resetSortedFilesAndDates(List<Tuple<String^, Int64>^>^ tuples)
+	{
+		datesFinded->Clear();
+		filesFinded->Clear();
+		for each (Tuple<String^, Int64> ^ tuple in tuples)
+		{
+			filesFinded->Add(tuple->Item1);
+			//addToConsole(tuple->Item1 + "\t\n");
+			datesFinded->Add(tuple->Item2.ToString());
+			//addToConsole(tuple->Item2.ToString() + "\t\n");
+		}
+	}
+
 	void setScanningNow(bool newBool)
 	{
 		scanningNow = newBool;

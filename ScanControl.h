@@ -429,46 +429,48 @@ namespace Pffff
 		}
 	}	
 
-	//int CompareTuples(Tuple<Int64, String^>^ a, Tuple<Int64, String^>^ b) //NOT COMPLETED!!!!!!!!!!!!!!!
-	//{
-	//	return a->Item1.CompareTo(b->Item1);
-	//}
-
-	private: System::Void sort_Click(System::Object^ sender, System::EventArgs^ e) //NOT COMPLETED!!!!!!!!!!!!!!!
+	int CompareTuples(Tuple<String^, Int64>^ a, Tuple<String^, Int64>^ b)
 	{
-		//List<Tuple<Int64, String^>^>^ sortedData = gcnew List<Tuple<Int64, String^>^>();
-		//List<String^>^ filesFindedCopy = gcnew List<String^>(Functions->getFilesFinded());
-		//List<String^>^ datesFindedCopy = gcnew List<String^>(Functions->getDatesFinded());
-		//List<Int64>^ datesFindedLong = gcnew List<Int64>();
+		return a->Item2.CompareTo(b->Item2);
+	}
 
-		//for (int i = 0; i < filesFindedCopy->Count; i++) //change dates from string to long long
-		//{
-		//	datesFindedLong->Add(Int64::Parse(datesFindedCopy[i]));
-		//}
-		//for (int i = 0; i < filesFindedCopy->Count; i++) 
-		//{
-		//	sortedData->Add(gcnew Tuple<Int64, String^>(datesFindedLong[i], filesFindedCopy[i]));
-		//}
+	private: System::Void sort_Click(System::Object^ sender, System::EventArgs^ e) //sort items in FindBox (paths sorted by date created)
+	{
+		if (Functions->getDatesFinded()->Count < 4001)
+		{
+			if (Functions->getDatesFinded()->Count > 0) //if find something and scan completed ( = stopScan)
+			{
+				List<Tuple<String^, Int64>^>^ sortedData = gcnew List<Tuple<String^, Int64>^>(); //tuples initialize
+				List<String^>^ filesFindedCopy = gcnew List<String^>(Functions->getFilesFinded()); //old files finded
+				List<String^>^ datesFindedCopy = gcnew List<String^>(Functions->getDatesFinded()); //old dates finded
+				List<Int64>^ datesFindedLong = gcnew List<Int64>(); //due transfer (custom date type e.g. 20031102075402 = 2003-11-02  07:54:02)
 
-		//Sort!!!
+				for (int i = 0; i < filesFindedCopy->Count; i++) //transfer old dates from string to long long (Int64)
+				{
+					datesFindedLong->Add(Int64::Parse(datesFindedCopy[i]));
+				}
 
-		//datesFindedLong->Sort();
-
-		//for (size_t i = 0; i < datesFindedLong->Count; i++)
-		//{
-		//	Functions->addToConsole(datesFindedCopy[i]);
-		//}
-
-		//sortedData->Sort(gcnew  CompareTuples());
-		/*sortedData->Sort(gcnew Comparison<Tuple<Int64, String^>^>(CompareTuples));*/
-		//sortedData->Sort(Generic::Comparer<Tuple<Int64, String^>^>);
-		//sortedData->Sort()
-
-		Functions->addToConsole("Sort not include yet");
+				for (int i = 0; i < filesFindedCopy->Count; i++) //populate data for sorting
+				{
+					sortedData->Add(gcnew Tuple<String^, Int64>(filesFindedCopy[i], datesFindedLong[i]));
+				}
+				sortedData->Sort(gcnew Comparison<Tuple<String^, Int64>^>(this, &ScanControl::CompareTuples)); //sort by Item2 = dates (file created time)
+				Functions->resetSortedFilesAndDates(sortedData); //re-write from old to new = sorted
+				List<String^>^ filesFindedNew = Functions->getFindedItemsPaths(); //take new
+				FindBox->ClearSelected(); //unselect
+				FindBox->Items->Clear(); //clear FindBox from old text
+				for (int i = 0; i < filesFindedNew->Count; i++)
+				{
+					FindBox->Items->Add(filesFindedNew[i]); //populate FindBox by new dates (String^)
+				}
+			}
+			else Functions->addToConsole("Nothing to sort...");
+		
+		}
+		else Functions->addToConsole("Too many search result to sort (max = 4000)");
 		printConsole();
 	}
 
-	
 	
 	void runRepeatedScan()
 	{
@@ -490,15 +492,15 @@ namespace Pffff
 		{
 			if (Functions->getReadyToScan())
 			{
-				Task::Delay(TimeSpan::FromMilliseconds(10))->Wait(); //BETTER OPTIMALIZATION (smoother on weak computers)
+				Task::Delay(TimeSpan::FromMilliseconds(1))->Wait(); //BETTER OPTIMALIZATION (smoother on weak computers)
 				BeginInvoke(gcnew Action(this, &ScanControl::scanContinue)); 
-				Task::Delay(TimeSpan::FromMilliseconds(10))->Wait(); //BETTER OPTIMALIZATION  (smoother on weak computers)
+				Task::Delay(TimeSpan::FromMilliseconds(1))->Wait(); //BETTER OPTIMALIZATION  (smoother on weak computers)
 				BeginInvoke(gcnew Action(this, &ScanControl::runRepeatedScan));
 				break;
 			}
 			else
 			{
-				Task::Delay(TimeSpan::FromMilliseconds(15))->Wait();
+				Task::Delay(TimeSpan::FromMilliseconds(1))->Wait();
 			}
 		}
 	}
@@ -523,7 +525,7 @@ namespace Pffff
 		Functions->setScanningNow(false); //due to button: STOP SCAN
 		Functions->addToConsole("Scan end...");
 		ScanBut->BackColor = System::Drawing::Color::Green;
-		this->findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
+		findedItemsCount->Text = Functions->getFilesFindedCount().ToString();
 		List<String^>^ filesFindedCopy = Functions->getFindedItemsPaths();
 		FindBox->ClearSelected();
 		for (int i = 0; i < filesFindedCopy->Count; i++)
@@ -533,12 +535,6 @@ namespace Pffff
 		ResetBut->Visible = true;
 		ScanBut->BackColor = System::Drawing::Color::Green;
 		ScanBut->Text = "Re-scan from already finded files";
-		//if (filesFindedCopy->Count > 0)
-		//{
-		//	ScanBut->Text = "Scan again from already searched files";
-		//	ResetBut->Visible = true;
-		//	ScanBut->BackColor = System::Drawing::Color::Green;
-		//}
 		printConsole(); //new console lines in runScan
 	}
 
