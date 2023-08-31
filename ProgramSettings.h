@@ -22,19 +22,23 @@ public:
 
     bool checkMinFileSize = false; //file specification filter
 
-    String^ programVersion = " " + "v.1.0.2" + "   "; //all
+    String^ programVersion = " " + "v.1.0.3" + "   "; //all
     
    /* 
    *FUTURE UPDATES PLAN
-    v 1.1.0
+    v 1.0.4
     - add foto rotation (buttons) and auto foto dimension 
 
-    v 1.2.0
-    - add "open folder" button in directory filter
+    v 1.0.5
     - ability to remove finded files from selected (finded list box)
 
-    v 1.3.0
+    v 1.0.6
     - add "filter summary" in "SCAN" 
+
+    ....
+
+    v2.0
+    - add .png files (use supported .NET Framework EXIF)
   
     
     :*/
