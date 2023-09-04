@@ -12,8 +12,6 @@ using namespace System::Drawing;
 
 using namespace System::Threading::Tasks;
 
-
-
 namespace Pffff 
 {
 
@@ -83,6 +81,8 @@ namespace Pffff
 	private: System::Windows::Forms::Label^ FindedDateLabel;
 	private: System::Windows::Forms::Label^ DateText;
 	private: System::Windows::Forms::Button^ Sort_but;
+	private: System::Windows::Forms::Panel^ ImageBackground;
+
 
 	private:
 		/// <summary>
@@ -118,7 +118,9 @@ namespace Pffff
 			this->FindedDateLabel = (gcnew System::Windows::Forms::Label());
 			this->DateText = (gcnew System::Windows::Forms::Label());
 			this->Sort_but = (gcnew System::Windows::Forms::Button());
+			this->ImageBackground = (gcnew System::Windows::Forms::Panel());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ImageBox))->BeginInit();
+			this->ImageBackground->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// ScanBut
@@ -199,9 +201,9 @@ namespace Pffff
 			this->ImageBox->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 			this->ImageBox->Cursor = System::Windows::Forms::Cursors::PanEast;
 			this->ImageBox->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"ImageBox.Image")));
-			this->ImageBox->Location = System::Drawing::Point(422, 38);
+			this->ImageBox->Location = System::Drawing::Point(0, 0);
 			this->ImageBox->Name = L"ImageBox";
-			this->ImageBox->Size = System::Drawing::Size(194, 162);
+			this->ImageBox->Size = System::Drawing::Size(200, 160);
 			this->ImageBox->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->ImageBox->TabIndex = 6;
 			this->ImageBox->TabStop = false;
@@ -334,6 +336,15 @@ namespace Pffff
 			this->Sort_but->Text = L"SORT";
 			this->Sort_but->UseVisualStyleBackColor = true;
 			// 
+			// ImageBackground
+			// 
+			this->ImageBackground->BackColor = System::Drawing::SystemColors::ActiveCaptionText;
+			this->ImageBackground->Controls->Add(this->ImageBox);
+			this->ImageBackground->Location = System::Drawing::Point(422, 38);
+			this->ImageBackground->Name = L"ImageBackground";
+			this->ImageBackground->Size = System::Drawing::Size(200, 160);
+			this->ImageBackground->TabIndex = 18;
+			// 
 			// ScanControl
 			// 
 			this->AccessibleName = L"";
@@ -352,18 +363,19 @@ namespace Pffff
 			this->Controls->Add(this->ImgTextBox);
 			this->Controls->Add(this->nextBut);
 			this->Controls->Add(this->previousBut);
-			this->Controls->Add(this->ImageBox);
 			this->Controls->Add(this->versionText);
 			this->Controls->Add(this->findedItemsCount);
 			this->Controls->Add(this->findedItemsLabel);
 			this->Controls->Add(this->ResetBut);
 			this->Controls->Add(this->console);
 			this->Controls->Add(this->ScanBut);
+			this->Controls->Add(this->ImageBackground);
 			this->MaximumSize = System::Drawing::Size(650, 415);
 			this->MinimumSize = System::Drawing::Size(650, 415);
 			this->Name = L"ScanControl";
 			this->Size = System::Drawing::Size(650, 415);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ImageBox))->EndInit();
+			this->ImageBackground->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -612,7 +624,57 @@ namespace Pffff
 		{
 			try
 			{
-				ImageBox->Image = Image::FromFile(Functions->getFindedItemPath(static_cast<int>(index)));
+				Image^ loadedImage = Image::FromFile(Functions->getFindedItemPath(static_cast<int>(index)));
+				int loadedImageWidth = loadedImage->Width;
+				int loadedImageHeight = loadedImage->Height;
+				int ImageBoxWidth = ImageBox->Width;
+				int imageBoxHeight = ImageBox->Height;
+				float scaleRatio = (float)ImageBoxWidth / (float)imageBoxHeight;
+
+
+				Image^ resizedImage = gcnew Bitmap(ImageBoxWidth, imageBoxHeight);
+				Graphics^ graphics = Graphics::FromImage(resizedImage);
+
+				if (loadedImageWidth > ImageBox->Width)
+				{
+					if ((float)loadedImageWidth / (float)loadedImageHeight > scaleRatio)
+					{
+
+						float dividedRatio = (float)loadedImageWidth / (float)loadedImageHeight / scaleRatio;
+						graphics->DrawImage(loadedImage, 0, 80 - (int)(imageBoxHeight / dividedRatio / 2), ImageBoxWidth, (int)(imageBoxHeight / dividedRatio));
+						ImageBox->Image = resizedImage;
+						ImageBox->Location = Point(0, 0);
+					}
+					else
+					{
+						float dividedRatio = (float)loadedImageWidth / (float)loadedImageHeight / scaleRatio;
+						graphics->DrawImage(loadedImage, 100 - (int)(ImageBoxWidth * dividedRatio / 2), 0, (int)(ImageBoxWidth * dividedRatio), imageBoxHeight); //
+						ImageBox->Image = resizedImage;
+					}
+
+				}
+				else if (loadedImageHeight > ImageBox->Height)
+				{
+					if (loadedImageWidth / loadedImageHeight < scaleRatio)
+					{
+						float dividedRatio = (float)loadedImageWidth / (float)loadedImageHeight / scaleRatio;
+						graphics->DrawImage(loadedImage, 100 - (int)(ImageBoxWidth * dividedRatio / 2), 0, (int)(ImageBoxWidth * dividedRatio), imageBoxHeight);
+						ImageBox->Image = resizedImage;
+					}
+					else
+					{
+						ImageBox->Location = Point(0, 0);
+						ImageBox->Image = loadedImage;
+					}
+
+				}
+				else
+				{
+					ImageBox->Location = Point(0, 0);
+					ImageBox->Image = loadedImage;
+				}
+
+
 			}
 			catch (Exception^)
 			{
